@@ -1,29 +1,41 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float speed = 5f;       // Movement speed
-    [SerializeField] private float jumpForce = 5f;   // Jump power
-    [SerializeField] private float groundCheckDistance = 0.5f; // Distance for the ground check
-    [SerializeField] private LayerMask groundLayer;  // Layer mask to identify what counts as ground
+    [Header("Movement")]
+    [SerializeField] private float speed = 5f;           // Base movement speed
+    [SerializeField] private float baseSpeed = 5f;           // Base movement speed
 
-    private Vector2 moveInput;                 // Input vector from the Input System
-    private Rigidbody rb;                      // Reference to the Rigidbody component
-    private bool isGrounded = false;           // Whether the player is grounded
+    [SerializeField] private float jumpForce = 5f;       // Force for jumping
+    [SerializeField] private float slideSpeed = 10f;     // Speed during sliding
+    [SerializeField] private float slideDuration = 1.0f; // Duration of the slide
+    [SerializeField] private float sprintSpeed = 2.0f; // Duration of the slide
+    [SerializeField] private float groundCheckDistance = 0.5f; // Distance for the ground check
+    [SerializeField] private LayerMask groundLayer;      // Layer mask to identify ground
+
+
+    private Vector2 moveInput;                           // Input vector
+    private Rigidbody rb;                                // Rigidbody reference
+    private bool isGrounded = false;                     // Grounded check
+    private bool isSliding = false;                      // Sliding state
+    private bool isSprinting = false;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();        // Get the Rigidbody component
+        rb = GetComponent<Rigidbody>();                  // Get the Rigidbody component
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>(); // Get the input value (X and Y from WASD/Arrow keys)
+        if (!isSliding)                                  // Only update input if not sliding
+        {
+            moveInput = context.ReadValue<Vector2>();
+        }
     }
 
-    public void OnJump()
+    public void OnJump(InputAction.CallbackContext context)
     {
         if (isGrounded)
         {
@@ -31,9 +43,61 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void OnSlide(InputAction.CallbackContext context)
+    {
+        if (isGrounded && context.phase == InputActionPhase.Started)
+        {
+            StartCoroutine(StartSlide());
+        }
+    }
+    public void OnSprint(InputAction.CallbackContext context)
+
+    {
+
+        if (context.canceled)
+        {
+
+            Debug.LogError("cancelled");
+            speed = baseSpeed;
+        }
+
+        else if (context.started)
+
+        {
+            speed = sprintSpeed;
+            Debug.LogError("set");
+
+        }
+
+
+
+        Debug.LogError("held");
+
+    }
+    private IEnumerator StartSlide()
+    {
+        isSliding = true;                                // Set sliding state
+        float originalSpeed = speed;                    // Save original speed
+        speed = slideSpeed;                             // Increase speed
+
+        // Optionally reduce player's height (simulate crouching)
+        transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
+
+        // Override movement input to move forward only
+        Vector3 slideDirection = transform.forward;
+        rb.linearVelocity = slideDirection * slideSpeed;
+
+        yield return new WaitForSeconds(slideDuration); // Wait for slide duration
+
+        // Reset speed and height after sliding
+        speed = originalSpeed;
+        transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
+        isSliding = false;
+    }
+
     private void FixedUpdate()
     {
-        // Check if the player is grounded using a raycast
+        // Ground check
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -transform.up, out hit, groundCheckDistance, groundLayer))
         {
@@ -41,21 +105,17 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            isGrounded= false;
+            isGrounded = false;
         }
-        // Get the player's forward and right directions
-        Vector3 forward = transform.forward; // Player's forward direction
-        Vector3 right = transform.right;     // Player's right direction
 
-        // Calculate the movement direction relative to the player's facing direction
-        Vector3 movement = (forward * moveInput.y + right * moveInput.x).normalized * speed;
-
-        // Apply movement to the Rigidbody
-        rb.linearVelocity = new Vector3(movement.x, rb.linearVelocity.y, movement.z);
-
-        Debug.Log($"Is Grounded: {isGrounded}");
-
-
+        // Regular movement 
+        if (!isSliding)
+        {
+            Vector3 forward = transform.forward;
+            Vector3 right = transform.right;
+            Vector3 movement = (forward * moveInput.y + right * moveInput.x).normalized * speed;
+            rb.linearVelocity = new Vector3(movement.x, rb.linearVelocity.y, movement.z);
+        }
 
     }
 
