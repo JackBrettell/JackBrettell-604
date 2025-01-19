@@ -13,6 +13,7 @@ public class Store : MonoBehaviour
     private bool isStoreOpen = false;
     private bool isInRange = false;
     private PlayerCameraController PlayerCameraController; // Reference to the CameraControls script
+    private StoreMenus storeMenus;
 
     private void Start()
     {
@@ -24,6 +25,13 @@ public class Store : MonoBehaviour
         if (PlayerCameraController == null)
         {
             Debug.LogError("CameraControls script not found on the player GameObject.");
+        }
+
+        // Get the StoreMenus script from the same GameObject or a child GameObject
+        storeMenus = GetComponent<StoreMenus>();
+        if (storeMenus == null)
+        {
+            Debug.LogError("StoreMenus script not found on the GameObject.");
         }
     }
 
@@ -52,7 +60,16 @@ public class Store : MonoBehaviour
 
     public void OpenMenu()
     {
-        storeMenu.SetActive(true);
+        if (storeMenus != null)
+        {
+            storeMenus.CloseAllMenus();
+        }
+        else
+        {
+            Debug.LogError("storeMenus reference is missing.");
+        }
+
+        storeMenu.SetActive(true); 
         isStoreOpen = true;
 
         // Disable the CameraControls script
