@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float sprintSpeed = 2.0f; // Duration of the slide
     [SerializeField] private float groundCheckDistance = 0.5f; // Distance for the ground check
     [SerializeField] private LayerMask groundLayer;      // Layer mask to identify ground
-
+    [SerializeField] private Transform playerCamera;
 
     private Vector2 moveInput;                           // Input vector
     private Rigidbody rb;                                // Rigidbody reference
@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();                  // Get the Rigidbody component
+        
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -81,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
         speed = slideSpeed;                             // Increase speed
 
         // Optionally reduce player's height (simulate crouching)
-        transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
+        transform.localScale = new Vector3(playerCamera.localScale.x, 0.5f, playerCamera.localScale.z);
 
         // Override movement input to move forward only
         Vector3 slideDirection = transform.forward;
@@ -91,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Reset speed and height after sliding
         speed = originalSpeed;
-        transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
+        transform.localScale = new Vector3(playerCamera.localScale.x, 1f, playerCamera.localScale.z);
         isSliding = false;
     }
 
