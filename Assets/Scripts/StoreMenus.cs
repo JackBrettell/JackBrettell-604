@@ -6,36 +6,38 @@ public class StoreMenus : MonoBehaviour
     public GameObject personalPage;
     public GameObject weaponsPage;
 
+    public enum shopState
+    {
+        MainPage,
+        PersonalPage,
+        WeaponsPage,
+        None
+    }
 
 
+    private void SetMenu(shopState state)
+    {
+        mainPage.SetActive(state == shopState.MainPage);
+        weaponsPage.SetActive(state == shopState.WeaponsPage);
+        personalPage.SetActive(state == shopState.PersonalPage);
+        
+    } 
 
     public void OnPersonalUpgrades()
     {
-        mainPage.SetActive(false);
-        weaponsPage.SetActive(false);
-        personalPage.SetActive(true);
+        SetMenu(shopState.PersonalPage);
     }
 
     public void OnWeaponsUpgrades()
     {
-        mainPage.SetActive(false);
-        personalPage.SetActive(false);
-        weaponsPage.SetActive(true);
+        SetMenu(shopState.WeaponsPage);
     }
+
 
     public void CloseAllMenus()
     {
-        mainPage.SetActive(false);
-        personalPage.SetActive(false);
-        weaponsPage.SetActive(false);
+        SetMenu(shopState.None);
+
     }
 
-
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

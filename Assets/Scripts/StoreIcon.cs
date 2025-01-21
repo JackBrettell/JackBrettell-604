@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Store : MonoBehaviour
+public class StoreIcon : MonoBehaviour
 {
     public GameObject player;
     public GameObject storeIcon;
@@ -93,7 +93,7 @@ public class Store : MonoBehaviour
 
     public void RotateIcon()
     {
-        // Rotate store icon to face the player
+        // Rotate store icon to face player
         Vector3 directionToPlayer = player.transform.position - transform.position;
         directionToPlayer.y = 0;
 

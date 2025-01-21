@@ -14,7 +14,7 @@ public class WeaponBase : MonoBehaviour
     private float crosshairSize = 0.5f;
 
     [Header("Recoil")]
-    public Transform weaponTransform; // The weapon object to apply recoil to
+    public Transform weaponTransform; 
     public float recoilAmount = 0.1f;
     public float recoilRecoverySpeed = 5f;
 
@@ -22,7 +22,7 @@ public class WeaponBase : MonoBehaviour
     {
         if (context.performed)
         {
-            // Instantiate bullet
+            // Instantiate 
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
             // Add velocity
@@ -60,7 +60,7 @@ public class WeaponBase : MonoBehaviour
             yield return null;
         }
 
-        // Scale back to original size
+        // Scale back 
         elapsedTime = 0f;
         while (elapsedTime < duration / 2)
         {
