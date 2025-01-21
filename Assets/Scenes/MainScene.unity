@@ -6943,6 +6943,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000010230679374, guid: fee6e1da33beae9409089ab8a832464f, type: 3}
   m_PrefabInstance: {fileID: 208029336}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &208138130 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2976314385043211065, guid: 1f01a7aea7ce1e9419915423dfb24a86, type: 3}
+  m_PrefabInstance: {fileID: 1363515974}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &208734111
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17306,6 +17311,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000012506713666, guid: 58d97d456aead63499ac7d5316541f78, type: 3}
   m_PrefabInstance: {fileID: 575212905}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &577784211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 577784212}
+  m_Layer: 0
+  m_Name: ====== Managers =====
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &577784212
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577784211}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -153.7924, y: 5.7365155, z: -1.0676466}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &579497034
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24424,7 +24460,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!195 &865947630
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -30372,6 +30408,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000013617410114, guid: 8ec728fea85097b43ad9358333759bfa, type: 3}
   m_PrefabInstance: {fileID: 1075682903}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1075844106 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1381130677703041941, guid: 1f01a7aea7ce1e9419915423dfb24a86, type: 3}
+  m_PrefabInstance: {fileID: 1363515974}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1077829490
 PrefabInstance:
@@ -39380,15 +39421,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1408769947456130876, guid: 1f01a7aea7ce1e9419915423dfb24a86, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.145
+      value: 0.26
       objectReference: {fileID: 0}
     - target: {fileID: 1408769947456130876, guid: 1f01a7aea7ce1e9419915423dfb24a86, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.169
+      value: -0.09
       objectReference: {fileID: 0}
     - target: {fileID: 1408769947456130876, guid: 1f01a7aea7ce1e9419915423dfb24a86, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.698
+      value: 0.42
       objectReference: {fileID: 0}
     - target: {fileID: 1408769947456130876, guid: 1f01a7aea7ce1e9419915423dfb24a86, type: 3}
       propertyPath: m_LocalRotation.w
@@ -41195,7 +41236,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1422311399}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f09a00c229f77f543b34cbc64082484a, type: 3}
   m_Name: 
@@ -41525,8 +41566,20 @@ MonoBehaviour:
   bulletSpeed: 60
   crosshair: {fileID: 303298356}
   weaponTransform: {fileID: 553669753}
-  recoilAmount: 0.1
-  recoilRecoverySpeed: 5
+  recoilAmount: 0.05
+  recoilRecoverySpeed: 0.1
+  recoilDuration: 0.1
+  Ease1: 1
+  Ease2: 1
+  slideOriginalPosition: {x: 0, y: 0, z: 0}
+  slide: {fileID: 208138130}
+  slideRecoveryDuration: 0.1
+  slideRecoilDuration: 0.05
+  slideRecoil: 0.05
+  triggerOriginalPosition: {x: 0, y: 0, z: 0}
+  trigger: {fileID: 1075844106}
+  triggerRecoilDuration: 0.1
+  triggerRecoveryDuration: 0.1
 --- !u!1001 &1424599857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56760,7 +56813,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2005550879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60680,3 +60733,4 @@ SceneRoots:
   - {fileID: 865947635}
   - {fileID: 5981182318857776508}
   - {fileID: 2744884720380570213}
+  - {fileID: 577784212}
