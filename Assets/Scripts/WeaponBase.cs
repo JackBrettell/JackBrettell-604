@@ -13,6 +13,7 @@ public class WeaponBase : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float bulletSpeed = 20f;
     [SerializeField] private int ammoCapacity;
+    [SerializeField] private float fireRate;
     public TextMeshProUGUI ammoDisplay;
     private Transform firePoint;
     private int currentAmmoCount;
@@ -47,8 +48,23 @@ public class WeaponBase : MonoBehaviour
     [Header("Reload")]
     public Ease EaseReload = Ease.InBounce;
     public float reloadMovement = 0.01f;
+    public float reloadMovementUp = 0.01f;
     public float reloadDuration = 1;
     public float reloadReturnDuration = 1;
+
+    private Transform pistolMagTransform;
+    private Vector3 pistolMagOriginalPosition;
+    private bool isRealoading = false;
+    
+    public float pistolMagMovemement = 0;
+    public float pistolMagEjectDuration = 0;
+    public float pistolMagReturnDuration = 0;
+    // public float pistolMagSpeed = 0;
+
+    public void Update()
+    {
+        Debug.Log(isRealoading);
+    }
 
 
     public void Start()
@@ -75,10 +91,18 @@ public class WeaponBase : MonoBehaviour
         GameObject triggerTransform = GameObject.Find("pistol_trigger");
         trigger = triggerTransform.transform;
 
+        // Magazine
+        GameObject magTransform = GameObject.Find("pistol_mag");
+        pistolMagTransform = magTransform.transform;
+
+        
+
+
         // Set gun part positions 
         weaponOriginalPosition = weaponTransform.localPosition;
         slideOriginalPosition = slide.localPosition;
         triggerOriginalPosition = trigger.localPosition;
+        pistolMagOriginalPosition = pistolMagTransform.localPosition;
 
         currentAmmoCount = ammoCapacity;
         ammoDisplay.text = currentAmmoCount.ToString();
@@ -86,105 +110,122 @@ public class WeaponBase : MonoBehaviour
     }
     public void OnReload(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && !isRealoading)
         {
-            currentAmmoCount = ammoCapacity;
-            ammoDisplay.text = currentAmmoCount.ToString();
+            isRealoading = true;
 
-            //Reload
-            Vector3 reloadOffset = Vector3.right * reloadMovement;
+            // Offsets and Durations
+            Vector3 reloadOffset = Vector3.right * reloadMovement + Vector3.up * reloadMovementUp;
+            Vector3 reloadRotation = new Vector3(0, 0, -25);
+            Vector3 pistolMagOffset = pistolMagOriginalPosition + Vector3.down * pistolMagMovemement;
+            Vector3 slideOffset = Vector3.back * slideRecoil;
 
+            // Stop any ongoing animations
             weaponTransform.DOKill();
-            weaponTransform.DOLocalMove(weaponOriginalPosition + reloadOffset, reloadDuration, false).SetEase(EaseReload)
-                .OnComplete(() => weaponTransform.DOLocalMove(weaponOriginalPosition, reloadReturnDuration , false));
+            pistolMagTransform.DOKill();
 
+            // Sequence
+            Sequence reloadSequence = DOTween.Sequence();
+
+            // Add magazine and weapon animations
+            reloadSequence
+                // Sync with gun movement
+                .Join(weaponTransform.DOLocalMove(weaponOriginalPosition + reloadOffset, reloadDuration).SetEase(EaseReload))
+                // Sync rotation
+                .Join(weaponTransform.DOLocalRotate(reloadRotation, reloadDuration, RotateMode.Fast).SetEase(EaseReload))
+                // Move slide back 
+                .Join(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
+                // Lower magazine
+                .Append(pistolMagTransform.DOLocalMove(pistolMagOffset, pistolMagEjectDuration).SetEase(Ease.Linear))
+                // Return magazine
+                .Append(pistolMagTransform.DOLocalMove(pistolMagOriginalPosition, pistolMagReturnDuration).SetEase(Ease.Linear))
+                // Return weapon position
+                .Append(weaponTransform.DOLocalMove(weaponOriginalPosition, reloadReturnDuration).SetEase(EaseReload))
+                // Return weapon rotation
+                .Join(weaponTransform.DOLocalRotate(Vector3.zero, reloadReturnDuration, RotateMode.Fast).SetEase(EaseReload))
+                // Delay 
+                .AppendInterval(0.5f)
+                // Move slide foward  
+                .Append(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false))                                               
+                .OnComplete(() =>
+                {
+                    currentAmmoCount = ammoCapacity;
+                    ammoDisplay.text = currentAmmoCount.ToString();
+
+                    isRealoading = false;
+
+                });
 
         }
     }
+
+
+
+
+
+
+
+    private bool canFire = true; // Controls firing cooldown
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        if (context.performed && currentAmmoCount != 0)
+        if (context.performed && currentAmmoCount != 0 && !isRealoading && canFire)
         {
             currentAmmoCount--;
+            canFire = false; // Disable firing temporarily to respect fire rate
 
-            // Instantiate 
+            // Instantiate bullet
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
-            // Add velocity
+            // Add velocity to the bullet
             Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
-            if (bulletRigidbody != null)
-            {
-                bulletRigidbody.linearVelocity = firePoint.forward * bulletSpeed;
-            }
-            else
-            {
-                Debug.LogWarning("WeaponBase: The bullet prefab is missing a Rigidbody component.");
-            }
+            bulletRigidbody.linearVelocity = firePoint.forward * bulletSpeed;
 
-            // Scale crosshair
-           //StartCoroutine(CrossHairScale());
-
-            // Apply recoil
-          // StartCoroutine(Recoil());
-
-
-            // Scale crosshair up and down
-            crosshair.transform.DOKill();
-            crosshair.transform.DOScale(1.5f, 0.1f) // Scale up to 1.5x in 0.1 seconds
-                     .OnComplete(() => crosshair.transform.DOScale(1f, 0.5f)); // Scale back to 1x in 0.1 seconds
-
-            //Recoil
+            // Offsets and Durations
             Vector3 recoilOffset = Vector3.back * recoilAmount;
+            Vector3 slideOffset = Vector3.back * slideRecoil;
 
-            weaponTransform.DOKill();
-            weaponTransform.DOLocalMove(weaponOriginalPosition + recoilOffset, recoilDuration, false).SetEase(Ease1)
-                .OnComplete(() => weaponTransform.DOLocalMove(weaponOriginalPosition, recoilRecoverySpeed, false));
+            // Create firing sequence
+            Sequence firingSequence = DOTween.Sequence();
 
+            // Crosshair scaling
+            firingSequence.Append(crosshair.transform.DOScale(1.5f, 0.1f)) // Scale up
+                          .Join(crosshair.transform.DOScale(1f, 0.5f))   // Scale down
 
-
-            //.SetLoops(2, LoopType.Yoyo);
-            /*
-                        //Trigger
-
-                        trigger.DOKill();
-                        trigger.DOLocalRotate(triggerDownRotation, triggerRecoilDuration, RotateMode.Fast)
-                            .OnComplete(() => trigger.transform.DOLocalRotate(triggerOriginalPosition, triggerRecoveryDuration, RotateMode.Fast));        
-
-                        //Trigger
-            */
-            trigger.DOKill();
-            trigger.DOLocalRotate(triggerDownRotation, triggerRecoilDuration, RotateMode.Fast).OnComplete(() =>
-            {
-
-                trigger.transform.DOLocalRotate(triggerOriginalPosition, triggerRecoveryDuration, RotateMode.Fast);
-                //Slide
-                Vector3 slideOffset = Vector3.back * slideRecoil;
-
-                slide.DOKill();
-                slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1)
-                    .OnComplete(() => slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false));
-            });
+                          .Append(weaponTransform.DOLocalMove(weaponOriginalPosition + recoilOffset, recoilDuration, false).SetEase(Ease1))
+                          .Join(weaponTransform.DOLocalMove(weaponOriginalPosition, recoilRecoverySpeed, false))
 
 
-            ammoDisplay.text = currentAmmoCount.ToString();
+                          .Append(trigger.DOLocalRotate(triggerDownRotation, triggerRecoilDuration, RotateMode.Fast))
+                          .Join(trigger.DOLocalRotate(triggerOriginalPosition, triggerRecoveryDuration, RotateMode.Fast))
+
+
+                           .Append(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
+                          .Join(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false));
+
+            // Update ammo display
+            firingSequence.OnComplete(() => ammoDisplay.text = currentAmmoCount.ToString());
+
+            // Restore firing ability after cooldown
+            DOVirtual.DelayedCall(1f / fireRate, () => { canFire = true; });
         }
         else if (context.performed && currentAmmoCount == 0)
         {
-            trigger.DOKill();
-            trigger.DOLocalRotate(triggerDownRotation, triggerRecoilDuration, RotateMode.Fast).OnComplete(() =>
-            {
+            // Handle empty fire animations
+            Sequence emptyFireSequence = DOTween.Sequence();
 
-                trigger.transform.DOLocalRotate(triggerOriginalPosition, triggerRecoveryDuration, RotateMode.Fast);
-                //Slide
-                Vector3 slideOffset = Vector3.back * slideRecoil;
+            // Trigger animation
+            emptyFireSequence.Append(trigger.DOLocalRotate(triggerDownRotation, triggerRecoilDuration, RotateMode.Fast))
+                             .Append(trigger.DOLocalRotate(triggerOriginalPosition, triggerRecoveryDuration, RotateMode.Fast));
 
-                slide.DOKill();
-                slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1)
-                    .OnComplete(() => slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false));
-            });
+            // Slide animation
+            Vector3 slideOffset = Vector3.back * slideRecoil;
+            emptyFireSequence.Append(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
+                             .Append(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false));
         }
     }
+
+
 
     private IEnumerator CrossHairScale()
     {

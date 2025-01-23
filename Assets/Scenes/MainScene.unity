@@ -39583,6 +39583,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pistol
       objectReference: {fileID: 0}
+    - target: {fileID: 3889652342331691711, guid: 1f01a7aea7ce1e9419915423dfb24a86, type: 3}
+      propertyPath: m_Name
+      value: pistol_mag
+      objectReference: {fileID: 0}
     - target: {fileID: 6637981443586432710, guid: 1f01a7aea7ce1e9419915423dfb24a86, type: 3}
       propertyPath: m_Name
       value: pistol_trigger
@@ -41362,7 +41366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 1881260359}
-  sensitivity: 100
+  sensitivity: 5
   maxVerticalAngle: 80
 --- !u!114 &1422311403
 MonoBehaviour:
@@ -41709,10 +41713,14 @@ MonoBehaviour:
   slideRecoil: 0.05
   triggerRecoilDuration: 0.1
   triggerRecoveryDuration: 0.1
-  EaseReload: 25
+  EaseReload: 35
   reloadMovement: 0.125
-  reloadDuration: 0.6
-  reloadReturnDuration: 0.5
+  reloadMovementUp: 0.07
+  reloadDuration: 0.4
+  reloadReturnDuration: 0.2
+  pistolMagMovemement: 0.5
+  pistolMagEjectDuration: 0.5
+  pistolMagReturnDuration: 0.3
 --- !u!1001 &1424599857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47730,6 +47738,22 @@ PrefabInstance:
     - target: {fileID: 198000013564982074, guid: 31fee1c2b8079524babddad687e95210, type: 3}
       propertyPath: randomSeed
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000013564982074, guid: 31fee1c2b8079524babddad687e95210, type: 3}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000013564982074, guid: 31fee1c2b8079524babddad687e95210, type: 3}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000013564982074, guid: 31fee1c2b8079524babddad687e95210, type: 3}
+      propertyPath: InitialModule.startRotationX.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000013564982074, guid: 31fee1c2b8079524babddad687e95210, type: 3}
+      propertyPath: InitialModule.startRotationY.minMaxState
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
