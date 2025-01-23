@@ -120,6 +120,7 @@ public class WeaponBase : MonoBehaviour
             Vector3 pistolMagOffset = pistolMagOriginalPosition + Vector3.down * pistolMagMovemement;
             Vector3 slideOffset = Vector3.back * slideRecoil;
 
+
             // Stop any ongoing animations
             weaponTransform.DOKill();
             pistolMagTransform.DOKill();
@@ -169,6 +170,10 @@ public class WeaponBase : MonoBehaviour
 
     public void OnFire(InputAction.CallbackContext context)
     {
+        // Offsets and Durations
+        Vector3 recoilOffset = Vector3.back * recoilAmount;
+        Vector3 slideOffset = Vector3.back * slideRecoil;
+
         if (context.performed && currentAmmoCount != 0 && !isRealoading && canFire)
         {
             currentAmmoCount--;
@@ -181,30 +186,37 @@ public class WeaponBase : MonoBehaviour
             Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
             bulletRigidbody.linearVelocity = firePoint.forward * bulletSpeed;
 
-            // Offsets and Durations
-            Vector3 recoilOffset = Vector3.back * recoilAmount;
-            Vector3 slideOffset = Vector3.back * slideRecoil;
+
 
             // Create firing sequence
             Sequence firingSequence = DOTween.Sequence();
 
             // Crosshair scaling
-            firingSequence.Append(crosshair.transform.DOScale(1.5f, 0.1f)) // Scale up
-                          .Join(crosshair.transform.DOScale(1f, 0.5f))   // Scale down
-
-                          .Append(weaponTransform.DOLocalMove(weaponOriginalPosition + recoilOffset, recoilDuration, false).SetEase(Ease1))
-                          .Join(weaponTransform.DOLocalMove(weaponOriginalPosition, recoilRecoverySpeed, false))
-
-
+            firingSequence
+                          // Trigger down
                           .Append(trigger.DOLocalRotate(triggerDownRotation, triggerRecoilDuration, RotateMode.Fast))
-                          .Join(trigger.DOLocalRotate(triggerOriginalPosition, triggerRecoveryDuration, RotateMode.Fast))
+                          // Crosshair scale up
+                          .Append(crosshair.transform.DOScale(1.5f, 0.1f))
+                          // Slide goes back
+                          .Join(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))   
+                          // Recoil send weapon back
+                          .Join(weaponTransform.DOLocalMove(weaponOriginalPosition + recoilOffset, recoilDuration, false).SetEase(Ease1))
+                          // Trigger returns
+                          .Append(trigger.DOLocalRotate(triggerOriginalPosition, triggerRecoveryDuration, RotateMode.Fast))         
+                          // Slide returns
+                          .Join(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false))
+                          // Recoil returns
+                          .Join(weaponTransform.DOLocalMove(weaponOriginalPosition, recoilRecoverySpeed, false))
+                          // Crosshair scale down
+                          .Join(crosshair.transform.DOScale(1f, 0.5f));   
 
 
-                           .Append(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
-                          .Join(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false));
+
+
+
 
             // Update ammo display
-            firingSequence.OnComplete(() => ammoDisplay.text = currentAmmoCount.ToString());
+            ammoDisplay.text = currentAmmoCount.ToString();
 
             // Restore firing ability after cooldown
             DOVirtual.DelayedCall(1f / fireRate, () => { canFire = true; });
@@ -214,14 +226,12 @@ public class WeaponBase : MonoBehaviour
             // Handle empty fire animations
             Sequence emptyFireSequence = DOTween.Sequence();
 
-            // Trigger animation
-            emptyFireSequence.Append(trigger.DOLocalRotate(triggerDownRotation, triggerRecoilDuration, RotateMode.Fast))
-                             .Append(trigger.DOLocalRotate(triggerOriginalPosition, triggerRecoveryDuration, RotateMode.Fast));
 
-            // Slide animation
-            Vector3 slideOffset = Vector3.back * slideRecoil;
-            emptyFireSequence.Append(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
-                             .Append(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false));
+            emptyFireSequence.Append(trigger.DOLocalRotate(triggerDownRotation, triggerRecoilDuration, RotateMode.Fast))                // Trigger down
+                             .Append(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1)) // Slide 
+                             .Join(trigger.DOLocalRotate(triggerOriginalPosition, triggerRecoveryDuration, RotateMode.Fast));           // Trigger return 
+
+        
         }
     }
 
