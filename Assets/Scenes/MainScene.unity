@@ -17322,8 +17322,8 @@ GameObject:
   - component: {fileID: 577784212}
   - component: {fileID: 577784215}
   - component: {fileID: 577784213}
-  - component: {fileID: 577784214}
   - component: {fileID: 577784216}
+  - component: {fileID: 577784218}
   - component: {fileID: 577784217}
   m_Layer: 0
   m_Name: ====== Managers =====
@@ -17362,41 +17362,8 @@ MonoBehaviour:
   weapons:
   - {fileID: 545535247}
   - {fileID: 1880797377}
-  isPistolEquiped: 0
-  isRifleEquiped: 0
---- !u!114 &577784214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 577784211}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6214357d10ec1fe4e85cf74ea9dac7e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 7373836342340448847, guid: 7050c910fa7f7934cbf7a468d6f75217, type: 3}
-  bulletSpeed: 60
-  ammoCapacity: 10
-  fireRate: 5
-  ammoDisplay: {fileID: 784480030}
-  recoilAmount: 0.05
-  recoilRecoverySpeed: 0.1
-  recoilDuration: 0.1
-  slideRecoveryDuration: 0.1
-  slideRecoilDuration: 0.05
-  slideRecoil: 0.05
-  triggerRecoilDuration: 0.1
-  triggerRecoveryDuration: 0.1
-  EaseReload: 35
-  reloadMovement: 0.125
-  reloadMovementUp: 0.07
-  reloadDuration: 0.4
-  reloadReturnDuration: 0.2
-  pistolMagMovemement: 0.5
-  pistolMagEjectDuration: 0.5
-  pistolMagReturnDuration: 0.3
+  isPistolEquipped: 0
+  isRifleEquipped: 0
 --- !u!114 &577784215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17631,8 +17598,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: add21b410e230ed46869a9feee63ba2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rifleAmmoCount: 25
   isRifleRelaoding: 0
+  rifleAmmoCount: 25
+  pistolAmmoCount: 0
 --- !u!114 &577784217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17654,19 +17622,49 @@ MonoBehaviour:
   recoilUpAmount: 0.03
   recoilRecoverySpeed: 0.1
   recoilDuration: 0.1
-  slideRecoveryDuration: 0
-  slideRecoilDuration: 0
-  slideRecoil: 0
   triggerDownDuration: 1
   triggerRecoveryDuration: 1
   EaseReload: 16
   reloadMovement: 0.1
   reloadMovementUp: 0.1
-  reloadDuration: 1.5
+  reloadDuration: 0.8
   reloadReturnDuration: 1
-  rifleMagMovemement: 0
-  rifleMagEjectDuration: 0
-  rifleMagReturnDuration: 0
+  rifleMagMovemement: 0.3
+  rifleMagEjectDuration: 0.3
+  rifleMagReturnDuration: 1
+--- !u!114 &577784218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577784211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a08210ccb85b3e4a82e8b6ca81ff285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 8839035504231571850, guid: 3e16fe1e040fb1d46906820603db60b3, type: 3}
+  bulletSpeed: 60
+  ammoCapacity: 10
+  fireRate: 5
+  ammoDisplay: {fileID: 0}
+  recoilAmount: 0.05
+  recoilRecoverySpeed: 0.1
+  recoilDuration: 0.1
+  slideRecoveryDuration: 0.1
+  slideRecoilDuration: 0.05
+  slideRecoil: 0.05
+  triggerRecoilDuration: 0.1
+  triggerRecoveryDuration: 0.1
+  EaseReload: 16
+  reloadMovement: 0.125
+  reloadMovementUp: 0.07
+  reloadDuration: 0.4
+  reloadReturnDuration: 0.2
+  pistolMagMovemement: 0.5
+  pistolMagEjectDuration: 0.5
+  pistolMagReturnDuration: 0.3
 --- !u!1001 &579497034
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39927,7 +39925,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1785435777294800262, guid: 1f01a7aea7ce1e9419915423dfb24a86, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2878675014888813294, guid: 1f01a7aea7ce1e9419915423dfb24a86, type: 3}
       propertyPath: m_Layer
@@ -51977,6 +51975,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 1406426201953360346, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1640632900134405313, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1694633564682246803, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1877483516679493341, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -52041,6 +52051,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4476010166340443579, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617955656547488790, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637267752070506617, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4948274848842495706, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075953008993573230, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5358416715665335052, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -52061,6 +52091,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 6117320803824319647, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6407998754172242901, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -52069,9 +52103,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.574
       objectReference: {fileID: 0}
+    - target: {fileID: 6524411789217869913, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6626294005863466174, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6867899445764978863, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7485885113209621746, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7954144876614346891, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
       propertyPath: m_Layer

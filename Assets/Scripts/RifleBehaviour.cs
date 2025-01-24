@@ -49,15 +49,6 @@ public class RifleBehaviour : MonoBehaviour
 
     public void Start()
     {
-
-      
-
-
-
-    }
-
-    public void LoadRifle()
-    {
         // ===== Auto-assigns =====
 
         // Weapon base scrip
@@ -87,6 +78,10 @@ public class RifleBehaviour : MonoBehaviour
         rifleOriginalPosition = rifleTransform.localPosition;
         rifleTriggerOriginalPosition = trigger.localPosition;
         rifleMagOriginalPosition = rifleMagTransform.localPosition;
+
+
+
+
     }
 
     public void FiringSequence()

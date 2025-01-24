@@ -12,10 +12,13 @@ public class WeaponBase : MonoBehaviour
 
     // Rifle
     private RifleBehaviour rifleBehaviour;
-    public int rifleAmmoCount; //Temp
     public bool isRifleRelaoding = false;
     private bool isFiring = false; // Tracks if the fire button is held
     private Coroutine firingCoroutine;
+
+    // temp
+    public int rifleAmmoCount;
+    public int pistolAmmoCount;
 
 
 
@@ -35,7 +38,7 @@ public class WeaponBase : MonoBehaviour
     {
         if (context.performed)
         {
-            if (weaponManager.isRifleEquiped && !isRifleRelaoding)
+            if (weaponManager.isRifleEquipped && !isRifleRelaoding)
             {
                 isRifleRelaoding = true;
                 rifleBehaviour.ReloadingSequence();
@@ -49,20 +52,12 @@ public class WeaponBase : MonoBehaviour
 
 
 
-
-
-
-
-
-
-
-
     public void OnFire(InputAction.CallbackContext context)
     {
-        if (!isRifleRelaoding)
+        // Handle rifle firing logic
+        if (!isRifleRelaoding && weaponManager.isRifleEquipped && rifleAmmoCount > 0)
         {
-
-            if (context.started || context.performed && weaponManager.isRifleEquiped && rifleAmmoCount > 0)
+            if (context.started || context.performed) // Button pressed or held
             {
                 if (!isFiring)
                 {
@@ -80,8 +75,20 @@ public class WeaponBase : MonoBehaviour
                 }
             }
         }
-
+        // Handle pistol firing logic
+        else if (weaponManager.isPistolEquipped /* && pistolAmmoCount > 0*/)
+        {
+            if (context.performed) // Button pressed or held
+            {
+                pistolBehaviour.FiringSequence();
+                Debug.Log("PAIN");
+            }
+        }
     }
+
+
+
+
     private IEnumerator AutoFireRifle()
     {
         while (isFiring && rifleAmmoCount > 0)

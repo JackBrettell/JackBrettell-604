@@ -97,7 +97,6 @@ public class PistolBehaviour : MonoBehaviour
         pistolMagOriginalPosition = pistolMagTransform.localPosition;
 
         currentAmmoCount = ammoCapacity;
-        ammoDisplay.text = currentAmmoCount.ToString();
 
     }
     public void OnReload(InputAction.CallbackContext context)
@@ -160,23 +159,23 @@ public class PistolBehaviour : MonoBehaviour
 
     private bool canFire = true; // Controls firing cooldown
 
-    public void OnFire(InputAction.CallbackContext context)
+    public void FiringSequence()
     {
         // Offsets and Durations
         Vector3 recoilOffset = Vector3.back * recoilAmount;
         Vector3 slideOffset = Vector3.back * slideRecoil;
 
-        if (context.performed && currentAmmoCount != 0 && !isRealoading && canFire)
+        if (!isRealoading /*&& canFire*/)
         {
             currentAmmoCount--;
             canFire = false; // Disable firing temporarily to respect fire rate
 
-            // Instantiate bullet
+           /* // Instantiate bullet
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
             // Add velocity to the bullet
             Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
-            bulletRigidbody.linearVelocity = firePoint.forward * bulletSpeed;
+            bulletRigidbody.linearVelocity = firePoint.forward * bulletSpeed;*/
 
 
 
@@ -207,13 +206,12 @@ public class PistolBehaviour : MonoBehaviour
 
 
 
-            // Update ammo display
-            ammoDisplay.text = currentAmmoCount.ToString();
+
 
             // Restore firing ability after cooldown
             DOVirtual.DelayedCall(1f / fireRate, () => { canFire = true; });
         }
-        else if (context.performed && currentAmmoCount == 0)
+        else if (currentAmmoCount == 0)
         {
             // Handle empty fire animations
             Sequence emptyFireSequence = DOTween.Sequence();

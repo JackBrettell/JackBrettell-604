@@ -11,8 +11,8 @@ public class WeaponManager : MonoBehaviour
 
     public GameObject[] weapons;
 
-    [HideInInspector] public bool isPistolEquiped = false;
-    [HideInInspector] public bool isRifleEquiped = false;
+    [HideInInspector] public bool isPistolEquipped = false;
+    [HideInInspector] public bool isRifleEquipped = false;
 
     public void Start()
     {
@@ -37,8 +37,8 @@ public class WeaponManager : MonoBehaviour
     {
         if (weaponIndex == 1)
         {
-            isPistolEquiped = true;
-            isRifleEquiped = false;
+            isPistolEquipped = true;
+            isRifleEquipped = false;
             // Sequence
             Sequence pistolEquipSequence = DOTween.Sequence();
 
@@ -53,9 +53,8 @@ public class WeaponManager : MonoBehaviour
         else if (weaponIndex == 2) 
         {
 
-            rifleBehaviour.LoadRifle();
-            isRifleEquiped = true;
-            isPistolEquiped = false;
+            isRifleEquipped = true;
+            isPistolEquipped = false;
 
             weapons[1].SetActive(true);
             weapons[0].SetActive(false);
