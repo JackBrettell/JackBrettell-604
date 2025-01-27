@@ -1,21 +1,40 @@
 using UnityEngine;
-using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+
+// IDamageable interface
+public interface IDamageable
 {
-    public Transform player;
-    private NavMeshAgent agent;
+    void TakeDamage(int damage); 
+}
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+public class Enemy : MonoBehaviour, IDamageable
+{
+    public int health;
+    public int damage;
+    public float attackSpeed;
+    public float movementSpeed;
+
+    // Recieve damage
+    public virtual void TakeDamage(int damage)
     {
-        agent = GetComponent<NavMeshAgent>();
+        health -= damage;
+
+        if (health <= 0)
+        {
+            EnemyDeath(); 
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    // Give damage
+    public virtual void DoDamage()
     {
+        Debug.Log($"Enemy dealt {damage} damage!");
+    }
 
-        agent.destination = player.position;
+    public virtual void EnemyDeath()
+    {
+        Debug.Log("Enemy killed");
+       // Destroy(gameObject); // Placeholder
     }
 }
+

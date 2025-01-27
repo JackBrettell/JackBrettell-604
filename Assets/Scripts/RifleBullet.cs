@@ -1,0 +1,20 @@
+using UnityEngine;
+
+public class RifleBullet : MonoBehaviour
+{
+    public int damage; 
+    private float lifetime = 5f;
+
+    private void Start()
+    {
+        Destroy(gameObject, lifetime);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+        damageable.TakeDamage(damage); 
+      
+        Destroy(gameObject);
+    }
+}

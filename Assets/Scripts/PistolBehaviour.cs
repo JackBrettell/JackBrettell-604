@@ -15,10 +15,6 @@ public class PistolBehaviour : MonoBehaviour
     private Transform firePoint;
     private int currentAmmoCount;
 
-    [Header("Crosshair")]
-    private GameObject crosshair;
-    private float crosshairSize = 0.5f;
-
     [Header("Recoil")]
     [SerializeField] private float recoilAmount = 0.1f;
     [SerializeField] private float recoilRecoverySpeed = 5f;
@@ -57,14 +53,13 @@ public class PistolBehaviour : MonoBehaviour
     public float pistolMagEjectDuration = 0;
     public float pistolMagReturnDuration = 0;
 
+    private WeaponBase weaponBase;
 
 
     public void Start()
     {
 
         // ===== Auto-assigns =====
-        // HUD
-        crosshair = GameObject.Find("Crosshair");
         //ammoCapacity = GameObject.Find("Ammo");
 
         // Fire point
@@ -87,7 +82,7 @@ public class PistolBehaviour : MonoBehaviour
         GameObject magTransform = GameObject.Find("pistol_mag");
         pistolMagTransform = magTransform.transform;
 
-
+        weaponBase = GetComponent<WeaponBase>();
 
 
         // Set gun part positions 
@@ -96,59 +91,64 @@ public class PistolBehaviour : MonoBehaviour
         pistolTriggerOriginalPosition = trigger.localPosition;
         pistolMagOriginalPosition = pistolMagTransform.localPosition;
 
-        currentAmmoCount = ammoCapacity;
 
     }
-    public void OnReload(InputAction.CallbackContext context)
+    public void ReloadingSequence()
     {
-        if (context.performed && !isRealoading)
-        {
-            isRealoading = true;
 
-            // Offsets and Durations
-            Vector3 reloadOffset = Vector3.right * reloadMovement + Vector3.up * reloadMovementUp;
-            Vector3 reloadRotation = new Vector3(0, 0, -25);
-            Vector3 pistolMagOffset = pistolMagOriginalPosition + Vector3.down * pistolMagMovemement;
-            Vector3 slideOffset = Vector3.back * slideRecoil;
+        isRealoading = true;
+
+        // Offsets and Durations
+        Vector3 reloadOffset = Vector3.right * reloadMovement + Vector3.up * reloadMovementUp;
+        Vector3 reloadRotation = new Vector3(0, 0, -25);
+        Vector3 pistolMagOffset = pistolMagOriginalPosition + Vector3.down * pistolMagMovemement;
+        Vector3 slideOffset = Vector3.back * slideRecoil;
 
 
-            // Stop any ongoing animations
-            pistolTransform.DOKill();
-            pistolMagTransform.DOKill();
+        // Stop any ongoing animations
+        pistolTransform.DOKill();
+        pistolMagTransform.DOKill();
 
-            // Sequence
-            Sequence reloadSequence = DOTween.Sequence();
+        // Sequence
+        Sequence reloadSequence = DOTween.Sequence();
 
-            // Add magazine and weapon animations
-            reloadSequence
+        // Add magazine and weapon animations
+        reloadSequence
 
-                .Join(pistolTransform.DOLocalMove(pistolOriginalPosition + reloadOffset, reloadDuration).SetEase(EaseReload))
-                // Sync rotation
-                .Join(pistolTransform.DOLocalRotate(reloadRotation, reloadDuration, RotateMode.Fast).SetEase(EaseReload))
-                // Move slide back 
-                .Join(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
-                // Lower magazine
-                .Append(pistolMagTransform.DOLocalMove(pistolMagOffset, pistolMagEjectDuration).SetEase(Ease.Linear))
-                // Return magazine
-                .Append(pistolMagTransform.DOLocalMove(pistolMagOriginalPosition, pistolMagReturnDuration).SetEase(Ease.Linear))
-                // Return weapon position
-                .Append(pistolTransform.DOLocalMove(pistolOriginalPosition, reloadReturnDuration).SetEase(EaseReload))
-                // Return weapon rotation
-                .Join(pistolTransform.DOLocalRotate(Vector3.zero, reloadReturnDuration, RotateMode.Fast).SetEase(EaseReload))
-                // Delay 
-                .AppendInterval(0.5f)
-                // Move slide foward  
-                .Append(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false))
-                .OnComplete(() =>
-                {
-                    currentAmmoCount = ammoCapacity;
-                    ammoDisplay.text = currentAmmoCount.ToString();
+            .Join(pistolTransform.DOLocalMove(pistolOriginalPosition + reloadOffset, reloadDuration).SetEase(EaseReload))
+            // Sync rotation
+            .Join(pistolTransform.DOLocalRotate(reloadRotation, reloadDuration, RotateMode.Fast).SetEase(EaseReload))
+            // Move slide back 
+            .Join(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
+            // Lower magazine
+            .Append(pistolMagTransform.DOLocalMove(pistolMagOffset, pistolMagEjectDuration).SetEase(Ease.Linear))
+            // Return magazine
+            .Append(pistolMagTransform.DOLocalMove(pistolMagOriginalPosition, pistolMagReturnDuration).SetEase(Ease.Linear))
+            // Return weapon position
+            .Append(pistolTransform.DOLocalMove(pistolOriginalPosition, reloadReturnDuration).SetEase(EaseReload))
+            // Return weapon rotation
+            .Join(pistolTransform.DOLocalRotate(Vector3.zero, reloadReturnDuration, RotateMode.Fast).SetEase(EaseReload))
+            // Delay 
+            .AppendInterval(0.5f)
+            // Move slide foward  
+            .Append(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false))
+            .OnComplete(() =>
+            {
+                weaponBase.pistolAmmoCount = 10;
 
-                    isRealoading = false;
+                ammoDisplay.text = currentAmmoCount.ToString();
 
-                });
+                weaponBase.isPistolReloading = false;
 
-        }
+                Debug.Log(weaponBase.pistolAmmoCount + ammoCapacity  );
+
+            });
+
+    }
+
+    private void Update()
+    {
+        Debug.Log(weaponBase.pistolAmmoCount);    
     }
 
 
@@ -156,8 +156,7 @@ public class PistolBehaviour : MonoBehaviour
 
 
 
-
-    private bool canFire = true; // Controls firing cooldown
+    private bool canFire = true; 
 
     public void FiringSequence()
     {
@@ -165,29 +164,22 @@ public class PistolBehaviour : MonoBehaviour
         Vector3 recoilOffset = Vector3.back * recoilAmount;
         Vector3 slideOffset = Vector3.back * slideRecoil;
 
-        if (!isRealoading /*&& canFire*/)
+        if (!isRealoading && canFire)
         {
             currentAmmoCount--;
-            canFire = false; // Disable firing temporarily to respect fire rate
+            canFire = false; 
 
-           /* // Instantiate bullet
+            // Instantiate bullet
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
             // Add velocity to the bullet
             Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
-            bulletRigidbody.linearVelocity = firePoint.forward * bulletSpeed;*/
+            bulletRigidbody.linearVelocity = firePoint.forward * bulletSpeed;
 
-
-
-            // Create firing sequence
             Sequence firingSequence = DOTween.Sequence();
-
-            // Crosshair scaling
             firingSequence
                           // Trigger down
                           .Append(trigger.DOLocalRotate(triggerDownRotation, triggerRecoilDuration, RotateMode.Fast))
-                          // Crosshair scale up
-                          .Append(crosshair.transform.DOScale(1.5f, 0.1f))
                           // Slide goes back
                           .Join(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
                           // Recoil send weapon back
@@ -197,18 +189,9 @@ public class PistolBehaviour : MonoBehaviour
                           // Slide returns
                           .Join(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false))
                           // Recoil returns
-                          .Join(pistolTransform.DOLocalMove(pistolOriginalPosition, recoilRecoverySpeed, false))
-                          // Crosshair scale down
-                          .Join(crosshair.transform.DOScale(1f, 0.5f));
+                          .Join(pistolTransform.DOLocalMove(pistolOriginalPosition, recoilRecoverySpeed, false));
 
 
-
-
-
-
-
-
-            // Restore firing ability after cooldown
             DOVirtual.DelayedCall(1f / fireRate, () => { canFire = true; });
         }
         else if (currentAmmoCount == 0)
@@ -227,7 +210,7 @@ public class PistolBehaviour : MonoBehaviour
 
 
 
-    private IEnumerator CrossHairScale()
+   /* private IEnumerator CrossHairScale()
     {
         float originalSize = crosshairSize;
         float targetSize = originalSize * 1.5f;
@@ -285,6 +268,6 @@ public class PistolBehaviour : MonoBehaviour
         pistolTransform.localPosition = originalPosition;
     }
 
-
+    */
 }
 

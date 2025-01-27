@@ -6,13 +6,15 @@ using JetBrains.Annotations;
 public class WeaponBase : MonoBehaviour
 {
     private WeaponManager weaponManager;
+    private Crosshair crosshair;
     
     // Pistol
     private PistolBehaviour pistolBehaviour;
+    public bool isPistolReloading = false;
 
     // Rifle
     private RifleBehaviour rifleBehaviour;
-    public bool isRifleRelaoding = false;
+    public bool isRifleReloading = false;
     private bool isFiring = false; // Tracks if the fire button is held
     private Coroutine firingCoroutine;
 
@@ -22,14 +24,17 @@ public class WeaponBase : MonoBehaviour
 
 
 
+
+
+
     // Start is called before the first frame update
     void Start()
     {
         weaponManager = GetComponent<WeaponManager>();
         rifleBehaviour = GetComponent<RifleBehaviour>();
         pistolBehaviour = GetComponent<PistolBehaviour>();
+        crosshair = GetComponent<Crosshair>();
 
-       
 
     }
 
@@ -38,10 +43,15 @@ public class WeaponBase : MonoBehaviour
     {
         if (context.performed)
         {
-            if (weaponManager.isRifleEquipped && !isRifleRelaoding)
+            if (weaponManager.isRifleEquipped && !isRifleReloading)
             {
-                isRifleRelaoding = true;
+                isRifleReloading = true;
                 rifleBehaviour.ReloadingSequence();
+            }
+            else if (weaponManager.isPistolEquipped && !isPistolReloading)
+            {
+                isPistolReloading = true;
+                pistolBehaviour.ReloadingSequence();
             }
         }
     }
@@ -55,7 +65,7 @@ public class WeaponBase : MonoBehaviour
     public void OnFire(InputAction.CallbackContext context)
     {
         // Handle rifle firing logic
-        if (!isRifleRelaoding && weaponManager.isRifleEquipped && rifleAmmoCount > 0)
+        if (!isRifleReloading && weaponManager.isRifleEquipped && rifleAmmoCount > 0)
         {
             if (context.started || context.performed) // Button pressed or held
             {
@@ -81,7 +91,8 @@ public class WeaponBase : MonoBehaviour
             if (context.performed) // Button pressed or held
             {
                 pistolBehaviour.FiringSequence();
-                Debug.Log("PAIN");
+                crosshair.crosshairScale();
+
             }
         }
     }
@@ -104,6 +115,7 @@ public class WeaponBase : MonoBehaviour
         {
             rifleAmmoCount--;
             rifleBehaviour.FiringSequence();
+            crosshair.crosshairScale();
         }
         else
         {

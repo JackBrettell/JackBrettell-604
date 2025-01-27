@@ -9,6 +9,7 @@ public class RifleBehaviour : MonoBehaviour
     [Header("Weapon Settings")]
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float bulletSpeed = 20f;
+    public int damage;
     public int ammoCapacity;
     public float fireRate;
     private Transform firePoint;
@@ -73,7 +74,6 @@ public class RifleBehaviour : MonoBehaviour
 
 
 
-
         // Set gun part positions 
         rifleOriginalPosition = rifleTransform.localPosition;
         rifleTriggerOriginalPosition = trigger.localPosition;
@@ -86,26 +86,26 @@ public class RifleBehaviour : MonoBehaviour
 
     public void FiringSequence()
     {
-
         Sequence firingSequence = DOTween.Sequence();
         Vector3 recoilOffset = Vector3.back * recoilAmount + Vector3.up * recoilUpAmount;
 
         // Instantiate bullet
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
+        // Set the bullet's damage
+        RifleBullet bulletScript = bullet.GetComponent<RifleBullet>();
+        bulletScript.damage = damage;
+       
+
         // Add velocity to the bullet
         Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
         bulletRigidbody.linearVelocity = firePoint.forward * bulletSpeed;
 
         firingSequence
-                  .Join(rifleTransform.DOLocalMove(rifleOriginalPosition + recoilOffset, recoilDuration, false).SetEase(Ease1))
-                  .Append(rifleTransform.DOLocalMove(rifleOriginalPosition, recoilRecoverySpeed, false));
-
-
-  
-
-
+            .Join(rifleTransform.DOLocalMove(rifleOriginalPosition + recoilOffset, recoilDuration, false).SetEase(Ease1))
+            .Append(rifleTransform.DOLocalMove(rifleOriginalPosition, recoilRecoverySpeed, false));
     }
+
 
     public void ReloadingSequence()
     {
@@ -139,7 +139,7 @@ public class RifleBehaviour : MonoBehaviour
                 .Join(rifleTransform.DOLocalRotate(Vector3.zero, reloadReturnDuration, RotateMode.Fast).SetEase(EaseReload))
                 .OnComplete(() =>
                 {
-                    weaponBase.isRifleRelaoding = false;
+                    weaponBase.isRifleReloading = false;
 
                 });
 

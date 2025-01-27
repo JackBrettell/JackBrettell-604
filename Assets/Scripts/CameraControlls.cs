@@ -15,7 +15,11 @@ public class PlayerCameraController : MonoBehaviour
     {
         lookInput = context.ReadValue<Vector2>();
     }
-
+    public void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+       
+    }
     private void Update()
     {
         // Get the delta input and adjust by sensitivity and Time.deltaTime

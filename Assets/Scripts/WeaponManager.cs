@@ -5,7 +5,10 @@ using DG.Tweening;
 
 public class WeaponManager : MonoBehaviour
 {
-    private RifleBehaviour rifleBehaviour;  
+    private RifleBehaviour rifleBehaviour;
+
+
+
 
 
 
@@ -17,6 +20,7 @@ public class WeaponManager : MonoBehaviour
     public void Start()
     {
         rifleBehaviour = GetComponent<RifleBehaviour>();
+     
 
     }
 
