@@ -3318,6 +3318,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000012597706774, guid: b9e1cb90fd59a7946a88c31e16ff82b5, type: 3}
   m_PrefabInstance: {fileID: 84104641}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &84998282 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6151010811894844828, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+  m_PrefabInstance: {fileID: 178879133}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &85289130
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5990,6 +5995,66 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fee6e1da33beae9409089ab8a832464f, type: 3}
+--- !u!1001 &178879133
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1881260359}
+    m_Modifications:
+    - target: {fileID: 240619650177727811, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.153
+      objectReference: {fileID: 0}
+    - target: {fileID: 240619650177727811, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.245
+      objectReference: {fileID: 0}
+    - target: {fileID: 240619650177727811, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.275
+      objectReference: {fileID: 0}
+    - target: {fileID: 240619650177727811, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 240619650177727811, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240619650177727811, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240619650177727811, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240619650177727811, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240619650177727811, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240619650177727811, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843402521807465995, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+      propertyPath: m_Name
+      value: Rifle (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6843402521807465995, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 781170259}
+  m_SourcePrefab: {fileID: 100100000, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
 --- !u!4 &181160423 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000012506713666, guid: 58d97d456aead63499ac7d5316541f78, type: 3}
@@ -16907,11 +16972,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4ea7ad660a6e4241aff4002d350fe80, type: 3}
---- !u!1 &545535247 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1785435777294800262, guid: 1f01a7aea7ce1e9419915423dfb24a86, type: 3}
-  m_PrefabInstance: {fileID: 1363515974}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &547053891
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17540,12 +17600,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a214ac793e2e5bb449ae65231b810fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rifleBehaviour: {fileID: 3157565929509105674}
-  weapons:
-  - {fileID: 545535247}
-  - {fileID: 3157565929509105673}
-  isPistolEquipped: 0
-  isRifleEquipped: 0
+  currentGun: {fileID: 3157565929509105674}
+  gunBehaviour:
+  - {fileID: 3157565929509105674}
+  - {fileID: 781170259}
 --- !u!114 &577784215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17780,10 +17838,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: add21b410e230ed46869a9feee63ba2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPistolReloading: 0
-  isRifleReloading: 0
-  rifleAmmoCount: 25
-  pistolAmmoCount: 10
 --- !u!114 &577784218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19757,6 +19811,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000011954888186, guid: 96a94de897daf7249a824fb908bb12a2, type: 3}
   m_PrefabInstance: {fileID: 637405206}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &640032360 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1925420687274548309, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+  m_PrefabInstance: {fileID: 178879133}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &641481854 stripped
 Transform:
@@ -22926,6 +22985,52 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38c764ae84d05c74aa08d07948986de3, type: 3}
+--- !u!1 &781170258 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6843402521807465995, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+  m_PrefabInstance: {fileID: 178879133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &781170259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781170258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4583bfe4080367a41bdb4febc982f1d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponBase: {fileID: 577784216}
+  bulletPrefab: {fileID: 8839035504231571850, guid: 3e16fe1e040fb1d46906820603db60b3, type: 3}
+  bulletSpeed: 50
+  damage: 5
+  ammoCapacity: 100
+  fireRate: 10
+  firePoint: {fileID: 84998282}
+  recoilAmount: 0.06
+  recoilUpAmount: 0.03
+  recoilRecoverySpeed: 0.1
+  recoilDuration: 0.1
+  gunTransform: {fileID: 781170260}
+  triggerDownDuration: 1
+  triggerRecoveryDuration: 1
+  trigger: {fileID: 1431908396}
+  EaseReload: 16
+  reloadMovement: 0.1
+  reloadMovementUp: 0.1
+  reloadDuration: 0.8
+  reloadReturnDuration: 0.5
+  gunMagTransform: {fileID: 640032360}
+  gunMagMovemement: 0.3
+  gunMagEjectDuration: 0.3
+  gunMagReturnDuration: 0.3
+--- !u!4 &781170260 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 240619650177727811, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+  m_PrefabInstance: {fileID: 178879133}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &782779935
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42340,6 +42445,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000010482363180, guid: 32c4edf4f02ad254092a6e1ba94f5b4e, type: 3}
   m_PrefabInstance: {fileID: 1431908076}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1431908396 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4099503386899202928, guid: acffbc132999ca84d89e337a8ca91010, type: 3}
+  m_PrefabInstance: {fileID: 178879133}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1432027372
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53994,6 +54104,7 @@ Transform:
   m_Children:
   - {fileID: 553669753}
   - {fileID: 2349258149891173043}
+  - {fileID: 781170260}
   m_Father: {fileID: 1422311408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1881260360
@@ -61288,7 +61399,7 @@ MonoBehaviour:
   recoilUpAmount: 0.03
   recoilRecoverySpeed: 0.1
   recoilDuration: 0.1
-  rifleTransform: {fileID: 2349258149891173043}
+  gunTransform: {fileID: 2349258149891173043}
   triggerDownDuration: 1
   triggerRecoveryDuration: 1
   trigger: {fileID: 2322742581001733658}
@@ -61297,10 +61408,10 @@ MonoBehaviour:
   reloadMovementUp: 0.1
   reloadDuration: 0.8
   reloadReturnDuration: 0.5
-  rifleMagTransform: {fileID: 4659615173377084547}
-  rifleMagMovemement: 0.3
-  rifleMagEjectDuration: 0.3
-  rifleMagReturnDuration: 0.3
+  gunMagTransform: {fileID: 4659615173377084547}
+  gunMagMovemement: 0.3
+  gunMagEjectDuration: 0.3
+  gunMagReturnDuration: 0.3
 --- !u!1001 &3565640512703774275
 PrefabInstance:
   m_ObjectHideFlags: 0

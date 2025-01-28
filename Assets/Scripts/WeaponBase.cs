@@ -7,23 +7,6 @@ public class WeaponBase : MonoBehaviour
 {
     private WeaponManager weaponManager;
     private Crosshair crosshair;
-    
-    // Pistol
-    private PistolBehaviour pistolBehaviour;
-    public bool isPistolReloading = false;
-
-    // Rifle
-    private RifleBehaviour rifleBehaviour => weaponManager.RifleBehaviour;
-    public bool isRifleReloading = false;
-    private bool isFiring = false; // Tracks if the fire button is held
-    private Coroutine firingCoroutine;
-
-    // temp
-    public int rifleAmmoCount;
-    public int pistolAmmoCount;
-
-
-
 
 
 
@@ -31,11 +14,7 @@ public class WeaponBase : MonoBehaviour
     void Start()
     {
         weaponManager = GetComponent<WeaponManager>();
-        pistolBehaviour = GetComponent<PistolBehaviour>();
         crosshair = GetComponent<Crosshair>();
-
-
-
     }
 
 
@@ -43,54 +22,35 @@ public class WeaponBase : MonoBehaviour
     {
         if (context.performed)
         {
-            if (weaponManager.isRifleEquipped && !isRifleReloading)
-            {
-                isRifleReloading = true;
-                rifleBehaviour.ReloadingSequence();
-            }
-            else if (weaponManager.isPistolEquipped && !isPistolReloading)
-            {
-                isPistolReloading = true;
-                pistolBehaviour.ReloadingSequence();
-            }
+
+            weaponManager.currentGun.ReloadingSequence();
+            crosshair.crosshairScale();
         }
     }
-
-
-
-
-
-
 
     public void OnFire(InputAction.CallbackContext context)
     {
         // Handle rifle firing logic
-        if (!isRifleReloading && weaponManager.isRifleEquipped && rifleAmmoCount > 0)
+        if (weaponManager.currentGun is RifleBehaviour)
         {
             if (context.started || context.performed) // Button pressed or held
             {
-                if (!isFiring)
-                {
-                    isFiring = true;
-                    firingCoroutine = StartCoroutine(AutoFireRifle());
-                }
-            }
-            else if (context.canceled) // Button released
-            {
-                isFiring = false;
+                weaponManager.currentGun.Fire();
 
-                if (firingCoroutine != null)
-                {
-                    StopCoroutine(firingCoroutine);
-                }
+            }
+            else if (context.canceled)
+            {
+                weaponManager.currentGun.StopFire();
+
             }
         }
         // Handle pistol firing logic
-        else if (weaponManager.isPistolEquipped /* && pistolAmmoCount > 0*/)
+        else if (weaponManager.currentGun is PistolBehaviour)
         {
             if (context.performed) // Button pressed or held
             {
-                pistolBehaviour.FiringSequence();
+                weaponManager.currentGun.Fire();
+
                 crosshair.crosshairScale();
 
             }
@@ -100,27 +60,4 @@ public class WeaponBase : MonoBehaviour
 
 
 
-    private IEnumerator AutoFireRifle()
-    {
-        while (isFiring && rifleAmmoCount > 0)
-        {
-            FireRifle(); 
-            yield return new WaitForSeconds(1f / rifleBehaviour.fireRate); 
-        }
-    }
-
-    public void FireRifle()
-    {
-        if (rifleAmmoCount > 0)
-        {
-            rifleAmmoCount--;
-            rifleBehaviour.FiringSequence();
-            crosshair.crosshairScale();
-        }
-        else
-        {
-            Debug.Log("Out of ammo!");
-            isFiring = false; 
-        }
-    }
 }

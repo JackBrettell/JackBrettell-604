@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RifleBullet : MonoBehaviour
+public class GunBullet : MonoBehaviour
 {
     public int damage; 
     private float lifetime = 5f;

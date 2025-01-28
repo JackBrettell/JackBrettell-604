@@ -134,22 +134,18 @@ public class PistolBehaviour : MonoBehaviour
             .Append(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false))
             .OnComplete(() =>
             {
-                weaponBase.pistolAmmoCount = 10;
+               // weaponBase.pistolAmmoCount = 10;
 
-                ammoDisplay.text = currentAmmoCount.ToString();
+              
 
-                weaponBase.isPistolReloading = false;
+               // weaponBase.isPistolReloading = false;
 
-                Debug.Log(weaponBase.pistolAmmoCount + ammoCapacity  );
+              
 
             });
 
     }
 
-    private void Update()
-    {
-        Debug.Log(weaponBase.pistolAmmoCount);    
-    }
 
 
 

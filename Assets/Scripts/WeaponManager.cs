@@ -5,17 +5,9 @@ using DG.Tweening;
 
 public class WeaponManager : MonoBehaviour
 {
-     [SerializeField] private RifleBehaviour rifleBehaviour;
-    public RifleBehaviour RifleBehaviour
-    {
-        get { return rifleBehaviour; }
-    }
+    public GunBehaviour currentGun;
    
-    public GameObject[] weapons;
-
-
-    [HideInInspector] public bool isPistolEquipped = false;
-    [HideInInspector] public bool isRifleEquipped = false;
+    public GunBehaviour[] gunBehaviour;
 
     public void OnWeaponSwitch(InputAction.CallbackContext context)
     {
@@ -25,7 +17,7 @@ public class WeaponManager : MonoBehaviour
 
             if (int.TryParse(control.name, out int weaponChoice))
             {
-                SwitchToWeapon(weaponChoice); 
+                SwitchToWeapon(weaponChoice -1); 
             }
         }
     }
@@ -34,20 +26,19 @@ public class WeaponManager : MonoBehaviour
     {
         if (weaponIndex == 1)
         {
-            isPistolEquipped = true;
-            isRifleEquipped = false;
 
-            weapons[1].SetActive(false);
-            weapons[0].SetActive(true);
+            gunBehaviour[1].gameObject.SetActive(false);
+            gunBehaviour[0].gameObject.SetActive(true);
+
+            currentGun = gunBehaviour[0];
         }
         else if (weaponIndex == 2) 
         {
 
-            isRifleEquipped = true;
-            isPistolEquipped = false;
+            gunBehaviour[1].gameObject.SetActive(true);
+            gunBehaviour[0].gameObject.SetActive(false);
 
-            weapons[1].SetActive(true);
-            weapons[0].SetActive(false);
+            currentGun = gunBehaviour[1];
 
         }
     }
