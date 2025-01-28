@@ -13,7 +13,7 @@ public class WeaponBase : MonoBehaviour
     public bool isPistolReloading = false;
 
     // Rifle
-    private RifleBehaviour rifleBehaviour;
+    private RifleBehaviour rifleBehaviour => weaponManager.RifleBehaviour;
     public bool isRifleReloading = false;
     private bool isFiring = false; // Tracks if the fire button is held
     private Coroutine firingCoroutine;
@@ -31,9 +31,9 @@ public class WeaponBase : MonoBehaviour
     void Start()
     {
         weaponManager = GetComponent<WeaponManager>();
-        rifleBehaviour = GetComponent<RifleBehaviour>();
         pistolBehaviour = GetComponent<PistolBehaviour>();
         crosshair = GetComponent<Crosshair>();
+
 
 
     }

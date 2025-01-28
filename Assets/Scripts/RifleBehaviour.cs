@@ -12,7 +12,7 @@ public class RifleBehaviour : MonoBehaviour
     public int damage;
     public int ammoCapacity;
     public float fireRate;
-    private Transform firePoint;
+    [SerializeField] private Transform firePoint;
 
     [Header("Recoil")]
     [SerializeField] private float recoilAmount = 0.1f;
@@ -20,7 +20,7 @@ public class RifleBehaviour : MonoBehaviour
     [SerializeField] private float recoilRecoverySpeed = 5f;
     [SerializeField] private float recoilDuration = 0;
     private Vector3 rifleOriginalPosition;
-    private Transform rifleTransform;
+    [SerializeField] private Transform rifleTransform;
     private Ease Ease1 = Ease.Linear;
     private Ease Ease2 = Ease.Linear;
 
@@ -28,7 +28,7 @@ public class RifleBehaviour : MonoBehaviour
     [SerializeField] private float triggerDownDuration = 0f;
     [SerializeField] private float triggerRecoveryDuration = 0f;
     private Vector3 rifleTriggerOriginalPosition;
-    private Transform trigger;
+    [SerializeField] private Transform trigger;
     private Vector3 triggerDownRotation = new Vector3(45, 0, 0);
 
     [Header("Reload")]
@@ -38,7 +38,7 @@ public class RifleBehaviour : MonoBehaviour
     public float reloadDuration = 1;
     public float reloadReturnDuration = 1;
 
-    private Transform rifleMagTransform;
+    [SerializeField] private Transform rifleMagTransform;
     private Vector3 rifleMagOriginalPosition;
     private bool isRealoading = false;
 
@@ -55,7 +55,7 @@ public class RifleBehaviour : MonoBehaviour
         // Weapon base scrip
         weaponBase = GetComponent<WeaponBase>();
 
-
+/*
         // Fire point
         GameObject firePointObject = GameObject.Find("rifle_muzzle");
         firePoint = firePointObject.transform;
@@ -70,7 +70,7 @@ public class RifleBehaviour : MonoBehaviour
 
         // Magazine
         GameObject magTransform = GameObject.Find("rifle_mag");
-        rifleMagTransform = magTransform.transform;
+        rifleMagTransform = magTransform.transform;*/
 
 
 

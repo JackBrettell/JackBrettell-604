@@ -13,8 +13,11 @@ public class RifleBullet : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
-        damageable.TakeDamage(damage); 
-      
+        if (damageable != null)
+        {
+            damageable.TakeDamage(damage);
+        }
+
         Destroy(gameObject);
     }
 }

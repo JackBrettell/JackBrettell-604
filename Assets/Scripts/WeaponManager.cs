@@ -5,24 +5,17 @@ using DG.Tweening;
 
 public class WeaponManager : MonoBehaviour
 {
-    private RifleBehaviour rifleBehaviour;
-
-
-
-
-
-
+     [SerializeField] private RifleBehaviour rifleBehaviour;
+    public RifleBehaviour RifleBehaviour
+    {
+        get { return rifleBehaviour; }
+    }
+   
     public GameObject[] weapons;
+
 
     [HideInInspector] public bool isPistolEquipped = false;
     [HideInInspector] public bool isRifleEquipped = false;
-
-    public void Start()
-    {
-        rifleBehaviour = GetComponent<RifleBehaviour>();
-     
-
-    }
 
     public void OnWeaponSwitch(InputAction.CallbackContext context)
     {
@@ -43,13 +36,6 @@ public class WeaponManager : MonoBehaviour
         {
             isPistolEquipped = true;
             isRifleEquipped = false;
-            // Sequence
-            Sequence pistolEquipSequence = DOTween.Sequence();
-
-         
-           // pistolEquipSequence
-                // Sync with gun movement
-              //  .Join(weaponTransform.DOLocalMove(weaponOriginalPosition + reloadOffset, reloadDuration).SetEase(EaseReload))
 
             weapons[1].SetActive(false);
             weapons[0].SetActive(true);
@@ -64,15 +50,5 @@ public class WeaponManager : MonoBehaviour
             weapons[0].SetActive(false);
 
         }
-    }
-
-
-
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
