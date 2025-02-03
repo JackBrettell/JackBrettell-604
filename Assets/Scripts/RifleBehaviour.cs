@@ -5,8 +5,6 @@ using System.Collections;
 
 public class RifleBehaviour : GunBehaviour
 {
-    private bool isFiring = false;
-
 
 
     public void Start()

@@ -49,7 +49,7 @@ public class GunBehaviour : MonoBehaviour
     protected bool isFiring = false;
 
 
-    public void Start()
+    public virtual void Start()
     {
         // ===== Auto-assigns =====
 
