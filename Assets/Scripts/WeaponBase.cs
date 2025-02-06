@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 public class WeaponBase : MonoBehaviour
 {
     private WeaponManager weaponManager;
-    private Crosshair crosshair;
+    private HUD crosshair;
 
 
 
@@ -14,15 +14,13 @@ public class WeaponBase : MonoBehaviour
     void Start()
     {
         weaponManager = GetComponent<WeaponManager>();
-        crosshair = GetComponent<Crosshair>();
+        crosshair = GetComponent<HUD>();
     }
-
 
     public void OnReload(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-
             weaponManager.currentGun.ReloadingSequence();
             crosshair.crosshairScale();
         }
@@ -30,34 +28,18 @@ public class WeaponBase : MonoBehaviour
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        // Handle rifle firing logic
-        if (weaponManager.currentGun is RifleBehaviour)
+        if (context.started || context.performed)
         {
-            if (context.started || context.performed) // Button pressed or held
-            {
-                weaponManager.currentGun.Fire();
-
-            }
-            else if (context.canceled)
-            {
-                weaponManager.currentGun.StopFire();
-
-            }
+            weaponManager.currentGun.Fire();
+            crosshair.crosshairScale();
         }
-        // Handle pistol firing logic
-        else if (weaponManager.currentGun is PistolBehaviour)
+        else if (context.canceled)
         {
-            if (context.performed) // Button pressed or held
-            {
-                weaponManager.currentGun.Fire();
-
-                crosshair.crosshairScale();
-
-            }
+            weaponManager.currentGun.StopFire();
         }
+
     }
 
-
-
-
 }
+
+

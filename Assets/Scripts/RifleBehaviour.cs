@@ -1,35 +1,42 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using System.Collections;
 
 public class RifleBehaviour : GunBehaviour
 {
-
-
-    public void Start()
+    
+    public override void Start()
     {
         // ===== Auto-assigns =====
 
         // Weapon base scrip
-        weaponBase = GetComponent<WeaponBase>();
+       // weaponBase = GetComponent<WeaponBase>();
+        base.Start(); // Call the base Start()
 
-/*
-        // Fire point
-        GameObject firePointObject = GameObject.Find("gun_muzzle");
-        firePoint = firePointObject.transform;
+        // Initialize AmmoManager with ammo capacity
 
-        // Weapon
-        GameObject gunTransform = GameObject.Find("gun");
-        gunTransform = gunTransform.transform;
+        ammoCapacity = ammoManager.CurrentAmmo;
 
-        // Trigger
-        GameObject triggerTransform = GameObject.Find("gun_trigger");
-        trigger = triggerTransform.transform;
 
-        // Magazine
-        GameObject magTransform = GameObject.Find("gun_mag");
-        gunMagTransform = magTransform.transform;*/
+
+
+        /*
+                // Fire point
+                GameObject firePointObject = GameObject.Find("gun_muzzle");
+                firePoint = firePointObject.transform;
+
+                // Weapon
+                GameObject gunTransform = GameObject.Find("gun");
+                gunTransform = gunTransform.transform;
+
+                // Trigger
+                GameObject triggerTransform = GameObject.Find("gun_trigger");
+                trigger = triggerTransform.transform;
+
+                // Magazine
+                GameObject magTransform = GameObject.Find("gun_mag");
+                gunMagTransform = magTransform.transform;*/
 
 
 
@@ -69,6 +76,7 @@ public class RifleBehaviour : GunBehaviour
 
     public override void ReloadingSequence()
     {
+        base.ReloadingSequence(); // Call base reload logic
 
         Vector3 reloadOffset = Vector3.right * reloadMovement + Vector3.up * reloadMovementUp;
         Vector3 reloadRotation = new Vector3(0, 0, -25);
@@ -99,8 +107,9 @@ public class RifleBehaviour : GunBehaviour
                 .Join(gunTransform.DOLocalRotate(Vector3.zero, reloadReturnDuration, RotateMode.Fast).SetEase(EaseReload))
                 .OnComplete(() =>
                 {
-                  // finished reloading
-
+                    // finished reloading
+                    ammoManager.Reload();
+                    hud.updateAmmoCount();
                 });
 
 
@@ -110,15 +119,19 @@ public class RifleBehaviour : GunBehaviour
     {
         base.Fire();
 
-        if (!isFiring)
+
+        if (ammoManager.CurrentAmmo > 0) 
         {
-            isFiring = true;
-            StartCoroutine(AutoFireRifle());
-
+            if (!isFiring)
+            {
+                isFiring = true;
+                StartCoroutine(AutoFireRifle());
+            }
         }
-
-
-        Debug.Log(gameObject.name);
+        else
+        {
+            Debug.Log("Out of ammo!");
+        }
 
 
     }
@@ -141,6 +154,9 @@ public class RifleBehaviour : GunBehaviour
 
     public void FireRifle()
     {
+        ammoManager.ReduceAmmo();
+        hud.updateAmmoCount();
+
         if (isFiring) { FiringSequence();}
         else{ isFiring = false;}
     }

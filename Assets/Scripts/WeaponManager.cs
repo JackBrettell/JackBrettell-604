@@ -23,12 +23,9 @@ public class WeaponManager : MonoBehaviour
 
     private void SwitchToWeapon(int weaponIndex)
     {
-        if (weaponIndex < 0 || weaponIndex >= gunBehaviour.Length)
-        {
-            return; 
-        }
+        if (weaponIndex < 0 || weaponIndex >= gunBehaviour.Length)  return; 
 
-        // Disable all weapons
+        // Disable all weapons   
         foreach (var gun in gunBehaviour)
         {
             gun.gameObject.SetActive(false);

@@ -4,12 +4,16 @@ using UnityEngine;
 public class GunBehaviour : MonoBehaviour
 {
     public WeaponBase weaponBase;
+    public AmmoManager ammoManager;
+    public HUD hud;
+
 
     [Header("Weapon Settings")]
     [SerializeField] protected GameObject bulletPrefab;
     [SerializeField] protected float bulletSpeed = 20f;
     public int damage;
-    public int ammoCapacity;
+    [SerializeField] protected int ammoCapacity = 30;
+
     public float fireRate;
     [SerializeField] protected Transform firePoint;
 
@@ -54,7 +58,10 @@ public class GunBehaviour : MonoBehaviour
         // ===== Auto-assigns =====
 
         // Weapon base scrip
-        weaponBase = GetComponent<WeaponBase>();
+      //  weaponBase = GetComponent<WeaponBase>();
+      //  ammoManager = GetComponent<AmmoManager>();
+
+
 
         // Set gun part positions 
         gunOriginalPosition = gunTransform.localPosition;
