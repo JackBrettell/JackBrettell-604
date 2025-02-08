@@ -8,8 +8,6 @@ public class WeaponBase : MonoBehaviour
     private WeaponManager weaponManager;
     private HUD crosshair;
 
-
-
     // Start is called before the first frame update
     void Start()
     {

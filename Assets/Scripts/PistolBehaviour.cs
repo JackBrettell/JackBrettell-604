@@ -27,10 +27,10 @@ public class PistolBehaviour : GunBehaviour
     [SerializeField] private float triggerRecoilDuration = 0f;
     public override void Start()
     {
+        base.Start(); // Call the base Start()
 
         // ===== Auto-assigns =====
-   
-
+        ammoCapacity = ammoManager.CurrentAmmo;
 
         // Set gun part positions 
         gunOriginalPosition = gunTransform.localPosition;
@@ -81,13 +81,11 @@ public class PistolBehaviour : GunBehaviour
             .Append(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false))
             .OnComplete(() =>
             {
-               // weaponBase.gunAmmoCount = 10;
+                ammoManager.Reload();
+                hud.updateAmmoCount();
 
-              
 
-               // weaponBase.isgunReloading = false;
 
-              
 
             });
 
@@ -107,7 +105,7 @@ public class PistolBehaviour : GunBehaviour
         Vector3 recoilOffset = Vector3.back * recoilAmount;
         Vector3 slideOffset = Vector3.back * slideRecoil;
 
-        if (canFire)
+        if (canFire && ammoManager.CurrentAmmo > 0)
         {
             canFire = false; 
 
@@ -134,8 +132,27 @@ public class PistolBehaviour : GunBehaviour
                           .Join(gunTransform.DOLocalMove(gunOriginalPosition, recoilRecoverySpeed, false));
 
 
+            ammoManager.ReduceAmmo();
+            hud.updateAmmoCount();
+
             DOVirtual.DelayedCall(1f / fireRate, () => { canFire = true; });
         }
+        else if ( canFire && ammoManager.CurrentAmmo == 0 )
+        {
+            Sequence firingEmptySequence = DOTween.Sequence();
+            firingEmptySequence
+
+                          // Trigger down
+                          .Append(trigger.DOLocalRotate(triggerDownRotation, triggerRecoilDuration, RotateMode.Fast))
+                          // Slide goes back
+                          .Join(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
+                          // Trigger returns
+                          .Append(trigger.DOLocalRotate(gunTriggerOriginalPosition, triggerRecoveryDuration, RotateMode.Fast))
+                          // Slide returns
+                          .Join(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false));
+
+        }
+
         /*else if (currentAmmoCount == 0)
         {
             // Handle empty fire animations

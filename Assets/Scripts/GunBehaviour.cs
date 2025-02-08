@@ -43,6 +43,7 @@ public class GunBehaviour : MonoBehaviour
 
     [SerializeField] protected Transform gunMagTransform;
     protected Vector3 gunMagOriginalPosition;
+    private Quaternion gunInitialRotation;
     protected bool isRealoading = false;
 
     public float gunMagMovemement = 0;
@@ -52,25 +53,64 @@ public class GunBehaviour : MonoBehaviour
     protected bool isReloading = false;
     protected bool isFiring = false;
 
+    [Header("Sway Settings")]
+    [SerializeField] private float swayAmount = 0.02f;      // How much the gun moves
+    [SerializeField] private float maxSwayAmount = 0.06f;   // Max movement limit
+    [SerializeField] private float swaySmoothness = 5f;     // Damping effect
+    [SerializeField] private float rotationSwayAmount = 4f; // Rotation amount
+
+
 
     public virtual void Start()
     {
         // ===== Auto-assigns =====
 
         // Weapon base scrip
-      //  weaponBase = GetComponent<WeaponBase>();
-      //  ammoManager = GetComponent<AmmoManager>();
+        //  weaponBase = GetComponent<WeaponBase>();
+        //  ammoManager = GetComponent<AmmoManager>();
 
+        if (ammoManager == null)
+            ammoManager = GetComponent<AmmoManager>();
 
+        InitializeAmmo();
 
         // Set gun part positions 
         gunOriginalPosition = gunTransform.localPosition;
         gunTriggerOriginalPosition = trigger.localPosition;
         gunMagOriginalPosition = gunMagTransform.localPosition;
+        gunInitialRotation = transform.localRotation;
 
 
 
 
+    }
+    private void Update()
+    {
+        ApplySway();
+    }
+
+    private void ApplySway()
+    {
+        // Get mouse input 
+        float mouseX = Input.GetAxis("Mouse X") * swayAmount;
+        float mouseY = Input.GetAxis("Mouse Y") * swayAmount;
+
+        // Clamp sway movement
+        mouseX = Mathf.Clamp(mouseX, -maxSwayAmount, maxSwayAmount);
+        mouseY = Mathf.Clamp(mouseY, -maxSwayAmount, maxSwayAmount);
+
+        // Calculate new position and rotation then move to target pos
+        Vector3 targetPosition = new Vector3(mouseX, mouseY, 0) + gunOriginalPosition;
+        Quaternion targetRotation = Quaternion.Euler(new Vector3(-mouseY * rotationSwayAmount, mouseX * rotationSwayAmount, 0)) * gunInitialRotation;
+
+        transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, Time.deltaTime * swaySmoothness);
+        transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * swaySmoothness);
+    }
+
+    public void InitializeAmmo()
+    {
+   
+            ammoManager.Initialize(ammoCapacity);
     }
 
     public virtual void FiringSequence()

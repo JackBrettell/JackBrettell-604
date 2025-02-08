@@ -1,17 +1,17 @@
-using TMPro;
-using System;
 using UnityEngine;
+
 public class AmmoManager : MonoBehaviour
 {
-    [SerializeField] private int maxAmmo = 30;  // Default value, can be set in Inspector
+    [SerializeField] private int maxAmmo; 
     private int currentAmmo;
 
-    public int CurrentAmmo => currentAmmo; // Read current ammo
-    public int MaxAmmo => maxAmmo; // Read max ammo
+    public int CurrentAmmo => currentAmmo;
+    public int MaxAmmo => maxAmmo;
 
-    private void Awake()
+    public void Initialize(int maxAmmo)
     {
-        currentAmmo = maxAmmo; // Initialize ammo properly
+        this.maxAmmo = maxAmmo;
+        currentAmmo = maxAmmo;
     }
 
     public void Reload()
@@ -21,8 +21,7 @@ public class AmmoManager : MonoBehaviour
 
     public void ReduceAmmo()
     {
-        currentAmmo--;
+        if (currentAmmo > 0)
+            currentAmmo--;
     }
 }
-
-

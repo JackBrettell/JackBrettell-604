@@ -119,8 +119,7 @@ public class RifleBehaviour : GunBehaviour
     {
         base.Fire();
 
-
-        if (ammoManager.CurrentAmmo > 0) 
+        if (ammoManager.CurrentAmmo > 0)
         {
             if (!isFiring)
             {
@@ -132,8 +131,6 @@ public class RifleBehaviour : GunBehaviour
         {
             Debug.Log("Out of ammo!");
         }
-
-
     }
     public override void StopFire()
     {
@@ -145,7 +142,7 @@ public class RifleBehaviour : GunBehaviour
 
     private IEnumerator AutoFireRifle()
     {
-        while (isFiring)
+        while (isFiring && ammoManager.CurrentAmmo > 0)
         {
             FireRifle();
             yield return new WaitForSeconds(1f / fireRate);
@@ -154,10 +151,15 @@ public class RifleBehaviour : GunBehaviour
 
     public void FireRifle()
     {
-        ammoManager.ReduceAmmo();
-        hud.updateAmmoCount();
-
-        if (isFiring) { FiringSequence();}
-        else{ isFiring = false;}
+        if (ammoManager.CurrentAmmo > 0)
+        {
+            ammoManager.ReduceAmmo();
+            hud.updateAmmoCount();
+            FiringSequence();
+        }
+        else
+        {
+            isFiring = false;
+        }
     }
 }
