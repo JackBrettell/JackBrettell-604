@@ -16,7 +16,6 @@ public class RifleBehaviour : GunBehaviour
 
         // Initialize AmmoManager with ammo capacity
 
-        ammoCapacity = ammoManager.CurrentAmmo;
 
 
 
@@ -93,11 +92,10 @@ public class RifleBehaviour : GunBehaviour
                 .Join(gunTransform.DOLocalMove(gunOriginalPosition + reloadOffset, reloadDuration).SetEase(EaseReload))
                 .Join(gunTransform.DOLocalRotate(reloadRotation, reloadDuration, RotateMode.Fast).SetEase(EaseReload))
                 .Join(gunTransform.DOLocalRotate(reloadRotationUp, reloadDuration, RotateMode.Fast).SetEase(EaseReload))
-                // .AppendInterval(1f)
+
                 // Lower magazine
                 .Append(gunMagTransform.DOLocalMove(gunMagOffsetDowm, gunMagEjectDuration).SetEase(Ease.Linear))
                 .Append(gunMagTransform.DOLocalMove(gunMagOffsetBack, gunMagEjectDuration).SetEase(Ease.Linear))
-
 
                 // Return magazine
                 .Append(gunMagTransform.DOLocalMove(gunMagOffsetDowm, gunMagReturnDuration).SetEase(Ease.Linear))
@@ -111,8 +109,6 @@ public class RifleBehaviour : GunBehaviour
                     ammoManager.Reload();
                     hud.updateAmmoCount();
                 });
-
-
     }
 
     public override void Fire()

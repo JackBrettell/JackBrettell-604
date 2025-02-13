@@ -6,6 +6,8 @@ public class StoreMenus : MonoBehaviour
     public GameObject personalPage;
     public GameObject weaponsPage;
 
+    public HUD hud;
+
     public enum shopState
     {
         MainPage,
@@ -26,18 +28,21 @@ public class StoreMenus : MonoBehaviour
     public void OnPersonalUpgrades()
     {
         SetMenu(shopState.PersonalPage);
+
+
     }
 
     public void OnWeaponsUpgrades()
     {
         SetMenu(shopState.WeaponsPage);
+
     }
 
 
     public void CloseAllMenus()
     {
         SetMenu(shopState.None);
-
+        hud.hideHud();
     }
 
 }

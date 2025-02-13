@@ -29,9 +29,6 @@ public class PistolBehaviour : GunBehaviour
     {
         base.Start(); // Call the base Start()
 
-        // ===== Auto-assigns =====
-        ammoCapacity = ammoManager.CurrentAmmo;
-
         // Set gun part positions 
         gunOriginalPosition = gunTransform.localPosition;
         slideOriginalPosition = slide.localPosition;

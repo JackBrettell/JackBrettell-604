@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GunBehaviour : MonoBehaviour
 {
-    public WeaponBase weaponBase;
+    public WeaponInputManager weaponBase;
     public AmmoManager ammoManager;
     public HUD hud;
 
@@ -91,7 +91,7 @@ public class GunBehaviour : MonoBehaviour
 
     private void ApplySway()
     {
-        // Get mouse input 
+        // Mouse input 
         float mouseX = Input.GetAxis("Mouse X") * swayAmount;
         float mouseY = Input.GetAxis("Mouse Y") * swayAmount;
 

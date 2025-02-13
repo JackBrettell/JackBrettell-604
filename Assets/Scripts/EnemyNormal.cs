@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 
@@ -20,6 +21,8 @@ public class EnemyNormal : Enemy, IDamageable
         // Initialize values
         healthSlider.maxValue = health;
         healthSlider.value = health;
+
+        ToggleKinematics();
     }
 
     public void Update()
@@ -38,8 +41,22 @@ public class EnemyNormal : Enemy, IDamageable
 
         if (health < 0)
         {
-            Destroy(gameObject);
+          //  Destroy(gameObject);
+            NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
+            navMeshAgent.enabled = false;
+
+            ToggleKinematics();
+
 
         };
+    }
+
+    public void ToggleKinematics()
+    {
+        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in rigidbodies)
+        {
+            rb.isKinematic = !rb.isKinematic;
+        }
     }
 }

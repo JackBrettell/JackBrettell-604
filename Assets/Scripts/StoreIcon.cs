@@ -1,10 +1,11 @@
+using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class StoreIcon : MonoBehaviour
 {
     public GameObject player;
-    public GameObject storeIcon;
+    public GameObject storeCanvas;
     public GameObject storeMenu;
     public float triggerRange = 1;
     public float rotationSpeed = 2f; // Speed of the rotation
@@ -14,6 +15,7 @@ public class StoreIcon : MonoBehaviour
     private bool isInRange = false;
     private PlayerCameraController PlayerCameraController; // Reference to the CameraControls script
     private StoreMenus storeMenus;
+    public HUD hud;
 
     private void Start()
     {
@@ -22,23 +24,16 @@ public class StoreIcon : MonoBehaviour
 
         // Get the CameraControls script from the player GameObject
         PlayerCameraController = player.GetComponent<PlayerCameraController>();
-        if (PlayerCameraController == null)
-        {
-            Debug.LogError("CameraControls script not found on the player GameObject.");
-        }
 
         // Get the StoreMenus script from the same GameObject or a child GameObject
         storeMenus = GetComponent<StoreMenus>();
-        if (storeMenus == null)
-        {
-            Debug.LogError("StoreMenus script not found on the GameObject.");
-        }
     }
 
     void Update()
     {
         // Calculate distance between player and store
-        playerDistance = Vector3.Distance(player.transform.position, transform.position);
+        playerDistance = Vector3.Distance(player.transform.position, storeCanvas.transform.position);
+
 
         RotateIcon();
     }
@@ -47,71 +42,70 @@ public class StoreIcon : MonoBehaviour
     {
         if (context.performed && isInRange)
         {
+            Debug.LogWarning("Interact pressed");
             if (isStoreOpen)
             {
-                CloseMenu();
+                storeMenus.CloseAllMenus();
+
+                isStoreOpen = false;
+                PlayerCameraController.enabled = true;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+
+
+
             }
             else
             {
                 OpenMenu();
+
             }
         }
     }
 
     public void OpenMenu()
     {
-        if (storeMenus != null)
-        {
-            storeMenus.CloseAllMenus();
-        }
-        else
-        {
-            Debug.LogError("storeMenus reference is missing.");
-        }
+        hud.hideHud();
 
-        storeMenu.SetActive(true); 
+        storeMenus.CloseAllMenus();
+
+
+
+
+        storeMenu.SetActive(true);
         isStoreOpen = true;
 
-        // Disable the CameraControls script
-        if (PlayerCameraController != null)
-        {
-            PlayerCameraController.enabled = false;
-        }
+        // Make cursor is unlocked and visible
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        PlayerCameraController.enabled = false;
+       
     }
 
-    public void CloseMenu()
-    {
-        storeMenu.SetActive(false);
-        isStoreOpen = false;
 
-        // Re-enable the CameraControls script
-        if (PlayerCameraController != null)
-        {
-            PlayerCameraController.enabled = true;
-        }
-    }
 
     public void RotateIcon()
     {
         // Rotate store icon to face player
-        Vector3 directionToPlayer = player.transform.position - transform.position;
+        Vector3 directionToPlayer = player.transform.position - storeCanvas.transform.position;
         directionToPlayer.y = 0;
 
         if (directionToPlayer != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            storeCanvas.transform.rotation = Quaternion.Slerp(storeCanvas.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
         if (playerDistance <= triggerRange)
         {
             // Show/hide the store based on distance
-            storeIcon.SetActive(true);
+            storeCanvas.SetActive(true);
             isInRange = true;
         }
         else
         {
-            storeIcon.SetActive(false);
+            storeCanvas.SetActive(false);
             isInRange = false;
         }
     }

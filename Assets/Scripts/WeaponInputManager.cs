@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using JetBrains.Annotations;
 
-public class WeaponBase : MonoBehaviour
+public class WeaponInputManager : MonoBehaviour
 {
     private WeaponManager weaponManager;
     private HUD crosshair;

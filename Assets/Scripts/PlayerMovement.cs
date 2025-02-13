@@ -52,34 +52,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     public void OnSprint(InputAction.CallbackContext context)
-
     {
-
-        if (context.canceled)
-        {
-
-            Debug.LogError("cancelled");
-            speed = baseSpeed;
-        }
-
-        else if (context.started)
-
-        {
-            speed = sprintSpeed;
-            Debug.LogError("set");
-
-        }
-
-
-
-        Debug.LogError("held");
-
+        if (context.canceled){ speed = baseSpeed; }
+        else if (context.started) { speed = sprintSpeed; }
     }
     private IEnumerator StartSlide()
     {
-        isSliding = true;                                // Set sliding state
-        float originalSpeed = speed;                    // Save original speed
-        speed = slideSpeed;                             // Increase speed
+        isSliding = true;               // Set sliding state
+        float originalSpeed = speed;    // Save original speed
+        speed = slideSpeed;             // Increase speed
 
         // Optionally reduce player's height (simulate crouching)
         transform.localScale = new Vector3(playerCamera.localScale.x, 0.5f, playerCamera.localScale.z);
