@@ -3,7 +3,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 
 
-public class EnemyNormal : Enemy
+public class EnemyNormal : Enemy, IDamageable
 {
     private Slider healthSlider;
     private GameObject healthSliderObj;
