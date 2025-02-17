@@ -10,7 +10,6 @@ public class EnemySpawning : MonoBehaviour
 
 
 
-
     void Start()
     {
         StartCoroutine(SpawnEnemies());
@@ -28,4 +27,6 @@ public class EnemySpawning : MonoBehaviour
             yield return new WaitForSeconds(spawnRate);
         }
     }
+
+
 }

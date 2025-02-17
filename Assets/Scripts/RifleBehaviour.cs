@@ -125,7 +125,7 @@ public class RifleBehaviour : GunBehaviour
         }
         else
         {
-            Debug.Log("Out of ammo!");
+          //  Debug.Log("Out of ammo!");
         }
     }
     public override void StopFire()

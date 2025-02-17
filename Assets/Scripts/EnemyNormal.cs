@@ -7,22 +7,28 @@ public class EnemyNormal : Enemy, IDamageable
 {
     private Slider healthSlider;
     private GameObject healthSliderObj;
-
     private GameObject player;
+    private Animator animator;
 
 
-    private void Start()
+    private void Awake()
     {
 
         player = GameObject.Find("Player");
         healthSliderObj = GameObject.Find("HealthBar");
         healthSlider = healthSliderObj.GetComponent<Slider>();
 
+        animator = GetComponentInChildren<Animator>();
+
+        if (animator == null)
+        {
+            Debug.Log("Animator not found");
+        }
+
         // Initialize values
         healthSlider.maxValue = health;
         healthSlider.value = health;
 
-        ToggleKinematics();
     }
 
     public void Update()
@@ -35,28 +41,31 @@ public class EnemyNormal : Enemy, IDamageable
 
     public override void TakeDamage(int damage)
     {
-  
         health -= damage;
         Debug.Log($"{damage} damage received. Health: {health}");
 
         if (health < 0)
         {
-          //  Destroy(gameObject);
+            //  Destroy(gameObject);
             NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.enabled = false;
+
+            animator.enabled = false;
 
             ToggleKinematics();
 
 
         };
     }
-
-    public void ToggleKinematics()
+    public virtual void ToggleKinematics()
     {
         Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody rb in rigidbodies)
         {
             rb.isKinematic = !rb.isKinematic;
+
+            Debug.Log("Kinematics toggled");
         }
     }
 }
+
