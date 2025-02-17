@@ -3,7 +3,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 
 
-public class EnemyNormal : Enemy, IDamageable
+public class EnemyNormal : Enemy
 {
     private Slider healthSlider;
     private GameObject healthSliderObj;
@@ -11,8 +11,11 @@ public class EnemyNormal : Enemy, IDamageable
     private Animator animator;
 
 
+
     private void Awake()
     {
+        health = 10;
+        damage = 10;
 
         player = GameObject.Find("Player");
         healthSliderObj = GameObject.Find("HealthBar");
@@ -52,8 +55,8 @@ public class EnemyNormal : Enemy, IDamageable
 
             animator.enabled = false;
 
-            ToggleKinematics();
-
+            //ToggleKinematics();
+            EnemyDeath();
 
         };
     }

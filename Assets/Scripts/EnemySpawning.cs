@@ -3,15 +3,15 @@ using System.Collections;
 
 public class EnemySpawning : MonoBehaviour
 {
-    [SerializeField] private GameObject[] spawnPoint;
-    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private float spawnRate = 2f;
     [SerializeField] private int maxEnemies = 5;
 
-
+    private EnemyFactory enemyFactory;
 
     void Start()
     {
+        enemyFactory = FindFirstObjectByType<EnemyFactory>();
         StartCoroutine(SpawnEnemies());
     }
 
@@ -21,12 +21,12 @@ public class EnemySpawning : MonoBehaviour
         {
             if (GameObject.FindGameObjectsWithTag("Enemy").Length < maxEnemies)
             {
-                int randomIndex = Random.Range(0, spawnPoint.Length);
-                Instantiate(enemyPrefab, spawnPoint[randomIndex].transform.position, Quaternion.identity);
+                int randomIndex = Random.Range(0, spawnPoints.Length);
+                EnemyType randomType = (EnemyType)Random.Range(0, System.Enum.GetValues(typeof(EnemyType)).Length);
+
+                enemyFactory.GetEnemy(randomType, spawnPoints[randomIndex].position, Quaternion.identity);
             }
             yield return new WaitForSeconds(spawnRate);
         }
     }
-
-
 }

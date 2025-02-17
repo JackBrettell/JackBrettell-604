@@ -1,44 +1,78 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+public enum EnemyType
+{
+    Zombie,
+    Flying,
+    Strong
+}
+
 public class EnemyFactory : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
-    private Queue<GameObject> enemyPool = new Queue<GameObject>();
-    private int poolSize = 10; // Adjust based on game needs
-
-    private void Start()
+    [System.Serializable]
+    public struct EnemyPrefab
     {
-        // Pre-instantiate enemies and add to pool
-        for (int i = 0; i < poolSize; i++)
+        public EnemyType type;
+        public GameObject prefab;
+    }
+
+    [SerializeField] private EnemyPrefab[] enemyPrefabs;
+    private Dictionary<EnemyType, Queue<GameObject>> enemyPools = new Dictionary<EnemyType, Queue<GameObject>>();
+    private Dictionary<EnemyType, GameObject> enemyPrefabDict = new Dictionary<EnemyType, GameObject>();
+
+    private int poolSize = 20;
+
+    private void Awake()
+    {
+        // Initialize dictionaries
+        foreach (var enemy in enemyPrefabs)
         {
-            GameObject enemy = Instantiate(enemyPrefab);
-            enemy.SetActive(false);
-            enemyPool.Enqueue(enemy);
+            enemyPrefabDict[enemy.type] = enemy.prefab;
+            enemyPools[enemy.type] = new Queue<GameObject>();
+
+            // Preload enemies into pool
+            for (int i = 0; i < poolSize; i++)
+            {
+                GameObject obj = Instantiate(enemy.prefab);
+                obj.SetActive(false);
+                enemyPools[enemy.type].Enqueue(obj);
+            }
         }
     }
 
-    public GameObject GetEnemy(Vector3 position, Quaternion rotation)
+    public GameObject GetEnemy(EnemyType type, Vector3 position, Quaternion rotation)
     {
+ 
         GameObject enemy;
-        if (enemyPool.Count > 0)
+
+        if (enemyPools[type].Count > 0)
         {
-            enemy = enemyPool.Dequeue();
+            enemy = enemyPools[type].Dequeue();
         }
         else
         {
-            enemy = Instantiate(enemyPrefab);
+            enemy = Instantiate(enemyPrefabDict[type]);
         }
 
         enemy.transform.position = position;
         enemy.transform.rotation = rotation;
         enemy.SetActive(true);
+
+        // Assign enemy type before returning
+        Enemy enemyScript = enemy.GetComponent<Enemy>();
+        if (enemyScript != null)
+        {
+            enemyScript.enemyType = type; 
+        }
+
         return enemy;
     }
 
-    public void ReturnEnemy(GameObject enemy)
+
+    public void ReturnEnemy(EnemyType type, GameObject enemy)
     {
         enemy.SetActive(false);
-        enemyPool.Enqueue(enemy);
+        enemyPools[type].Enqueue(enemy);
     }
 }
