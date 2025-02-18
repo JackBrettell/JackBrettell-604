@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using static Enemy;
+using Unity.VisualScripting;
 
 public class WaveManager : MonoBehaviour
 {
@@ -16,8 +18,12 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private float spawnDelay = 1.5f;
 
     private EnemyFactory enemyFactory;
-    private int currentWaveIndex = 0;
+    public int currentWaveIndex = 0;
     private int activeEnemies = 0;
+
+    public delegate void RoundOverEvent();
+    public event RoundOverEvent OnRoundFinished;
+
 
     void Start()
     {
@@ -27,6 +33,8 @@ public class WaveManager : MonoBehaviour
 
     private IEnumerator StartWave()
     {
+        
+
         if (currentWaveIndex >= waves.Length)
         {
             Debug.Log("All waves completed!");
@@ -42,6 +50,7 @@ public class WaveManager : MonoBehaviour
             yield return null;
         }
 
+        OnRoundFinished?.Invoke();
         currentWaveIndex++;
         StartCoroutine(StartWave()); // Start next wave
     }
@@ -75,5 +84,11 @@ public class WaveManager : MonoBehaviour
     private IEnumerator WaitBeforeSpawn()
     {
         yield return new WaitForSeconds(spawnDelay);
+    }
+
+    private void Update()
+    {
+    Debug.Log(currentWaveIndex);
+
     }
 }
