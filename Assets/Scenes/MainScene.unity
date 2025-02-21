@@ -17589,8 +17589,8 @@ MonoBehaviour:
   gunBehaviour:
   - {fileID: 553669754}
   - {fileID: 3157565929509105674}
-  ammoManager: {fileID: 0}
-  hud: {fileID: 0}
+  ammoManager: {fileID: 1129827414}
+  hud: {fileID: 1129827413}
 --- !u!114 &577784215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17825,6 +17825,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: add21b410e230ed46869a9feee63ba2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HUD: {fileID: 1129827413}
+  weaponManager: {fileID: 577784213}
 --- !u!1001 &579497034
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25562,6 +25564,22 @@ PrefabInstance:
     - target: {fileID: 198000012204298494, guid: 96a94de897daf7249a824fb908bb12a2, type: 3}
       propertyPath: randomSeed
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000012204298494, guid: 96a94de897daf7249a824fb908bb12a2, type: 3}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000012204298494, guid: 96a94de897daf7249a824fb908bb12a2, type: 3}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000012204298494, guid: 96a94de897daf7249a824fb908bb12a2, type: 3}
+      propertyPath: InitialModule.startRotationX.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000012204298494, guid: 96a94de897daf7249a824fb908bb12a2, type: 3}
+      propertyPath: InitialModule.startRotationY.minMaxState
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -58077,7 +58095,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2016242194
 Transform:
   m_ObjectHideFlags: 0

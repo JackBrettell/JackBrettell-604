@@ -57,6 +57,8 @@ public class RifleBehaviour : GunBehaviour
         // Instantiate bullet
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
+        hud.crosshairScale();
+
         // Set the bullet's damage
         GunBullet bulletScript = bullet.GetComponent<GunBullet>();
         bulletScript.damage = damage;

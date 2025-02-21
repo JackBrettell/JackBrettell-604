@@ -109,6 +109,8 @@ public class PistolBehaviour : GunBehaviour
             // Instantiate bullet
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
+            hud.crosshairScale();
+
             // Add velocity to the bullet
             Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
             bulletRigidbody.linearVelocity = firePoint.forward * bulletSpeed;

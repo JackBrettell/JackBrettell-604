@@ -72,6 +72,7 @@ public class EnemyFactory : MonoBehaviour
 
     public void ReturnEnemy(EnemyType type, GameObject enemy)
     {
+        Debug.Log("Returning enemy to pool");
         enemy.SetActive(false);
         enemyPools[type].Enqueue(enemy);
     }

@@ -86,9 +86,5 @@ public class WaveManager : MonoBehaviour
         yield return new WaitForSeconds(spawnDelay);
     }
 
-    private void Update()
-    {
-    Debug.Log(currentWaveIndex);
 
-    }
 }

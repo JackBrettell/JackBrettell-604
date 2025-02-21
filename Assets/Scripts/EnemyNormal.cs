@@ -21,6 +21,7 @@ public class EnemyNormal : Enemy, IDamageable
         healthSliderObj = GameObject.Find("HealthBar");
         healthSlider = healthSliderObj.GetComponent<Slider>();
 
+
         animator = GetComponentInChildren<Animator>();
 
         if (animator == null)

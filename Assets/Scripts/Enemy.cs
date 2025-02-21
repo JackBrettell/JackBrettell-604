@@ -32,11 +32,9 @@ public class Enemy : MonoBehaviour, IDamageable
         ragdollBodies = GetComponentsInChildren<Rigidbody>();
         ragdollColliders = GetComponentsInChildren<Collider>();
 
-        Debug.Log("Ragdoll Bodies Found: " + ragdollBodies.Length);
 
 
         mainCollider = GetComponent<Collider>(); // Store main collider
-
 
 
 
@@ -79,22 +77,21 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private IEnumerator Despawn()
     {
+        Debug.Log("Despawn coroutine started");
         yield return new WaitForSeconds(timeTilDespawn);
+        Debug.Log("Wait time completed");
 
-        // Deactivate ragdoll
         ToggleRagdoll(false);
-
-        // Re-enable the main collider
         if (mainCollider != null)
         {
             mainCollider.enabled = true;
         }
 
-        // Notify wave manager
         OnDeath?.Invoke();
+        Debug.Log("OnDeath event invoked");
 
-        // Return to pool
         factory.ReturnEnemy(enemyType, gameObject);
+        Debug.Log("Enemy returned to pool");
     }
 
     private void ToggleRagdoll(bool isRagdoll)
@@ -109,7 +106,6 @@ public class Enemy : MonoBehaviour, IDamageable
         foreach (var rb in ragdollBodies)
         {
             rb.isKinematic = !isRagdoll;
-            Debug.Log($"Rigidbody {rb.name} is kinematic: {rb.isKinematic}");
         }
 
         foreach (var col in ragdollColliders)

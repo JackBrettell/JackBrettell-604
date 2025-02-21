@@ -5,14 +5,13 @@ using JetBrains.Annotations;
 
 public class WeaponInputManager : MonoBehaviour
 {
-    private WeaponManager weaponManager;
-    private HUD crosshair;
+   [SerializeField] private HUD HUD;
+   [SerializeField] private WeaponManager weaponManager;
 
     // Start is called before the first frame update
     void Start()
     {
         weaponManager = GetComponent<WeaponManager>();
-        crosshair = GetComponent<HUD>();
     }
 
     public void OnReload(InputAction.CallbackContext context)
@@ -20,7 +19,6 @@ public class WeaponInputManager : MonoBehaviour
         if (context.performed)
         {
             weaponManager.currentGun.ReloadingSequence();
-            crosshair.crosshairScale();
         }
     }
 
@@ -29,7 +27,6 @@ public class WeaponInputManager : MonoBehaviour
         if (context.started || context.performed)
         {
             weaponManager.currentGun.Fire();
-            crosshair.crosshairScale();
         }
         else if (context.canceled)
         {
