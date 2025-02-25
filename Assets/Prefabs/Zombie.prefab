@@ -88,8 +88,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.010515449, y: 0.016184269, z: 0.0056586266}
-  m_Center: {x: -0.00038239986, y: -0.0033544903, z: 0.002229331}
+  m_Size: {x: 0.010515449, y: 0.016184269, z: 0.004983181}
+  m_Center: {x: -0.0003824001, y: -0.0033544903, z: -0.00038842222}
 --- !u!54 &2987750908609426369
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1637,7 +1637,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2677346601419470826}
-  - component: {fileID: 1639591805995568079}
   - component: {fileID: 2195927424991735769}
   m_Layer: 0
   m_Name: mixamorig:Hips
@@ -1664,27 +1663,6 @@ Transform:
   - {fileID: 6032385771070741195}
   m_Father: {fileID: 2009494891797534730}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1639591805995568079
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5924297596901755522}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.005184744, y: 0.010415043, z: 0.005542334}
-  m_Center: {x: -0.0014783542, y: 0.0037276994, z: 0.0033975365}
 --- !u!54 &2195927424991735769
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1725,7 +1703,7 @@ GameObject:
   - component: {fileID: 7856911975836292187}
   - component: {fileID: 7631467830617134953}
   m_Layer: 0
-  m_Name: mixamorig:Head
+  m_Name: WeakPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2315,7 +2293,7 @@ GameObject:
   - component: {fileID: 4775292954740424843}
   - component: {fileID: 7661454999291605578}
   - component: {fileID: 2033999729832404745}
-  - component: {fileID: 1346097525890050338}
+  - component: {fileID: 5733144891617903437}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Enemy
@@ -2400,7 +2378,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8317462834783113182}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -2428,7 +2406,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyType: 0
---- !u!136 &1346097525890050338
+  ragdollColliders:
+  - {fileID: 6489395522571615246}
+  - {fileID: 7478016374386658410}
+  - {fileID: 5393988057876460410}
+  - {fileID: 4777680793129246173}
+  - {fileID: 4857398013169214110}
+--- !u!136 &5733144891617903437
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2448,9 +2432,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2
+  m_Height: 1.6027849
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.19860756, z: 0}
 --- !u!1 &8368266157450218143
 GameObject:
   m_ObjectHideFlags: 0

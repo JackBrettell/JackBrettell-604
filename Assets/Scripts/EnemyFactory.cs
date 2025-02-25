@@ -21,6 +21,7 @@ public class EnemyFactory : MonoBehaviour
     private Dictionary<EnemyType, Queue<Enemy>> enemyPools = new();
     private Dictionary<EnemyType, Enemy> enemyPrefabDict = new();
 
+    [SerializeField] private GameObject player;
     private int poolSize = 20;
 
     private void Awake()
@@ -71,6 +72,8 @@ public class EnemyFactory : MonoBehaviour
         {
             enemyScript.enemyType = type; 
         }
+        enemy.Initilize(this, player);
+
 
         return enemy;
     }

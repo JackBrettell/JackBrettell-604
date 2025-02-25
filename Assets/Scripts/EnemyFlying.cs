@@ -19,14 +19,19 @@ public class EnemyFlying : Enemy, IDamageable
 
         agent = GetComponent<NavMeshAgent>();
 
+
         base.Awake();
+
+        ToggleRagdoll(true);
+
     }
 
 
-    public void Update()
+    protected override void Update()
     {
         FollowPlayer();
 
+        base.Update();
     }
 
     void FollowPlayer()
@@ -44,19 +49,11 @@ public class EnemyFlying : Enemy, IDamageable
             agent.SetDestination(transform.position);
         }
 
-        Vector3 targetPosition = agent.destination;
-
-
-        // Apply a height offset
-        targetPosition.y = flyHeight;
-
-
-
     }
 
 
 
-    public override void TakeDamage(int damage)
+   /* public override void TakeDamage(int damage)
     {
         health -= damage;
         Debug.Log($"{damage} damage received. Health: {health}");
@@ -67,13 +64,20 @@ public class EnemyFlying : Enemy, IDamageable
             NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.enabled = false;
 
-            animator.enabled = false;
+            if (animator != null)
+            {
+                animator.enabled = false;
+            }
+            else
+            {
+                Debug.Log("Animator not found!");
+            }
 
             //ToggleKinematics();
             EnemyDeath();
 
         };
-    }
+    }*/
     public virtual void ToggleKinematics()
     {
         Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();

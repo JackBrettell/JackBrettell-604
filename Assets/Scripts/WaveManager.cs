@@ -58,8 +58,8 @@ public class WaveManager : MonoBehaviour
     private IEnumerator SpawnEnemies(Wave wave)
     {
         SpawnEnemyType(EnemyType.Zombie, wave.zombieCount);
-        //SpawnEnemyType(EnemyType.Flying, wave.flyingCount);
-       // SpawnEnemyType(EnemyType.Strong, wave.strongCount);
+        SpawnEnemyType(EnemyType.Flying, wave.flyingCount);
+        SpawnEnemyType(EnemyType.Strong, wave.strongCount);
 
         yield return null; // Allow other coroutines to run
     }
@@ -71,7 +71,6 @@ public class WaveManager : MonoBehaviour
             int randomIndex = Random.Range(0, spawnPoints.Length);
             Enemy enemy = enemyFactory.GetEnemy(type, spawnPoints[randomIndex].position, Quaternion.identity);
 
-            enemy.Initilize(enemyFactory, player);
 
 
             if (enemy != null)

@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public interface IDamageable
 {
-    void TakeDamage(int damage);
+    void TakeDamage(int damage, GameObject part);
 }
 
 public class Enemy : MonoBehaviour, IDamageable
@@ -15,51 +15,40 @@ public class Enemy : MonoBehaviour, IDamageable
     protected int damage = 10;
     protected float attackSpeed = 1.5f;
     protected float movementSpeed = 3f;
-    protected GameObject player;
+    [SerializeField] protected GameObject player;
     protected Animator animator;
     protected NavMeshAgent agent;
 
 
     private Slider healthSlider;
-    private GameObject healthSliderObj;
 
     private EnemyFactory factory;
     public EnemyType enemyType;
     private float timeTilDespawn = 3f;
 
 
-    private Rigidbody[] ragdollBodies;
-    private Collider[] ragdollColliders;
-    private Collider mainCollider; // NEW: Main collider for preventing player collision
+    protected Rigidbody[] ragdollBodies;
+    [SerializeField] protected Collider[] ragdollColliders;
+    protected Collider mainCollider; // NEW: Main collider for preventing player collision
 
     public delegate void DeathHandler();
     public event DeathHandler OnDeath;
 
     protected virtual void Awake()
     {
-        factory = FindFirstObjectByType<EnemyFactory>();
-        animator = GetComponentInChildren<Animator>();
-        player = GameObject.Find("Player");
+        animator = GetComponentInChildren<Animator>(true);
+        ragdollBodies = GetComponentsInChildren<Rigidbody>(true);
 
-
-        ragdollBodies = GetComponentsInChildren<Rigidbody>();
-        ragdollColliders = GetComponentsInChildren<Collider>();
-
-
-
-        mainCollider = GetComponent<Collider>(); // Store main collider
 
         ToggleRagdoll(false);
 
-
-        healthSliderObj = GameObject.Find("HealthBar");
-        healthSlider = healthSliderObj.GetComponent<Slider>();
+        healthSlider = GetComponentInChildren<Slider>(true);
 
         // Initialize values
         healthSlider.maxValue = health;
         healthSlider.value = health;
 
-        mainCollider.enabled = true;
+
 
         agent = GetComponent<NavMeshAgent>();
     }
@@ -81,14 +70,36 @@ public class Enemy : MonoBehaviour, IDamageable
         factory = enemyFactory;
     }
 
-    public virtual void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage, GameObject part)
     {
+
+        if (part.name.ToLower().Contains("weak"))
+        {
+            Debug.Log("Headshot!");
+            damage *= 2;
+
+        }
+        else
+        {
+            Debug.Log("Hit!");
+        }
+
         health -= damage;
+        UpdateHealthbarValue();
+
+
         Debug.Log($"{damage} damage received. Health: {health}");
 
         if (health <= 0)
         {
+
+            //  Destroy(gameObject);
+            NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
+            navMeshAgent.enabled = false;
+
+            animator.enabled = false;
             EnemyDeath();
+
         }
     }
 
@@ -135,20 +146,19 @@ public class Enemy : MonoBehaviour, IDamageable
 
     protected void UpdateHealthbarRotation()
     {
-        healthSlider.value = health;
-        healthSliderObj.transform.LookAt(player.transform.position);
-        healthSliderObj.transform.Rotate(0, 180, 0);
+        healthSlider.transform.LookAt(player.transform.position);
+        healthSlider.transform.Rotate(0, 180, 0);
     }
 
-    private void ToggleRagdoll(bool isRagdoll)
+    protected void UpdateHealthbarValue()
     {
-        if (ragdollBodies == null || ragdollBodies.Length == 0)
-        {
-            ragdollBodies = GetComponentsInChildren<Rigidbody>();
-            ragdollColliders = GetComponentsInChildren<Collider>();
-            mainCollider = GetComponent<Collider>();
-        }
+        healthSlider.value = health;
+        Debug.Log(health);
+        Debug.Log(healthSlider.value);
+    }
 
+    protected void ToggleRagdoll(bool isRagdoll)
+    {
         foreach (var rb in ragdollBodies)
         {
             rb.isKinematic = !isRagdoll;

@@ -15,28 +15,12 @@ public class EnemyNormal : Enemy, IDamageable
         damage = 100;
 
         base.Awake();
+
+        mainCollider = GetComponent<Collider>(); // Store main collider
+        mainCollider.enabled = true;
     }
 
-    
-
-    public override void TakeDamage(int damage)
-    {
-        health -= damage;
-        Debug.Log($"{damage} damage received. Health: {health}");
-
-        if (health < 0)
-        {
-            //  Destroy(gameObject);
-            NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
-            navMeshAgent.enabled = false;
-
-            animator.enabled = false;
-
-            //ToggleKinematics();
-            EnemyDeath();
-
-        };
-    }
+   
     public virtual void ToggleKinematics()
     {
         Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();

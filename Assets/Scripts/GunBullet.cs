@@ -13,10 +13,12 @@ public class GunBullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+        IDamageable damageable = collision.gameObject.GetComponentInParent<IDamageable>();
         if (damageable != null)
         {
-            damageable.TakeDamage(damage);
+            Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
+            damageable.TakeDamage(damage, collision.gameObject);
+            Debug.Log(collision.gameObject.name);
         }
 
         Destroy(gameObject);
