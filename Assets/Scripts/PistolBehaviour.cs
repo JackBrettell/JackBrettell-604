@@ -27,7 +27,7 @@ public class PistolBehaviour : GunBehaviour
     [SerializeField] private float triggerRecoilDuration = 0f;
     public override void Start()
     {
-        base.Start(); // Call the base Start()
+        base.Start();
 
         // Set gun part positions 
         gunOriginalPosition = gunTransform.localPosition;
@@ -108,6 +108,10 @@ public class PistolBehaviour : GunBehaviour
 
             // Instantiate bullet
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+
+            // Set the bullet's damage
+            GunBullet bulletScript = bullet.GetComponent<GunBullet>();
+            bulletScript.damage = damage;
 
             hud.crosshairScale();
 

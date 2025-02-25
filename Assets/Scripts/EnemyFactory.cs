@@ -14,12 +14,12 @@ public class EnemyFactory : MonoBehaviour
     public struct EnemyPrefab
     {
         public EnemyType type;
-        public GameObject prefab;
+        public Enemy prefab;
     }
 
     [SerializeField] private EnemyPrefab[] enemyPrefabs;
-    private Dictionary<EnemyType, Queue<GameObject>> enemyPools = new Dictionary<EnemyType, Queue<GameObject>>();
-    private Dictionary<EnemyType, GameObject> enemyPrefabDict = new Dictionary<EnemyType, GameObject>();
+    private Dictionary<EnemyType, Queue<Enemy>> enemyPools = new();
+    private Dictionary<EnemyType, Enemy> enemyPrefabDict = new();
 
     private int poolSize = 20;
 
@@ -29,22 +29,28 @@ public class EnemyFactory : MonoBehaviour
         foreach (var enemy in enemyPrefabs)
         {
             enemyPrefabDict[enemy.type] = enemy.prefab;
-            enemyPools[enemy.type] = new Queue<GameObject>();
+            enemyPools[enemy.type] = new Queue<Enemy>();
 
             // Preload enemies into pool
             for (int i = 0; i < poolSize; i++)
             {
-                GameObject obj = Instantiate(enemy.prefab);
-                obj.SetActive(false);
+                Enemy obj = Instantiate(enemy.prefab);
+                
+
+
+
+                obj.gameObject.SetActive(false);
                 enemyPools[enemy.type].Enqueue(obj);
             }
         }
     }
 
-    public GameObject GetEnemy(EnemyType type, Vector3 position, Quaternion rotation)
+    public Enemy GetEnemy(EnemyType type, Vector3 position, Quaternion rotation)
     {
- 
-        GameObject enemy;
+
+        Enemy enemy;
+
+       
 
         if (enemyPools[type].Count > 0)
         {
@@ -57,7 +63,7 @@ public class EnemyFactory : MonoBehaviour
 
         enemy.transform.position = position;
         enemy.transform.rotation = rotation;
-        enemy.SetActive(true);
+        enemy.gameObject.SetActive(true);
 
         // Assign enemy type before returning
         Enemy enemyScript = enemy.GetComponent<Enemy>();
@@ -70,10 +76,10 @@ public class EnemyFactory : MonoBehaviour
     }
 
 
-    public void ReturnEnemy(EnemyType type, GameObject enemy)
+    public void ReturnEnemy(EnemyType type, Enemy enemy)
     {
         Debug.Log("Returning enemy to pool");
-        enemy.SetActive(false);
+        enemy.gameObject.SetActive(false);
         enemyPools[type].Enqueue(enemy);
     }
 }

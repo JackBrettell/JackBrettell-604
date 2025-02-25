@@ -5,17 +5,16 @@ using System.Collections;
 
 public class RifleBehaviour : GunBehaviour
 {
-    
+
     public override void Start()
     {
+        base.Start();
         // ===== Auto-assigns =====
 
         // Weapon base scrip
-       // weaponBase = GetComponent<WeaponBase>();
-        base.Start(); // Call the base Start()
+        // weaponBase = GetComponent<WeaponBase>();
 
         // Initialize AmmoManager with ammo capacity
-
 
 
 
@@ -45,6 +44,7 @@ public class RifleBehaviour : GunBehaviour
         gunMagOriginalPosition = gunMagTransform.localPosition;
 
 
+      
 
 
     }
@@ -57,12 +57,13 @@ public class RifleBehaviour : GunBehaviour
         // Instantiate bullet
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
+
         hud.crosshairScale();
 
         // Set the bullet's damage
         GunBullet bulletScript = bullet.GetComponent<GunBullet>();
         bulletScript.damage = damage;
-       
+
 
         // Add velocity to the bullet
         Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();

@@ -11,7 +11,7 @@ public class GunBehaviour : MonoBehaviour
     [Header("Weapon Settings")]
     [SerializeField] protected GameObject bulletPrefab;
     [SerializeField] protected float bulletSpeed = 20f;
-    public int damage;
+    [SerializeField] protected int damage;
     [SerializeField] protected int ammoCapacity = 30;
 
     public float fireRate;

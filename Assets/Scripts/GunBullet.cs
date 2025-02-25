@@ -8,6 +8,7 @@ public class GunBullet : MonoBehaviour
     private void Start()
     {
         Destroy(gameObject, lifetime);
+
     }
 
     private void OnCollisionEnter(Collision collision)

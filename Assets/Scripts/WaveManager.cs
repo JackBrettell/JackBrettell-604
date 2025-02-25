@@ -16,8 +16,9 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private Wave[] waves;
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private float spawnDelay = 1.5f;
+    [SerializeField] private GameObject player;
 
-    private EnemyFactory enemyFactory;
+    [SerializeField] private EnemyFactory enemyFactory;
     public int currentWaveIndex = 0;
     private int activeEnemies = 0;
 
@@ -27,7 +28,6 @@ public class WaveManager : MonoBehaviour
 
     void Start()
     {
-        enemyFactory = FindFirstObjectByType<EnemyFactory>();
         StartCoroutine(StartWave());
     }
 
@@ -58,8 +58,8 @@ public class WaveManager : MonoBehaviour
     private IEnumerator SpawnEnemies(Wave wave)
     {
         SpawnEnemyType(EnemyType.Zombie, wave.zombieCount);
-        SpawnEnemyType(EnemyType.Flying, wave.flyingCount);
-        SpawnEnemyType(EnemyType.Strong, wave.strongCount);
+        //SpawnEnemyType(EnemyType.Flying, wave.flyingCount);
+       // SpawnEnemyType(EnemyType.Strong, wave.strongCount);
 
         yield return null; // Allow other coroutines to run
     }
@@ -69,7 +69,10 @@ public class WaveManager : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             int randomIndex = Random.Range(0, spawnPoints.Length);
-            GameObject enemy = enemyFactory.GetEnemy(type, spawnPoints[randomIndex].position, Quaternion.identity);
+            Enemy enemy = enemyFactory.GetEnemy(type, spawnPoints[randomIndex].position, Quaternion.identity);
+
+            enemy.Initilize(enemyFactory, player);
+
 
             if (enemy != null)
             {
