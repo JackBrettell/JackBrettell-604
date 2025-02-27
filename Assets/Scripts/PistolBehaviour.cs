@@ -98,6 +98,7 @@ public class PistolBehaviour : GunBehaviour
 
     public override void Fire()
     {
+
         // Offsets and Durations
         Vector3 recoilOffset = Vector3.back * recoilAmount;
         Vector3 slideOffset = Vector3.back * slideRecoil;
@@ -111,7 +112,7 @@ public class PistolBehaviour : GunBehaviour
 
             // Set the bullet's damage
             GunBullet bulletScript = bullet.GetComponent<GunBullet>();
-            bulletScript.damage = damage;
+            bulletScript.damage = weaponStats.damage;
 
             hud.crosshairScale();
 
@@ -138,7 +139,7 @@ public class PistolBehaviour : GunBehaviour
             ammoManager.ReduceAmmo();
             hud.updateAmmoCount();
 
-            DOVirtual.DelayedCall(1f / fireRate, () => { canFire = true; });
+            DOVirtual.DelayedCall(1f / weaponStats.fireRate, () => { canFire = true; });
         }
         else if ( canFire && ammoManager.CurrentAmmo == 0 )
         {

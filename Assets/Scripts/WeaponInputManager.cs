@@ -24,6 +24,8 @@ public class WeaponInputManager : MonoBehaviour
 
     public void OnFire(InputAction.CallbackContext context)
     {
+        if (StoreMenus.IsShopOpen) return; // Prevent firing when shop is open
+
         if (context.started || context.performed)
         {
             weaponManager.currentGun.Fire();

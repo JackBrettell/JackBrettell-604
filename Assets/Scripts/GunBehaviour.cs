@@ -7,6 +7,8 @@ public class GunBehaviour : MonoBehaviour
     public AmmoManager ammoManager;
     public HUD hud;
 
+    [Header("Weapon Stats")]
+    public WeaponStats weaponStats;
 
     [Header("Weapon Settings")]
     [SerializeField] protected GameObject bulletPrefab;
@@ -72,6 +74,12 @@ public class GunBehaviour : MonoBehaviour
         if (ammoManager == null)
             ammoManager = GetComponent<AmmoManager>();
 
+        // Pass the weapon's ScriptableObject stats to AmmoManager
+        if (weaponStats != null)
+            ammoManager.Initialize(weaponStats);
+        else
+            Debug.LogError($"{gameObject.name}: Missing WeaponStats! Assign it in the Inspector.");
+
         InitializeAmmo();
 
         // Set gun part positions 
@@ -109,11 +117,10 @@ public class GunBehaviour : MonoBehaviour
 
     public void InitializeAmmo()
     {
-   
-            ammoManager.Initialize(ammoCapacity);
+            ammoManager.Initialize(weaponStats);
     }
 
-    public virtual void FiringSequence()
+    protected virtual void FiringSequence()
     {
 
     }

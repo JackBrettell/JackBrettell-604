@@ -49,8 +49,9 @@ public class RifleBehaviour : GunBehaviour
 
     }
 
-    public override void FiringSequence()
+    protected override void FiringSequence()
     {
+
         Sequence firingSequence = DOTween.Sequence();
         Vector3 recoilOffset = Vector3.back * recoilAmount + Vector3.up * recoilUpAmount;
 
@@ -62,7 +63,8 @@ public class RifleBehaviour : GunBehaviour
 
         // Set the bullet's damage
         GunBullet bulletScript = bullet.GetComponent<GunBullet>();
-        bulletScript.damage = damage;
+        bulletScript.damage = weaponStats.damage;
+
 
 
         // Add velocity to the bullet
@@ -144,7 +146,7 @@ public class RifleBehaviour : GunBehaviour
         while (isFiring && ammoManager.CurrentAmmo > 0)
         {
             FireRifle();
-            yield return new WaitForSeconds(1f / fireRate);
+            yield return new WaitForSeconds(1f / weaponStats.fireRate);
         }
     }
 

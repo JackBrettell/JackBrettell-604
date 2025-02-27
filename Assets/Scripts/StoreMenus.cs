@@ -7,6 +7,7 @@ public class StoreMenus : MonoBehaviour
     public GameObject weaponsPage;
 
     public HUD hud;
+    public static bool IsShopOpen { get; private set; } = false; // Track whether the shop is open
 
     public enum shopState
     {
@@ -22,7 +23,8 @@ public class StoreMenus : MonoBehaviour
         mainPage.SetActive(state == shopState.MainPage);
         weaponsPage.SetActive(state == shopState.WeaponsPage);
         personalPage.SetActive(state == shopState.PersonalPage);
-        
+
+        IsShopOpen = (state != shopState.None);
     } 
 
     public void OnPersonalUpgrades()
