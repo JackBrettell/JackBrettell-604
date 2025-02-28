@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a495132417712b409a95070b9b183e2, type: 3}
   m_Name: PistolStats
   m_EditorClassIdentifier: 
-  damage: 0
-  fireRate: 0
-  ammoCapacity: 0
+  damage: 1
+  fireRate: 5
+  ammoCapacity: 12
+  weaponName: Pistol
+  weaponDescription: "The pistol\u2014what an absolute marvel of firepower. Who needs
+    a high-capacity rifle when you can have this tiny, underpowered, last-resort
+    weapon that barely holds a handful of rounds? Perfect for when you want to make
+    your enemy mildly annoyed before they take you out with something actually effective."
+  weaponIcon: {fileID: 21300000, guid: 079a750a3d4a1e843a84b8cbc820057e, type: 3}
