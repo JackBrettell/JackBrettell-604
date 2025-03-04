@@ -2378,7 +2378,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8317462834783113182}
-  m_Enabled: 0
+  m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -2405,6 +2405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea2912bd2fa763d46872be6ae8ef5b76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   enemyType: 0
   ragdollColliders:
   - {fileID: 6489395522571615246}

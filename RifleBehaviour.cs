@@ -1,4 +1,4 @@
-﻿using DG.Tweening;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using System.Collections;
@@ -14,9 +14,6 @@ public class RifleBehaviour : GunBehaviour
         // weaponBase = GetComponent<WeaponBase>();
 
         // Initialize AmmoManager with ammo capacity
-
-
-
 
         /*
                 // Fire point
@@ -35,36 +32,25 @@ public class RifleBehaviour : GunBehaviour
                 GameObject magTransform = GameObject.Find("gun_mag");
                 gunMagTransform = magTransform.transform;*/
 
-
-
         // Set gun part positions 
         gunOriginalPosition = gunTransform.localPosition;
         gunTriggerOriginalPosition = trigger.localPosition;
         gunMagOriginalPosition = gunMagTransform.localPosition;
-
-
-      
-
-
     }
 
     protected override void FiringSequence()
     {
-
         Sequence firingSequence = DOTween.Sequence();
         Vector3 recoilOffset = Vector3.back * recoilAmount + Vector3.up * recoilUpAmount;
 
         // Instantiate bullet
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
-
         hud.crosshairScale();
 
         // Set the bullet's damage
         GunBullet bulletScript = bullet.GetComponent<GunBullet>();
         bulletScript.damage = weaponStats.damage;
-
-
 
         // Add velocity to the bullet
         Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
@@ -73,9 +59,7 @@ public class RifleBehaviour : GunBehaviour
         firingSequence
             .Join(gunTransform.DOLocalMove(gunOriginalPosition + recoilOffset, recoilDuration, false).SetEase(Ease1))
             .Append(gunTransform.DOLocalMove(gunOriginalPosition, recoilRecoverySpeed, false));
-
     }
-
 
     public override void ReloadingSequence()
     {
@@ -90,8 +74,6 @@ public class RifleBehaviour : GunBehaviour
 
             Vector3 gunMagOffsetDowm = gunMagOriginalPosition + Vector3.down * gunMagMovemement;
             Vector3 gunMagOffsetBack = gunMagOriginalPosition + Vector3.back * gunMagMovemement;
-
-
 
             Sequence reloadingSequence = DOTween.Sequence();
 
@@ -116,42 +98,38 @@ public class RifleBehaviour : GunBehaviour
                         ammoManager.Reload();
                         hud.updateAmmoCount();
                         isReloading = false;
-
-
                     });
         }
-
     }
 
     public override void Fire()
     {
         if (isReloading)
         {
-            base.Fire();
-
-            if (ammoManager.CurrentAmmo > 0)
-            {
-                if (!isFiring)
-                {
-                    isFiring = true;
-                    StartCoroutine(AutoFireRifle());
-                }
-            }
-            else
-            {
-                //  Debug.Log("Out of ammo!");
-            }
+            return; // Prevent firing while reloading
         }
 
-       
+        base.Fire();
+
+        if (ammoManager.CurrentAmmo > 0)
+        {
+            if (!isFiring)
+            {
+                isFiring = true;
+                StartCoroutine(AutoFireRifle());
+            }
+        }
+        else
+        {
+            //  Debug.Log("Out of ammo!");
+        }
     }
+
     public override void StopFire()
     {
-        base.StopFire(); 
-
+        base.StopFire();
         isFiring = false;
     }
-
 
     private IEnumerator AutoFireRifle()
     {
@@ -173,7 +151,6 @@ public class RifleBehaviour : GunBehaviour
         else
         {
             isFiring = false;
-
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 
 
-public class EnemyNormal : Enemy, IDamageable
+public class EnemyNormal : EnemyBase, IDamageable
 {
 
 

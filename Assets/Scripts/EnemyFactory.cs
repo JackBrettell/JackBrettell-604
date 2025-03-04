@@ -14,12 +14,12 @@ public class EnemyFactory : MonoBehaviour
     public struct EnemyPrefab
     {
         public EnemyType type;
-        public Enemy prefab;
+        public EnemyBase prefab;
     }
 
     [SerializeField] private EnemyPrefab[] enemyPrefabs;
-    private Dictionary<EnemyType, Queue<Enemy>> enemyPools = new();
-    private Dictionary<EnemyType, Enemy> enemyPrefabDict = new();
+    private Dictionary<EnemyType, Queue<EnemyBase>> enemyPools = new();
+    private Dictionary<EnemyType, EnemyBase> enemyPrefabDict = new();
 
     [SerializeField] private GameObject player;
     private int poolSize = 20;
@@ -30,12 +30,12 @@ public class EnemyFactory : MonoBehaviour
         foreach (var enemy in enemyPrefabs)
         {
             enemyPrefabDict[enemy.type] = enemy.prefab;
-            enemyPools[enemy.type] = new Queue<Enemy>();
+            enemyPools[enemy.type] = new Queue<EnemyBase>();
 
             // Preload enemies into pool
             for (int i = 0; i < poolSize; i++)
             {
-                Enemy obj = Instantiate(enemy.prefab);
+                EnemyBase obj = Instantiate(enemy.prefab);
                 
 
 
@@ -46,10 +46,10 @@ public class EnemyFactory : MonoBehaviour
         }
     }
 
-    public Enemy GetEnemy(EnemyType type, Vector3 position, Quaternion rotation)
+    public EnemyBase GetEnemy(EnemyType type, Vector3 position, Quaternion rotation)
     {
 
-        Enemy enemy;
+        EnemyBase enemy;
 
        
 
@@ -67,7 +67,7 @@ public class EnemyFactory : MonoBehaviour
         enemy.gameObject.SetActive(true);
 
         // Assign enemy type before returning
-        Enemy enemyScript = enemy.GetComponent<Enemy>();
+        EnemyBase enemyScript = enemy.GetComponent<EnemyBase>();
         if (enemyScript != null)
         {
             enemyScript.enemyType = type; 
@@ -79,7 +79,7 @@ public class EnemyFactory : MonoBehaviour
     }
 
 
-    public void ReturnEnemy(EnemyType type, Enemy enemy)
+    public void ReturnEnemy(EnemyType type, EnemyBase enemy)
     {
         Debug.Log("Returning enemy to pool");
         enemy.gameObject.SetActive(false);

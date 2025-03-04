@@ -16,7 +16,7 @@ public class GunBullet : MonoBehaviour
         IDamageable damageable = collision.gameObject.GetComponentInParent<IDamageable>();
         if (damageable != null)
         {
-            Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
+            EnemyBase enemy = collision.gameObject.GetComponentInParent<EnemyBase>();
             damageable.TakeDamage(damage, collision.gameObject);
             Debug.Log(collision.gameObject.name);
         }

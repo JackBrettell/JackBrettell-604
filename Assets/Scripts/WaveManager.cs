@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using static Enemy;
+using static EnemyBase;
 using Unity.VisualScripting;
 
 public class WaveManager : MonoBehaviour
@@ -11,13 +11,14 @@ public class WaveManager : MonoBehaviour
         public int zombieCount;
         public int flyingCount;
         public int strongCount;
+        public int intermissionLength; // INCLUDE INTERMISSION
     }
 
     [SerializeField] private Wave[] waves;
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private float spawnDelay = 1.5f;
     [SerializeField] private GameObject player;
-
+    [SerializeField] private LevelProgression levelProgression;
     [SerializeField] private EnemyFactory enemyFactory;
     public int currentWaveIndex = 0;
     private int activeEnemies = 0;
@@ -51,6 +52,7 @@ public class WaveManager : MonoBehaviour
         }
 
         OnRoundFinished?.Invoke();
+        levelProgression.OnWaveCompleted(currentWaveIndex);
         currentWaveIndex++;
         StartCoroutine(StartWave()); // Start next wave
     }
@@ -69,14 +71,14 @@ public class WaveManager : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             int randomIndex = Random.Range(0, spawnPoints.Length);
-            Enemy enemy = enemyFactory.GetEnemy(type, spawnPoints[randomIndex].position, Quaternion.identity);
+            EnemyBase enemy = enemyFactory.GetEnemy(type, spawnPoints[randomIndex].position, Quaternion.identity);
 
 
 
             if (enemy != null)
             {
                 activeEnemies++;
-                enemy.GetComponent<Enemy>().OnDeath += () => activeEnemies--; 
+                enemy.GetComponent<EnemyBase>().OnDeath += () => activeEnemies--; 
             }
 
             StartCoroutine(WaitBeforeSpawn());

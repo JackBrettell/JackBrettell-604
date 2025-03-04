@@ -9,7 +9,7 @@ public interface IDamageable
     void TakeDamage(int damage, GameObject part);
 }
 
-public class Enemy : MonoBehaviour, IDamageable
+public class EnemyBase : MonoBehaviour, IDamageable
 {
     protected int health = 100;
     protected int damage = 10;
@@ -68,6 +68,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public void Initilize(EnemyFactory enemyFactory, GameObject player)
     {
         factory = enemyFactory;
+        this.player = player;
     }
 
     public virtual void TakeDamage(int damage, GameObject part)

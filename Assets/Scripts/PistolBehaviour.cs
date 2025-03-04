@@ -39,7 +39,7 @@ public class PistolBehaviour : GunBehaviour
     }
     public override void ReloadingSequence()
     {
-
+        canFire = false;
         isRealoading = true;
 
         // Offsets and Durations
@@ -80,6 +80,7 @@ public class PistolBehaviour : GunBehaviour
             {
                 ammoManager.Reload();
                 hud.updateAmmoCount();
+                canFire = true;
 
 
 

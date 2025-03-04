@@ -5,7 +5,7 @@ public class WeaponButton : MonoBehaviour
 {
     public TextMeshProUGUI weaponNameText;
     public TextMeshProUGUI weaponDescText;
-    public Sprite weaponIconImage;
+    public Image weaponIconImage;
     private WeaponStats weaponStats;
 
     public void Setup(WeaponStats weapon)
@@ -13,6 +13,6 @@ public class WeaponButton : MonoBehaviour
         weaponStats = weapon;
         weaponNameText.text = weapon.weaponName;
         weaponDescText.text = weapon.weaponDescription;
-        weaponIconImage = weapon.weaponIcon;
+        weaponIconImage.sprite = weapon.weaponIcon;
     }
 }
