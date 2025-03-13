@@ -43,7 +43,7 @@ public class RifleBehaviour : GunBehaviour
         gunMagOriginalPosition = gunMagTransform.localPosition;
 
 
-      
+      Debug.Log(isReloading);
 
 
     }
@@ -125,8 +125,12 @@ public class RifleBehaviour : GunBehaviour
 
     public override void Fire()
     {
-        if (isReloading)
-        {
+   
+            if (isReloading)
+            {
+                return; // Prevent firing while reloading
+            }
+
             base.Fire();
 
             if (ammoManager.CurrentAmmo > 0)
@@ -141,7 +145,7 @@ public class RifleBehaviour : GunBehaviour
             {
                 //  Debug.Log("Out of ammo!");
             }
-        }
+        
 
        
     }
