@@ -11,21 +11,27 @@ public class WaveManager : MonoBehaviour
         public int zombieCount;
         public int flyingCount;
         public int strongCount;
-        public int intermissionLength; // INCLUDE INTERMISSION
+        public int intermissionLength;
+        public GameObject[] objectsToDisable;
     }
 
+    [SerializeField] private IntermissionUI intermissionArrow;
     [SerializeField] private Wave[] waves;
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private float spawnDelay = 1.5f;
     [SerializeField] private GameObject player;
     [SerializeField] private LevelProgression levelProgression;
     [SerializeField] private EnemyFactory enemyFactory;
+
     public int currentWaveIndex = 0;
     private int activeEnemies = 0;
 
     public delegate void RoundOverEvent();
     public event RoundOverEvent OnRoundFinished;
 
+    [Header("Unlock animation")]
+    [SerializeField] private float unlockAnimationDuration = 1f;
+    [SerializeField] private float unlockAnimationOffset = 10f;
 
     void Start()
     {
@@ -34,8 +40,6 @@ public class WaveManager : MonoBehaviour
 
     private IEnumerator StartWave()
     {
-        
-
         if (currentWaveIndex >= waves.Length)
         {
             Debug.Log("All waves completed!");
@@ -52,9 +56,7 @@ public class WaveManager : MonoBehaviour
         }
 
         OnRoundFinished?.Invoke();
-        levelProgression.OnWaveCompleted(currentWaveIndex);
-        currentWaveIndex++;
-        StartCoroutine(StartWave()); // Start next wave
+        StartCoroutine(Intermission(currentWave));
     }
 
     private IEnumerator SpawnEnemies(Wave wave)
@@ -63,7 +65,7 @@ public class WaveManager : MonoBehaviour
         SpawnEnemyType(EnemyType.Flying, wave.flyingCount);
         SpawnEnemyType(EnemyType.Strong, wave.strongCount);
 
-        yield return null; // Allow other coroutines to run
+        yield return null;
     }
 
     private void SpawnEnemyType(EnemyType type, int count)
@@ -73,22 +75,33 @@ public class WaveManager : MonoBehaviour
             int randomIndex = Random.Range(0, spawnPoints.Length);
             EnemyBase enemy = enemyFactory.GetEnemy(type, spawnPoints[randomIndex].position, Quaternion.identity);
 
-
-
             if (enemy != null)
             {
                 activeEnemies++;
-                enemy.GetComponent<EnemyBase>().OnDeath += () => activeEnemies--; 
+                enemy.GetComponent<EnemyBase>().OnDeath += () => activeEnemies--;
             }
 
             StartCoroutine(WaitBeforeSpawn());
         }
     }
 
+    private IEnumerator Intermission(Wave wave)
+    {
+        intermissionArrow.ToggleArrow();
+
+        intermissionArrow.UpdateArrow();
+        Debug.Log($"Intermission for {wave.intermissionLength} seconds.");
+        yield return new WaitForSeconds(wave.intermissionLength);
+
+        intermissionArrow.ToggleArrow();
+
+        levelProgression.OnWaveCompleted(currentWaveIndex);
+        currentWaveIndex++;
+        StartCoroutine(StartWave());
+    }
+
     private IEnumerator WaitBeforeSpawn()
     {
         yield return new WaitForSeconds(spawnDelay);
     }
-
-
 }

@@ -56346,7 +56346,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1887854454
 Transform:
   m_ObjectHideFlags: 0
@@ -56376,7 +56376,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   store: {fileID: 1183247945}
-  arrow: {fileID: 1887854453}
 --- !u!1001 &1888570729
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59872,15 +59871,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd19d5ecf075e7c4099c2d67835a4882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  intermissionArrow: {fileID: 1887854455}
   waves:
   - zombieCount: 1
     flyingCount: 0
     strongCount: 0
-    intermissionLength: 0
+    intermissionLength: 10
+    objectsToDisable: []
   - zombieCount: 2
     flyingCount: 0
     strongCount: 0
-    intermissionLength: 0
+    intermissionLength: 10
+    objectsToDisable: []
   spawnPoints:
   - {fileID: 901870528}
   - {fileID: 1746925444}
@@ -59889,6 +59891,8 @@ MonoBehaviour:
   levelProgression: {fileID: 648676881}
   enemyFactory: {fileID: 123018606}
   currentWaveIndex: 0
+  unlockAnimationDuration: 1
+  unlockAnimationOffset: 10
 --- !u!1001 &2018303552
 PrefabInstance:
   m_ObjectHideFlags: 0
