@@ -65,7 +65,7 @@ public class StoreIcon : MonoBehaviour
 
     public void OpenMenu()
     {
-        hud.hideHud();
+        hud.hideCrosshair();
 
         storeMenus.CloseAllMenus();
 

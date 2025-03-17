@@ -1461,7 +1461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &43664178
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34053,6 +34053,8 @@ MonoBehaviour:
   AmmoText: {fileID: 784480030}
   WaveNumText: {fileID: 2130622150}
   waveManager: {fileID: 2016242195}
+  intermissionUI: {fileID: 43664177}
+  intermissionCountdown: {fileID: 1404366619}
   crosshairSize: 0.5
   crosshairReccoilSize: 1
   crosshairScaleSpeed: 0.1
@@ -59876,7 +59878,7 @@ MonoBehaviour:
   - zombieCount: 1
     flyingCount: 0
     strongCount: 0
-    intermissionLength: 10
+    intermissionLength: 1000
     objectsToDisable: []
   - zombieCount: 2
     flyingCount: 0
@@ -59890,6 +59892,7 @@ MonoBehaviour:
   player: {fileID: 1422311399}
   levelProgression: {fileID: 648676881}
   enemyFactory: {fileID: 123018606}
+  hud: {fileID: 1129827413}
   currentWaveIndex: 0
   unlockAnimationDuration: 1
   unlockAnimationOffset: 10

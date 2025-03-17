@@ -22,6 +22,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private LevelProgression levelProgression;
     [SerializeField] private EnemyFactory enemyFactory;
+    [SerializeField] private HUD hud;
 
     public int currentWaveIndex = 0;
     private int activeEnemies = 0;
@@ -88,20 +89,27 @@ public class WaveManager : MonoBehaviour
     private IEnumerator Intermission(Wave wave)
     {
         intermissionArrow.ToggleArrow();
+        hud.showIntermission();
 
-        intermissionArrow.UpdateArrow();
+        // Start the countdown timer
+        hud.StartIntermissionTimer(wave.intermissionLength);
+
         Debug.Log($"Intermission for {wave.intermissionLength} seconds.");
         yield return new WaitForSeconds(wave.intermissionLength);
 
         intermissionArrow.ToggleArrow();
+        hud.hideIntermission();
 
         levelProgression.OnWaveCompleted(currentWaveIndex);
         currentWaveIndex++;
         StartCoroutine(StartWave());
     }
 
+
     private IEnumerator WaitBeforeSpawn()
     {
         yield return new WaitForSeconds(spawnDelay);
     }
+
+
 }

@@ -44,7 +44,7 @@ public class StoreMenus : MonoBehaviour
     public void CloseAllMenus()
     {
         SetMenu(shopState.None);
-        hud.hideHud();
+        hud.hideCrosshair();
     }
 
 }

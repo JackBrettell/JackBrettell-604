@@ -1,6 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class HUD : MonoBehaviour
 {
@@ -9,6 +10,11 @@ public class HUD : MonoBehaviour
     public TMP_Text WaveNumText;
     private AmmoManager ammoManager;
     [SerializeField] private WaveManager waveManager;
+
+    [Header("Intermission")]
+    [SerializeField] private GameObject intermissionUI;
+    [SerializeField] private TMP_Text intermissionCountdown;
+    
 
     [SerializeField] private float crosshairSize = 0;
     [SerializeField] private float crosshairReccoilSize = 0;
@@ -57,16 +63,14 @@ public class HUD : MonoBehaviour
         int currentWave = waveManager.currentWaveIndex + 2;
         WaveNumText.text = "Wave: " + currentWave;
     }
+    // crosshair
+    public void hideCrosshair(){crosshair.SetActive(false);}
+    public void showCrosshair(){crosshair.SetActive(true);}
 
-    public void hideHud()
-    {
-        crosshair.SetActive(false);
-    }
+    // Intermission
+    public void hideIntermission() { intermissionUI.SetActive(false); }
+    public void showIntermission() { intermissionUI.SetActive(true); }
 
-    public void showHud()
-    {
-        crosshair.SetActive(true);
-    }
 
     public void updateAmmoCount()
     {
@@ -105,4 +109,25 @@ public class HUD : MonoBehaviour
 
 
     }
+
+    public void StartIntermissionTimer(int duration)
+    {
+        StartCoroutine(IntermissionCountdown(duration));
+    }
+
+    private IEnumerator IntermissionCountdown(int duration)
+    {
+        for (int timeLeft = duration; timeLeft >= 0; timeLeft--)
+        {
+            int minutes = timeLeft / 60;
+            int seconds = timeLeft % 60;
+
+            intermissionCountdown.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            yield return new WaitForSeconds(1f);
+        }
+
+        intermissionCountdown.text = "00:00"; // Ensure it ends cleanly
+    }
+
+
 }
