@@ -2,11 +2,10 @@ using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class StoreIcon : MonoBehaviour
+public class StoreInteraction : MonoBehaviour
 {
     public GameObject player;
     public GameObject storeCanvas;
-    public GameObject storeMenu;
     public float triggerRange = 1;
     public float rotationSpeed = 2f; // Speed of the rotation
 
@@ -19,8 +18,6 @@ public class StoreIcon : MonoBehaviour
 
     private void Start()
     {
-        storeMenu.SetActive(false);
-        isStoreOpen = false;
 
         // Get the CameraControls script from the player GameObject
         PlayerCameraController = player.GetComponent<PlayerCameraController>();
@@ -65,14 +62,8 @@ public class StoreIcon : MonoBehaviour
 
     public void OpenMenu()
     {
-        hud.hideCrosshair();
 
-        storeMenus.CloseAllMenus();
-
-
-
-
-        storeMenu.SetActive(true);
+        storeMenus.SetMenu(StoreMenus.shopState.MainPage); 
         isStoreOpen = true;
 
         // Make cursor is unlocked and visible

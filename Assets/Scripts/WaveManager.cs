@@ -94,7 +94,6 @@ public class WaveManager : MonoBehaviour
         // Start the countdown timer
         hud.StartIntermissionTimer(wave.intermissionLength);
 
-        Debug.Log($"Intermission for {wave.intermissionLength} seconds.");
         yield return new WaitForSeconds(wave.intermissionLength);
 
         intermissionArrow.ToggleArrow();

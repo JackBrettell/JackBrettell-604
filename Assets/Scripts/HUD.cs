@@ -46,8 +46,6 @@ public class HUD : MonoBehaviour
     {
         ApplySway();
 
-
-
     }
 
     public void crosshairScale()
@@ -63,14 +61,28 @@ public class HUD : MonoBehaviour
         int currentWave = waveManager.currentWaveIndex + 2;
         WaveNumText.text = "Wave: " + currentWave;
     }
-    // crosshair
-    public void hideCrosshair(){crosshair.SetActive(false);}
-    public void showCrosshair(){crosshair.SetActive(true);}
+
+
 
     // Intermission
     public void hideIntermission() { intermissionUI.SetActive(false); }
     public void showIntermission() { intermissionUI.SetActive(true); }
 
+    public void ShopToggled(bool isShopOpened)
+    {
+        if (isShopOpened)
+        {
+            crosshair.SetActive(false);
+            AmmoText.gameObject.SetActive(false);
+        }
+        else
+        {
+            crosshair.SetActive(true);
+            AmmoText.gameObject.SetActive(true);
+        }
+        
+
+    }
 
     public void updateAmmoCount()
     {
@@ -126,7 +138,7 @@ public class HUD : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-        intermissionCountdown.text = "00:00"; // Ensure it ends cleanly
+        intermissionCountdown.text = "00:00"; 
     }
 
 
