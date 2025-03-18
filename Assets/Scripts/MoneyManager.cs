@@ -8,6 +8,16 @@ public class MoneyManager : MonoBehaviour
     public delegate void MoneyChanged(int newAmount);
     public event MoneyChanged OnMoneyChanged;
 
+    public int giveMoneyAmount = 10;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            AddMoney(giveMoneyAmount);
+        }
+    }
+
     private void Awake()
     {
         if (Instance == null)

@@ -27,9 +27,7 @@ public class WeaponInputManager : MonoBehaviour
     {
         if (StoreMenus.IsShopOpen) return; // Prevent firing when shop is open
         if (pauseMenu.isPaused) return;
-        {
-            
-        }
+    
 
         if (context.started || context.performed)
         {

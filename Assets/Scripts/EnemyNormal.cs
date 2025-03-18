@@ -9,18 +9,20 @@ public class EnemyNormal : EnemyBase, IDamageable
     private float lastAttackTime;
     private float attackCooldown = 1f; // Time in seconds between attacks
 
+
     protected override void Awake()
     {
         health = 100;
-        damage = 100;
+        damage = 10;
+        reward = 10;
 
         base.Awake();
 
         mainCollider = GetComponent<Collider>(); // Store main collider
         mainCollider.enabled = true;
     }
-
-    private void Update()
+ 
+    protected override void Update()
     {
         base.Update();
 
@@ -35,12 +37,16 @@ public class EnemyNormal : EnemyBase, IDamageable
         }
     }
 
+
+
     private IEnumerator Attack()
     {
         int attackNum = 0;
 
         yield return new WaitForSeconds(1);
-        //player.GetComponent<IDamageable>().TakeDamage(damage, gameObject);
+
+        player.GetComponent<PlayerHealth>().TakeDamage(damage);
+
         attackNum++;
 
         Debug.Log("Attacking player: " + attackNum);

@@ -13,6 +13,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
 {
     protected int health = 100;
     protected int damage = 10;
+    protected int reward = 10;
     protected float attackSpeed = 1.5f;
     protected float movementSpeed = 3f;
     [SerializeField] protected GameObject player;
@@ -112,6 +113,9 @@ public class EnemyBase : MonoBehaviour, IDamageable
     public virtual void EnemyDeath()
     {
         Debug.Log("Enemy killed");
+        // on death give reward to player
+        MoneyManager.Instance.AddMoney(reward);
+
 
         // Activate ragdoll
         ToggleRagdoll(true);

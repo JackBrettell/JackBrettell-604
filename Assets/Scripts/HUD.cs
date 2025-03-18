@@ -1,7 +1,8 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
@@ -10,6 +11,15 @@ public class HUD : MonoBehaviour
     public TMP_Text WaveNumText;
     private AmmoManager ammoManager;
     [SerializeField] private WaveManager waveManager;
+
+    [Header("Health Bar")]
+    [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private Slider healthBar;
+
+    [Header("Money")]
+    [SerializeField] private TMP_Text moneyText;
+    [SerializeField] private MoneyManager moneyManager;
+
 
     [Header("Intermission")]
     [SerializeField] private GameObject intermissionUI;
@@ -40,6 +50,17 @@ public class HUD : MonoBehaviour
 
         WaveNumText.text = "Wave: 1"; // Set initial wave number
         hudOriginalPosition = hud.anchoredPosition; // Store initial HUD position
+
+        // Initialize health bar
+        healthBar.maxValue = playerHealth.maxHealth;
+        healthBar.value = playerHealth.currentHealth;
+
+        // 🎉 Subscribe to money update event
+        if (moneyManager != null)
+        {
+            moneyManager.OnMoneyChanged += UpdateMoney;
+            UpdateMoney(moneyManager.CurrentMoney); // Initialize with current money
+        }
     }
 
     private void Update()
@@ -139,6 +160,15 @@ public class HUD : MonoBehaviour
         }
 
         intermissionCountdown.text = "00:00"; 
+    }
+
+    public void UpdateHealthBar()
+    {
+        healthBar.value = playerHealth.currentHealth;
+    }
+    public void UpdateMoney(int newAmount)
+    {
+        moneyText.text = $"${newAmount}"; // Format to show money with $
     }
 
 
