@@ -8,8 +8,8 @@ public class PlayerHealth : MonoBehaviour
     public float currentHealth;
 
     [SerializeField] private float regenAmount = 5f; // Amount healed per second
-    [SerializeField] private float regenDelay = 5f;  // Time before regen starts
-    [SerializeField] private float regenInterval = 0.5f; // How often to regenerate
+    [SerializeField] private float regenDelay = 5f;  // Time before regen 
+    [SerializeField] private float regenInterval = 0.5f; // How often to regen
     [SerializeField] private HUD hud;
 
     private Coroutine regenCoroutine;
@@ -17,7 +17,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void Update()
     {
-        // For testing, press K to take damage
+        
         if (Input.GetKeyDown(KeyCode.K))
         {
             TakeDamage(10);
@@ -36,7 +36,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         Debug.Log($"Player took {damage} damage! Current health: {currentHealth}");
 
-        // Update health bar after taking damage
+      
         hud.UpdateHealthBar();
 
 
@@ -61,7 +61,7 @@ public class PlayerHealth : MonoBehaviour
     public void Death()
     {
         Debug.Log("Player has died");
-        // Handle death logic here
+       
     }
 
     private IEnumerator HealthRegen()
@@ -92,7 +92,7 @@ public class PlayerHealth : MonoBehaviour
 
         Debug.Log($"Player healed! Current health: {currentHealth}");
 
-        // Update health bar after healing
+     
         hud.UpdateHealthBar();
     }
 

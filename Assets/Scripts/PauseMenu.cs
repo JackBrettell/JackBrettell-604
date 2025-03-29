@@ -55,6 +55,12 @@ public class PauseMenu : MonoBehaviour
     }
     public void OnQuitToMenu()
     {
-        // Load the main menu scene
+        // load main menu scene
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Main Menu");
+    }
+    public void OnPlay()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
+
     }
 }
