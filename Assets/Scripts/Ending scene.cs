@@ -2,6 +2,8 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Splines;
+using DG.Tweening;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class Endingscene : MonoBehaviour
 {
@@ -10,10 +12,21 @@ public class Endingscene : MonoBehaviour
     [SerializeField] private Camera cinematicCamera;
     [SerializeField] private SplineAnimate carSpline;
     [SerializeField] private float cinematicDuration = 5f;
+
+    [Header("Zombies")]
+    [SerializeField] private GameObject[] zombies;
+    [SerializeField] private float zombieSpeed = 1f;
+    [SerializeField] private GameObject zombieTarget;
+
+    [Header("Car interact")]
+    [SerializeField] private GameObject carInteract;
+    [SerializeField] private float playerInteractRange = 0;
+
     private void BeginCinematic()
     {
-        // Disable the player object
+        // Disable the player/UI objects
         player.SetActive(false); 
+        carInteract.SetActive(false);
 
         //Switch the active camera from player to cinematic
         playerCamera.enabled = false;
@@ -22,6 +35,15 @@ public class Endingscene : MonoBehaviour
 
         // begin the car spline animation
         carSpline.Play();
+
+        // Enable and move zombies forward
+        foreach (GameObject zombie in zombies)
+        {
+            zombie.SetActive(true);
+            zombie.transform.DOMove(zombieTarget.transform.position, zombieSpeed).SetEase(Ease.Linear);
+        }
+
+
 
         StartCoroutine(EndCinematic());
 
