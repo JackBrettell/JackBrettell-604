@@ -62,14 +62,13 @@ public class WaveManager : MonoBehaviour
 
     private IEnumerator SpawnEnemies(Wave wave)
     {
-        SpawnEnemyType(EnemyType.Zombie, wave.zombieCount);
-        SpawnEnemyType(EnemyType.Flying, wave.flyingCount);
-        SpawnEnemyType(EnemyType.Strong, wave.strongCount);
-
-        yield return null;
+        yield return StartCoroutine(SpawnEnemyType(EnemyType.Zombie, wave.zombieCount));
+        yield return StartCoroutine(SpawnEnemyType(EnemyType.Flying, wave.flyingCount));
+        yield return StartCoroutine(SpawnEnemyType(EnemyType.Strong, wave.strongCount));
     }
 
-    private void SpawnEnemyType(EnemyType type, int count)
+
+    private IEnumerator SpawnEnemyType(EnemyType type, int count)
     {
         for (int i = 0; i < count; i++)
         {
@@ -82,9 +81,11 @@ public class WaveManager : MonoBehaviour
                 enemy.GetComponent<EnemyBase>().OnDeath += () => activeEnemies--;
             }
 
-            StartCoroutine(WaitBeforeSpawn());
+            // Add delay before the next spawn
+            yield return new WaitForSeconds(spawnDelay);
         }
     }
+
 
     private IEnumerator Intermission(Wave wave)
     {
