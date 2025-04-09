@@ -6,6 +6,7 @@ public class WeaponButton : MonoBehaviour
     public TextMeshProUGUI weaponNameText;
     public TextMeshProUGUI weaponDescText;
     public Image weaponIconImage;
+    
     private WeaponStats weaponStats;
 
     public void Setup(WeaponStats weapon)

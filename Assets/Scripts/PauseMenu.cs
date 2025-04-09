@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject debugMenu;
     [SerializeField] private PlayerCameraController playerCameraController;
     [SerializeField] private HUD hud;
     public bool isPaused = false;
@@ -57,6 +58,11 @@ public class PauseMenu : MonoBehaviour
     {
         // load main menu scene
         UnityEngine.SceneManagement.SceneManager.LoadScene("Main Menu");
+    }
+
+    public void OnDebugMenu()
+    {
+        debugMenu.SetActive(!debugMenu.activeSelf);
     }
     public void OnPlay()
     {
