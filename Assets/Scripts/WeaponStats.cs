@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 [CreateAssetMenu(fileName = "NewWeaponStats", menuName = "Weapon/Stats")]
 public class WeaponStats : ScriptableObject
@@ -14,6 +15,8 @@ public class WeaponStats : ScriptableObject
         public string weaponName;
         public string weaponDescription;
         public Sprite weaponIcon;
+
+
 
 
 }
