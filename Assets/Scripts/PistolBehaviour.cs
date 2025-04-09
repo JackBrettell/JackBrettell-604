@@ -95,7 +95,7 @@ public class PistolBehaviour : GunBehaviour
 
 
 
-    private bool canFire = true; 
+    private bool canFire = true;
 
     public override void Fire()
     {
@@ -106,7 +106,7 @@ public class PistolBehaviour : GunBehaviour
 
         if (canFire && ammoManager.CurrentAmmo > 0)
         {
-            canFire = false; 
+            canFire = false;
 
             // Instantiate bullet
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
@@ -142,7 +142,7 @@ public class PistolBehaviour : GunBehaviour
 
             DOVirtual.DelayedCall(1f / weaponStats.fireRate, () => { canFire = true; });
         }
-        else if ( canFire && ammoManager.CurrentAmmo == 0 )
+        else if (canFire && ammoManager.CurrentAmmo == 0)
         {
             Sequence firingEmptySequence = DOTween.Sequence();
             firingEmptySequence
@@ -174,64 +174,63 @@ public class PistolBehaviour : GunBehaviour
 
 
 
-   /* private IEnumerator CrossHairScale()
-    {
-        float originalSize = crosshairSize;
-        float targetSize = originalSize * 1.5f;
-        float duration = 1f;
-        float elapsedTime = 0f;
+    /* private IEnumerator CrossHairScale()
+     {
+         float originalSize = crosshairSize;
+         float targetSize = originalSize * 1.5f;
+         float duration = 1f;
+         float elapsedTime = 0f;
 
-        // Scale up the crosshair
-        while (elapsedTime < duration / 2)
-        {
-            elapsedTime += Time.deltaTime;
-            float newSize = Mathf.Lerp(originalSize, targetSize, elapsedTime / (duration / 2));
-            crosshair.transform.localScale = new Vector3(newSize, newSize, newSize);
-            yield return null;
-        }
+         // Scale up the crosshair
+         while (elapsedTime < duration / 2)
+         {
+             elapsedTime += Time.deltaTime;
+             float newSize = Mathf.Lerp(originalSize, targetSize, elapsedTime / (duration / 2));
+             crosshair.transform.localScale = new Vector3(newSize, newSize, newSize);
+             yield return null;
+         }
 
-        // Scale back 
-        elapsedTime = 0f;
-        while (elapsedTime < duration / 2)
-        {
-            elapsedTime += Time.deltaTime;
-            float newSize = Mathf.Lerp(targetSize, originalSize, elapsedTime / (duration / 2));
-            crosshair.transform.localScale = new Vector3(newSize, newSize, newSize);
-            yield return null;
-        }
+         // Scale back 
+         elapsedTime = 0f;
+         while (elapsedTime < duration / 2)
+         {
+             elapsedTime += Time.deltaTime;
+             float newSize = Mathf.Lerp(targetSize, originalSize, elapsedTime / (duration / 2));
+             crosshair.transform.localScale = new Vector3(newSize, newSize, newSize);
+             yield return null;
+         }
 
-        // Ensure final size is original
-        crosshair.transform.localScale = new Vector3(originalSize, originalSize, originalSize);
-    }
+         // Ensure final size is original
+         crosshair.transform.localScale = new Vector3(originalSize, originalSize, originalSize);
+     }
 
-    private IEnumerator Recoil()
-    {
-        Vector3 originalPosition = pistolTransform.localPosition;
-        Vector3 recoilOffset = Vector3.back * recoilAmount;
+     private IEnumerator Recoil()
+     {
+         Vector3 originalPosition = pistolTransform.localPosition;
+         Vector3 recoilOffset = Vector3.back * recoilAmount;
 
-        float elapsedTime = 0f;
+         float elapsedTime = 0f;
 
-        // Apply recoil
-        while (elapsedTime < 0.1f)
-        {
-            elapsedTime += Time.deltaTime;
-            pistolTransform.localPosition = Vector3.Lerp(originalPosition, originalPosition + recoilOffset, elapsedTime / 0.1f);
-            yield return null;
-        }
+         // Apply recoil
+         while (elapsedTime < 0.1f)
+         {
+             elapsedTime += Time.deltaTime;
+             pistolTransform.localPosition = Vector3.Lerp(originalPosition, originalPosition + recoilOffset, elapsedTime / 0.1f);
+             yield return null;
+         }
 
-        // Recoil recovery
-        elapsedTime = 0f;
-        while (elapsedTime < 1f / recoilRecoverySpeed)
-        {
-            elapsedTime += Time.deltaTime;
-            pistolTransform.localPosition = Vector3.Lerp(pistolTransform.localPosition, originalPosition, elapsedTime * recoilRecoverySpeed);
-            yield return null;
-        }
+         // Recoil recovery
+         elapsedTime = 0f;
+         while (elapsedTime < 1f / recoilRecoverySpeed)
+         {
+             elapsedTime += Time.deltaTime;
+             pistolTransform.localPosition = Vector3.Lerp(pistolTransform.localPosition, originalPosition, elapsedTime * recoilRecoverySpeed);
+             yield return null;
+         }
 
-        // Ensure final position is original
-        pistolTransform.localPosition = originalPosition;
-    }
+         // Ensure final position is original
+         pistolTransform.localPosition = originalPosition;
+     }
 
-    */
+     */
 }
-

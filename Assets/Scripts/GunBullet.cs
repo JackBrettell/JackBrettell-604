@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GunBullet : MonoBehaviour
@@ -20,7 +21,16 @@ public class GunBullet : MonoBehaviour
             damageable.TakeDamage(damage, collision.gameObject);
             Debug.Log(collision.gameObject.name);
         }
+        
+        StartCoroutine(DespawnCountdown());
+    }
 
+    private IEnumerator DespawnCountdown()
+    {
+        yield return new WaitForSeconds(0.25f);
         Destroy(gameObject);
     }
+
+
+
 }

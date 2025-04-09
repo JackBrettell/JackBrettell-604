@@ -524,6 +524,17 @@
                 },
                 {
                     "name": "",
+                    "id": "7dec8c6d-5cda-4846-a827-b8b29670f3b9",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Switch weapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "092f6550-590c-405f-8f09-ae5473ebf0ca",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
