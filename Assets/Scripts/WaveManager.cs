@@ -18,7 +18,8 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private IntermissionUI intermissionArrow;
     [SerializeField] private Wave[] waves;
     [SerializeField] private Transform[] spawnPoints;
-    [SerializeField] private float spawnDelay = 1.5f;
+    [SerializeField] private float minSpawnDelay = 0.5f;
+    [SerializeField] private float maxSpawnDelay = 2f;
     [SerializeField] private GameObject player;
     [SerializeField] private LevelProgression levelProgression;
     [SerializeField] private EnemyFactory enemyFactory;
@@ -50,7 +51,6 @@ public class WaveManager : MonoBehaviour
         Wave currentWave = waves[currentWaveIndex];
         yield return StartCoroutine(SpawnEnemies(currentWave));
 
-        // Wait until all enemies are defeated before starting the next wave
         while (activeEnemies > 0)
         {
             yield return null;
@@ -67,7 +67,6 @@ public class WaveManager : MonoBehaviour
         yield return StartCoroutine(SpawnEnemyType(EnemyType.Strong, wave.strongCount));
     }
 
-
     private IEnumerator SpawnEnemyType(EnemyType type, int count)
     {
         for (int i = 0; i < count; i++)
@@ -81,20 +80,17 @@ public class WaveManager : MonoBehaviour
                 enemy.GetComponent<EnemyBase>().OnDeath += () => activeEnemies--;
             }
 
-            // Add delay before the next spawn
-            yield return new WaitForSeconds(spawnDelay);
+            float delay = Random.Range(minSpawnDelay, maxSpawnDelay);
+            yield return new WaitForSeconds(delay);
         }
     }
-
 
     private IEnumerator Intermission(Wave wave)
     {
         intermissionArrow.ToggleArrow();
         hud.showIntermission();
 
-        // Start the countdown timer
         hud.StartIntermissionTimer(wave.intermissionLength);
-
         yield return new WaitForSeconds(wave.intermissionLength);
 
         intermissionArrow.ToggleArrow();
@@ -104,12 +100,4 @@ public class WaveManager : MonoBehaviour
         currentWaveIndex++;
         StartCoroutine(StartWave());
     }
-
-
-    private IEnumerator WaitBeforeSpawn()
-    {
-        yield return new WaitForSeconds(spawnDelay);
-    }
-
-
 }
