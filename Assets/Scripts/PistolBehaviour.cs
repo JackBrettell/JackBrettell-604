@@ -39,55 +39,56 @@ public class PistolBehaviour : GunBehaviour
     }
     public override void ReloadingSequence()
     {
+        if (isRealoading) return;
+
         canFire = false;
         isRealoading = true;
 
-        // Offsets and Durations
         Vector3 reloadOffset = Vector3.right * reloadMovement + Vector3.up * reloadMovementUp;
         Vector3 reloadRotation = new Vector3(0, 0, -25);
         Vector3 gunMagOffset = gunMagOriginalPosition + Vector3.down * gunMagMovemement;
         Vector3 slideOffset = Vector3.back * slideRecoil;
 
-
-        // Stop any ongoing animations
         gunTransform.DOKill();
         gunMagTransform.DOKill();
+        slide.DOKill();
 
-        // Sequence
         Sequence reloadSequence = DOTween.Sequence();
 
-        // Add magazine and weapon animations
-        reloadSequence
+        // Step 1: Move and rotate the gun into reload pose
+        reloadSequence.Append(gunTransform.DOLocalMove(gunOriginalPosition + reloadOffset, reloadDuration).SetEase(EaseReload));
+        reloadSequence.Join(gunTransform.DOLocalRotate(reloadRotation, reloadDuration, RotateMode.Fast).SetEase(EaseReload));
 
-            .Join(gunTransform.DOLocalMove(gunOriginalPosition + reloadOffset, reloadDuration).SetEase(EaseReload))
-            // Sync rotation
-            .Join(gunTransform.DOLocalRotate(reloadRotation, reloadDuration, RotateMode.Fast).SetEase(EaseReload))
-            // Move slide back 
-            .Join(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
-            // Lower magazine
-            .Append(gunMagTransform.DOLocalMove(gunMagOffset, gunMagEjectDuration).SetEase(Ease.Linear))
-            // Return magazine
-            .Append(gunMagTransform.DOLocalMove(gunMagOriginalPosition, gunMagReturnDuration).SetEase(Ease.Linear))
-            // Return weapon position
-            .Append(gunTransform.DOLocalMove(gunOriginalPosition, reloadReturnDuration).SetEase(EaseReload))
-            // Return weapon rotation
-            .Join(gunTransform.DOLocalRotate(Vector3.zero, reloadReturnDuration, RotateMode.Fast).SetEase(EaseReload))
-            // Delay 
-            .AppendInterval(0.5f)
-            // Move slide foward  
-            .Append(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false))
-            .OnComplete(() =>
-            {
-                ammoManager.Reload();
-                hud.updateAmmoCount();
-                canFire = true;
+        // Step 2: Slide goes back (gun stays in reload pose)
+        reloadSequence.Append(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration).SetEase(Ease1));
+
+        // Step 3: Magazine out
+        reloadSequence.Append(gunMagTransform.DOLocalMove(gunMagOffset, gunMagEjectDuration).SetEase(Ease.Linear));
+
+        // Step 4: Magazine back in
+        reloadSequence.Append(gunMagTransform.DOLocalMove(gunMagOriginalPosition, gunMagReturnDuration).SetEase(Ease.Linear));
+
+        // Step 5: Now return the gun to its original position and rotation
+      //  reloadSequence.Append(gunTransform.DOLocalMove(gunOriginalPosition, reloadReturnDuration).SetEase(EaseReload));
+       // reloadSequence.Join(gunTransform.DOLocalRotate(Vector3.zero, reloadReturnDuration, RotateMode.Fast).SetEase(EaseReload));
 
 
 
+        // Step 6: Slide returns forward
+        reloadSequence.Append(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration));
 
-            });
-
+        reloadSequence.OnComplete(() =>
+        {
+            ammoManager.Reload();
+            hud.updateAmmoCount();
+            canFire = true;
+            isRealoading = false;
+        });
     }
+
+
+
+
 
 
 
@@ -121,7 +122,7 @@ public class PistolBehaviour : GunBehaviour
             Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
             bulletRigidbody.linearVelocity = firePoint.forward * bulletSpeed;
 
-            Sequence firingSequence = DOTween.Sequence();
+           /* Sequence firingSequence = DOTween.Sequence();
             firingSequence
                           // Trigger down
                           .Append(trigger.DOLocalRotate(triggerDownRotation, triggerRecoilDuration, RotateMode.Fast))
@@ -140,7 +141,7 @@ public class PistolBehaviour : GunBehaviour
             ammoManager.ReduceAmmo();
             hud.updateAmmoCount();
 
-            DOVirtual.DelayedCall(1f / weaponStats.fireRate, () => { canFire = true; });
+            DOVirtual.DelayedCall(1f / weaponStats.fireRate, () => { canFire = true; });*/
         }
         else if (canFire && ammoManager.CurrentAmmo == 0)
         {
