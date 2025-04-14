@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.CullingGroup;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private float regenDelay = 5f;  // Time before regen 
     [SerializeField] private float regenInterval = 0.5f; // How often to regen
     [SerializeField] private HUD hud;
+
+    // OnDeath event
+    public event System.Action OnDeath;
 
     private Coroutine regenCoroutine;
     private bool isRegenerating = false;
@@ -61,7 +65,9 @@ public class PlayerHealth : MonoBehaviour
     public void Death()
     {
         Debug.Log("Player has died");
-       
+        OnDeath?.Invoke();
+
+
     }
 
     private IEnumerator HealthRegen()

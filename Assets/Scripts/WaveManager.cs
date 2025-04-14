@@ -13,6 +13,7 @@ public class WaveManager : MonoBehaviour
         public int strongCount;
         public int intermissionLength;
         public GameObject[] objectsToDisable;
+        public GameObject[] spawnPointsForThisWave;
     }
 
     [SerializeField] private IntermissionUI intermissionArrow;
@@ -49,41 +50,52 @@ public class WaveManager : MonoBehaviour
         }
 
         Wave currentWave = waves[currentWaveIndex];
+
+        // Disable specified objects
+        foreach (GameObject obj in currentWave.objectsToDisable)
+        {
+            if (obj != null)
+                obj.SetActive(false);
+        }
+
         yield return StartCoroutine(SpawnEnemies(currentWave));
 
         while (activeEnemies > 0)
-        {
             yield return null;
-        }
 
         OnRoundFinished?.Invoke();
         StartCoroutine(Intermission(currentWave));
     }
 
+
     private IEnumerator SpawnEnemies(Wave wave)
     {
-        yield return StartCoroutine(SpawnEnemyType(EnemyType.Zombie, wave.zombieCount));
-        yield return StartCoroutine(SpawnEnemyType(EnemyType.Flying, wave.flyingCount));
-        yield return StartCoroutine(SpawnEnemyType(EnemyType.Strong, wave.strongCount));
+        yield return StartCoroutine(SpawnEnemyType(EnemyType.Zombie, wave.zombieCount, wave.spawnPointsForThisWave));
+        yield return StartCoroutine(SpawnEnemyType(EnemyType.Flying, wave.flyingCount, wave.spawnPointsForThisWave));
+        yield return StartCoroutine(SpawnEnemyType(EnemyType.Strong, wave.strongCount, wave.spawnPointsForThisWave));
     }
 
-    private IEnumerator SpawnEnemyType(EnemyType type, int count)
+    private IEnumerator SpawnEnemyType(EnemyType type, int count, GameObject[] spawnArray)
     {
         for (int i = 0; i < count; i++)
         {
-            int randomIndex = Random.Range(0, spawnPoints.Length);
-            EnemyBase enemy = enemyFactory.GetEnemy(type, spawnPoints[randomIndex].position, Quaternion.identity);
+            int randomIndex = Random.Range(0, spawnArray.Length);
+            Transform spawnPoint = spawnArray[randomIndex].transform;
+
+            EnemyBase enemy = enemyFactory.GetEnemy(type, spawnPoint.position, Quaternion.identity);
 
             if (enemy != null)
             {
                 activeEnemies++;
-                enemy.GetComponent<EnemyBase>().OnDeath += () => activeEnemies--;
+                enemy.OnDeath += () => activeEnemies--;
             }
 
             float delay = Random.Range(minSpawnDelay, maxSpawnDelay);
             yield return new WaitForSeconds(delay);
         }
     }
+
+    
 
     private IEnumerator Intermission(Wave wave)
     {

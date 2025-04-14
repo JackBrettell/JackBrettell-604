@@ -30,10 +30,12 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     protected Rigidbody[] ragdollBodies;
     [SerializeField] protected Collider[] ragdollColliders;
-    protected Collider mainCollider; // NEW: Main collider for preventing player collision
+    protected Collider mainCollider; 
 
     public delegate void DeathHandler();
-    public event DeathHandler OnDeath;
+    public event System.Action OnDeath;
+   // public static event System.Action OnAnyEnemyKilled;
+
 
     protected virtual void Awake()
     {
@@ -110,19 +112,16 @@ public class EnemyBase : MonoBehaviour, IDamageable
         Debug.Log($"Enemy dealt {damage} damage!");
     }
 
+
     public virtual void EnemyDeath()
     {
         Debug.Log("Enemy killed");
-        // on death give reward to player
+
         MoneyManager.Instance.AddMoney(reward);
 
-
-        // Activate ragdoll
         ToggleRagdoll(true);
-
         agent.enabled = false;
 
-        // Disable the main collider to prevent player collision
         if (mainCollider != null)
         {
             mainCollider.enabled = false;
@@ -130,6 +129,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
         StartCoroutine(Despawn());
     }
+
 
     private IEnumerator Despawn()
     {
