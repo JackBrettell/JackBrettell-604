@@ -35,7 +35,14 @@ public class Deathbehaviour : MonoBehaviour
 
     // If in Unity Editor K will kill the player
 #if UNITY_EDITOR
-    private void Update() { if (Input.GetKeyDown(KeyCode.K) && !hasDied) { HandlePlayerDeath(); } }
+    private void Update() 
+    { 
+        if (Input.GetKeyDown(KeyCode.K) && !hasDied) 
+        { 
+            HandlePlayerDeath(); 
+            Debug.Log(killCount);
+        } 
+    }
 #endif
 
 
@@ -43,7 +50,8 @@ public class Deathbehaviour : MonoBehaviour
     {
         playerHealth.OnDeath += HandlePlayerDeath;
 
-        EnemyBase.OnDeath += UpdateKillCount;
+        EnemyBase.OnAnyEnemyKilled += UpdateKillCount;
+
 
 
         canvasGroup = deathScreen.GetComponent<CanvasGroup>();
@@ -110,7 +118,13 @@ public class Deathbehaviour : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    // Prevent memory leaks from enemy kill tracking
+    private void OnDestroy()
+    {
+        playerHealth.OnDeath -= HandlePlayerDeath;
 
+        EnemyBase.OnAnyEnemyKilled -= UpdateKillCount;
+    }
 
 
 }
