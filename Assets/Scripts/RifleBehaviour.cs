@@ -51,6 +51,10 @@ public class RifleBehaviour : GunBehaviour
     protected override void FiringSequence()
     {
 
+        // Play sound
+        AudioClip fireSound = weaponStats.fireSound;
+        audioSource.PlayOneShot(fireSound);
+
         Sequence firingSequence = DOTween.Sequence();
         Vector3 recoilOffset = Vector3.back * recoilAmount + Vector3.up * recoilUpAmount;
 

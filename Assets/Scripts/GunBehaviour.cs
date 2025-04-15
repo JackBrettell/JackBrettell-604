@@ -61,6 +61,9 @@ public class GunBehaviour : MonoBehaviour
     [SerializeField] private float swaySmoothness = 5f;     // Damping effect
     [SerializeField] private float rotationSwayAmount = 4f; // Rotation amount
 
+    [Header("Sound")]
+    [SerializeField] protected AudioSource audioSource;
+
 
 
     public virtual void Start()

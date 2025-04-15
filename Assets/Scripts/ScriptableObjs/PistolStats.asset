@@ -15,6 +15,7 @@ MonoBehaviour:
   damage: 20
   fireRate: 5
   ammoCapacity: 12
+  fireSound: {fileID: 8300000, guid: 9af9d1fe968a3c544a13da5533202b56, type: 3}
   weaponName: Pistol
   weaponDescription: "The pistol\u2014what an absolute marvel of firepower. Who needs
     a high-capacity rifle when you can have this tiny, underpowered, last-resort

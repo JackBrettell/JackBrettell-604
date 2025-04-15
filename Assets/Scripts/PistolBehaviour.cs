@@ -58,7 +58,9 @@ public class PistolBehaviour : GunBehaviour
         // Step 1: Move and rotate the gun into reload pose
         reloadSequence.Append(gunTransform.DOLocalMove(gunOriginalPosition + reloadOffset, reloadDuration).SetEase(EaseReload));
         reloadSequence.Join(gunTransform.DOLocalRotate(reloadRotation, reloadDuration, RotateMode.Fast).SetEase(EaseReload));
+        reloadSequence.AppendInterval(2f); // Small delay to allow the gun to settle in the reload pose
 
+        /*
         // Step 2: Slide goes back (gun stays in reload pose)
         reloadSequence.Append(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration).SetEase(Ease1));
 
@@ -67,16 +69,16 @@ public class PistolBehaviour : GunBehaviour
 
         // Step 4: Magazine back in
         reloadSequence.Append(gunMagTransform.DOLocalMove(gunMagOriginalPosition, gunMagReturnDuration).SetEase(Ease.Linear));
-
+        */
         // Step 5: Now return the gun to its original position and rotation
-      //  reloadSequence.Append(gunTransform.DOLocalMove(gunOriginalPosition, reloadReturnDuration).SetEase(EaseReload));
-       // reloadSequence.Join(gunTransform.DOLocalRotate(Vector3.zero, reloadReturnDuration, RotateMode.Fast).SetEase(EaseReload));
+        reloadSequence.Append(gunTransform.DOLocalMove(gunOriginalPosition, reloadReturnDuration).SetEase(EaseReload));
+        reloadSequence.Join(gunTransform.DOLocalRotate(Vector3.zero, reloadReturnDuration, RotateMode.Fast).SetEase(EaseReload));
 
-
+        
 
         // Step 6: Slide returns forward
         reloadSequence.Append(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration));
-
+        
         reloadSequence.OnComplete(() =>
         {
             ammoManager.Reload();
@@ -85,7 +87,6 @@ public class PistolBehaviour : GunBehaviour
             isRealoading = false;
         });
     }
-
 
 
 
@@ -109,6 +110,10 @@ public class PistolBehaviour : GunBehaviour
         {
             canFire = false;
 
+            // Play sound
+            AudioClip fireSound = weaponStats.fireSound;
+            audioSource.PlayOneShot(fireSound);
+
             // Instantiate bullet
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
@@ -122,7 +127,7 @@ public class PistolBehaviour : GunBehaviour
             Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
             bulletRigidbody.linearVelocity = firePoint.forward * bulletSpeed;
 
-           /* Sequence firingSequence = DOTween.Sequence();
+            Sequence firingSequence = DOTween.Sequence();
             firingSequence
                           // Trigger down
                           .Append(trigger.DOLocalRotate(triggerDownRotation, triggerRecoilDuration, RotateMode.Fast))
@@ -141,7 +146,7 @@ public class PistolBehaviour : GunBehaviour
             ammoManager.ReduceAmmo();
             hud.updateAmmoCount();
 
-            DOVirtual.DelayedCall(1f / weaponStats.fireRate, () => { canFire = true; });*/
+            DOVirtual.DelayedCall(1f / weaponStats.fireRate, () => { canFire = true; });
         }
         else if (canFire && ammoManager.CurrentAmmo == 0)
         {

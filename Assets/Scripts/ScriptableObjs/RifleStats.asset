@@ -15,6 +15,7 @@ MonoBehaviour:
   damage: 20
   fireRate: 10
   ammoCapacity: 100
+  fireSound: {fileID: 8300000, guid: 00c73b35725767b4aa6fa00cf31fa24d, type: 3}
   weaponName: Assalt Rifle
   weaponDescription: "The assault rifle\u2014the perfect solution when a pistol just
     isn\u2019t loud or excessive enough. Why settle for a few measly shots when you

@@ -65,11 +65,32 @@ public class Endingscene : MonoBehaviour
     }
 
         // Update is called once per frame
-        void Update()
+    void Update()
     {
+        CarInteraction();
+
+
         if (Input.GetKeyDown(KeyCode.L))
         {
             BeginCinematic();
+        }
+    }
+
+    private void CarInteraction()
+    {
+        float distanceToCar = Vector3.Distance(player.transform.position, carInteract.transform.position);
+
+        if (distanceToCar < playerInteractRange)
+        {
+            carInteract.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                BeginCinematic();
+            }
+        }
+        else
+        {
+            carInteract.SetActive(false);
         }
     }
 }

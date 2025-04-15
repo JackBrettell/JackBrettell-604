@@ -38,7 +38,7 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        Debug.Log($"Player took {damage} damage! Current health: {currentHealth}");
+        //Debug.Log($"Player took {damage} damage! Current health: {currentHealth}");
 
       
         hud.UpdateHealthBar();
@@ -72,7 +72,7 @@ public class PlayerHealth : MonoBehaviour
 
     private IEnumerator HealthRegen()
     {
-        Debug.Log("Starting health regen...");
+        //Debug.Log("Starting health regen...");
 
         yield return new WaitForSeconds(regenDelay);
 
@@ -96,7 +96,7 @@ public class PlayerHealth : MonoBehaviour
             currentHealth = maxHealth;
         }
 
-        Debug.Log($"Player healed! Current health: {currentHealth}");
+        //Debug.Log($"Player healed! Current health: {currentHealth}");
 
      
         hud.UpdateHealthBar();

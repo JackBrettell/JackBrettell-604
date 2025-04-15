@@ -31,8 +31,14 @@ public class EnemyNormal : EnemyBase, IDamageable
             float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
             if (distanceToPlayer < 2 && Time.time >= lastAttackTime + attackCooldown)
             {
+                agent.isStopped = true; 
                 StartCoroutine(Attack());
                 lastAttackTime = Time.time;
+            }
+            else if (distanceToPlayer >= 2)
+            {
+                agent.isStopped = false;
+                agent.SetDestination(player.transform.position);
             }
         }
     }

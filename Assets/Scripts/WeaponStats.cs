@@ -9,9 +9,10 @@ public class WeaponStats : ScriptableObject
         public int damage;
         public float fireRate;
         public int ammoCapacity;
+        public AudioClip fireSound;
 
-        // Menu
-        [Header("Menu")]
+    // Menu
+    [Header("Menu")]
         public string weaponName;
         public string weaponDescription;
         public Sprite weaponIcon;
