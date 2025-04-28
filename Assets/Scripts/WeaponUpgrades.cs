@@ -4,31 +4,43 @@ using UnityEngine;
 public class WeaponUpgrades : MonoBehaviour
 {
     private WeaponStats currentWeapon;
+    private GunBehaviour currentGun;
+    [Header("Damage upgrade")]
+    [SerializeField] private int damageUpgradeCost = 10;
+    [SerializeField] private int damageUpgradeAmount = 10;
+
+    [Header("Damage upgrade")]
+    [SerializeField] private int fireRateUpgradeCost = 10;
+    [SerializeField] private int fireRateUpgradeAmount = 10;
+
+    [Header("Ammo upgrade")]
+    [SerializeField] private int increaseAmmoCapacityCost = 10;
+    [SerializeField] private int increaseAmmoCapacityAmmount = 10;
 
     [Header("UI")]
     public TextMeshProUGUI weaponNameText;
 
-    public void Initialize(WeaponStats weapon)
+    public void Initialize(WeaponStats weapon, GunBehaviour gun)
     {
         currentWeapon = weapon;
+        currentGun = gun;
         weaponNameText.text = $"Upgrading: {weapon.weaponName}";
     }
 
+
     public void UpgradeDamage()
     {
-        currentWeapon.damage += 10;
-        Debug.Log($"{currentWeapon.weaponName} damage upgraded to {currentWeapon.damage}");
+        currentGun.IncreaseDamage(damageUpgradeAmount);
     }
+
 
     public void UpgradeFireRate()
     {
-        currentWeapon.fireRate += 1f;
-        Debug.Log($"{currentWeapon.weaponName} fire rate upgraded to {currentWeapon.fireRate}");
+        currentGun.IncreaseFireRate(fireRateUpgradeAmount);
     }
 
     public void UpgradeAmmoCapacity()
     {
-        currentWeapon.ammoCapacity += 5;
-        Debug.Log($"{currentWeapon.weaponName} ammo upgraded to {currentWeapon.ammoCapacity}");
+        currentGun.IncreaseAmmoCapacity(increaseAmmoCapacityAmmount);
     }
 }

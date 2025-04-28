@@ -150,7 +150,7 @@ public class PistolBehaviour : GunBehaviour
             ammoManager.ReduceAmmo();
             hud.updateAmmoCount();
 
-            DOVirtual.DelayedCall(1f / weaponStats.fireRate, () => { canFire = true; });
+            DOVirtual.DelayedCall(1f / fireRate, () => { canFire = true; });
         }
         else if (canFire && ammoManager.CurrentAmmo == 0)
         {

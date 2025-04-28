@@ -14,9 +14,12 @@ public class GunBehaviour : MonoBehaviour
     [SerializeField] protected GameObject bulletPrefab;
     [SerializeField] protected float bulletSpeed = 20f;
     [SerializeField] protected int damage;
-    [SerializeField] protected int ammoCapacity = 30;
+    [HideInInspector] public int Damage => damage;
 
-    public float fireRate;
+    [SerializeField] protected int ammoCapacity = 30;
+    public int AmmoCapacity => ammoCapacity;
+
+    [SerializeField] protected float fireRate;
     [SerializeField] protected Transform firePoint;
 
     [Header("Recoil")]
@@ -77,13 +80,17 @@ public class GunBehaviour : MonoBehaviour
         if (ammoManager == null)
             ammoManager = GetComponent<AmmoManager>();
 
-        // Pass the weapon's ScriptableObject stats to AmmoManager
+        // Pass the ammo stats to AmmoManager
+        if (ammoManager == null)
+            ammoManager = GetComponent<AmmoManager>();
+
         if (weaponStats != null)
-            ammoManager.Initialize(weaponStats);
+            ammoManager.Initialize(this); // Pass GunBehaviour
         else
             Debug.LogError($"{gameObject.name}: Missing WeaponStats! Assign it in the Inspector.");
 
-        InitializeAmmo();
+
+      //  InitializeAmmo();
 
         // Set gun part positions 
         gunOriginalPosition = gunTransform.localPosition;
@@ -118,10 +125,10 @@ public class GunBehaviour : MonoBehaviour
         transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * swaySmoothness);
     }
 
-    public void InitializeAmmo()
+    /*public void InitializeAmmo()
     {
-            ammoManager.Initialize(weaponStats);
-    }
+            ammoManager.Initialize(WeaponStats);
+    }*/
 
     protected virtual void FiringSequence()
     {
@@ -149,5 +156,14 @@ public class GunBehaviour : MonoBehaviour
    public void IncreaseDamage(int amount)
     {
         damage += amount;
+    }
+
+    public void IncreaseFireRate(float amount)
+    {
+        fireRate += amount;
+    }
+    public void IncreaseAmmoCapacity(int amount)
+    {
+        ammoCapacity += amount;
     }
 }

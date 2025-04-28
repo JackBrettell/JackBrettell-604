@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 20
   fireRate: 5
-  ammoCapacity: 12
+  ammoCapacity: 100
   fireSound: {fileID: 8300000, guid: 9af9d1fe968a3c544a13da5533202b56, type: 3}
   weaponName: Pistol
   weaponDescription: "The pistol\u2014what an absolute marvel of firepower. Who needs

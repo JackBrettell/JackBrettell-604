@@ -13008,8 +13008,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1450175942}
   m_HandleRect: {fileID: 1450175941}
   m_Direction: 2
-  m_Value: 0.9999984
-  m_Size: 0.7635691
+  m_Value: 0.9999981
+  m_Size: 0.76356906
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -36497,6 +36497,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f65c1a9785961eb4e8f1242d238ef9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageUpgradeCost: 10
+  damageUpgradeAmount: 10
+  fireRateUpgradeCost: 10
+  fireRateUpgradeAmount: 10
+  increaseAmmoCapacityCost: 10
+  increaseAmmoCapacityAmmount: 10
   weaponNameText: {fileID: 309501021}
 --- !u!1001 &782779935
 PrefabInstance:
@@ -45290,6 +45296,9 @@ MonoBehaviour:
   weaponStatsList:
   - {fileID: 11400000, guid: 7d4672ae5749e254985c18310f3d7f45, type: 2}
   - {fileID: 11400000, guid: 1c72552219b930b4998ef36f7120e7d9, type: 2}
+  gunBehaviourList:
+  - {fileID: 553669754}
+  - {fileID: 3157565929509105674}
   weaponButtonPrefab: {fileID: 2707096198776346669, guid: aef356391f8251142b16f80a83cb6a04, type: 3}
   contentPanel: {fileID: 1019890635}
   weaponUpgradesPage: {fileID: 777726269}
@@ -51677,7 +51686,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1166087149}
   m_Layer: 5
-  m_Name: Weapon menu
+  m_Name: Select weapon menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57690,71 +57699,6 @@ Transform:
   - {fileID: 1116618401}
   m_Father: {fileID: 1088098521}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1314047634
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 883577382715293967, guid: fd6fa50c482229548ae014b4459b3b0d, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2033999729832404745, guid: fd6fa50c482229548ae014b4459b3b0d, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 1422311399}
-    - target: {fileID: 6377672457866535716, guid: fd6fa50c482229548ae014b4459b3b0d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -206.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 6377672457866535716, guid: fd6fa50c482229548ae014b4459b3b0d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.13
-      objectReference: {fileID: 0}
-    - target: {fileID: 6377672457866535716, guid: fd6fa50c482229548ae014b4459b3b0d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -6.93
-      objectReference: {fileID: 0}
-    - target: {fileID: 6377672457866535716, guid: fd6fa50c482229548ae014b4459b3b0d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6377672457866535716, guid: fd6fa50c482229548ae014b4459b3b0d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6377672457866535716, guid: fd6fa50c482229548ae014b4459b3b0d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6377672457866535716, guid: fd6fa50c482229548ae014b4459b3b0d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6377672457866535716, guid: fd6fa50c482229548ae014b4459b3b0d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6377672457866535716, guid: fd6fa50c482229548ae014b4459b3b0d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6377672457866535716, guid: fd6fa50c482229548ae014b4459b3b0d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8317462834783113182, guid: fd6fa50c482229548ae014b4459b3b0d, type: 3}
-      propertyPath: m_Name
-      value: Zombie
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fd6fa50c482229548ae014b4459b3b0d, type: 3}
 --- !u!1001 &1316517232
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60480,6 +60424,10 @@ PrefabInstance:
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 192441089}
+    - target: {fileID: 7145036493923222362, guid: 1f01a7aea7ce1e9419915423dfb24a86, type: 3}
+      propertyPath: ammoCapacity
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 1308060410013066616, guid: 1f01a7aea7ce1e9419915423dfb24a86, type: 3}
@@ -63308,7 +63256,7 @@ Transform:
   m_GameObject: {fileID: 1422311399}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -205.52, y: 3.91, z: 7.78}
+  m_LocalPosition: {x: -156.3, y: 3.91, z: -7.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -90728,7 +90676,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2083847198}
   m_Layer: 5
-  m_Name: Weapon upgrades
+  m_Name: Select upgrade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94737,4 +94685,3 @@ SceneRoots:
   - {fileID: 510871064}
   - {fileID: 1177969756}
   - {fileID: 1575253254}
-  - {fileID: 1314047634}

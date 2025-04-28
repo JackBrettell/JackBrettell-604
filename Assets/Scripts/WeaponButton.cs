@@ -10,12 +10,14 @@ public class WeaponButton : MonoBehaviour
     public Image weaponIconImage;
 
     private WeaponStats weaponStats;
+    private GunBehaviour gunBehaviour;
     private WeaponUpgrades upgradePage;
     private StoreMenus storeMenus;
 
-    public void Setup(WeaponStats weapon, WeaponUpgrades upgradeScript)
+    public void Setup(WeaponStats weapon, GunBehaviour gun, WeaponUpgrades upgradeScript)
     {
         weaponStats = Instantiate(weapon); // Clone the weapon for independent upgrades
+        gunBehaviour = gun;
         upgradePage = upgradeScript;
         storeMenus = FindObjectOfType<StoreMenus>();
 
@@ -29,6 +31,6 @@ public class WeaponButton : MonoBehaviour
     public void OpenUpgradePage()
     {
         storeMenus.OnWeaponsUpgrades();
-        upgradePage.Initialize(weaponStats);
+        upgradePage.Initialize(weaponStats, gunBehaviour);
     }
 }

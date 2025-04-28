@@ -40,25 +40,19 @@ public class WeaponManager : MonoBehaviour
         currentGun = gunBehaviour[weaponIndex];
         currentGun.gameObject.SetActive(true);
 
-        // Initialize ammo using the weapon's assigned `WeaponStats`
-        if (currentGun.weaponStats != null)
+        // Initialize ammo manager 
+        currentGun.ammoManager.Initialize(currentGun);
+
+        // Restore saved ammo if available
+        if (weaponAmmoMap.TryGetValue(currentGun, out int savedAmmo))
         {
-            if (weaponAmmoMap.TryGetValue(currentGun, out int savedAmmo))
-            {
-                currentGun.ammoManager.Initialize(currentGun.weaponStats);
-                for (int i = 0; i < (currentGun.weaponStats.ammoCapacity - savedAmmo); i++)
-                {
-                    currentGun.ammoManager.ReduceAmmo();
-                }
-            }
-            else
-            {
-                currentGun.ammoManager.Initialize(currentGun.weaponStats);
-            }
+            // Set the current ammo
+            currentGun.ammoManager.SetCurrentAmmo(savedAmmo);
         }
         else
         {
-            Debug.LogError($"{currentGun.gameObject.name}: Missing WeaponStats! Assign it in the Inspector.");
+            
+            currentGun.ammoManager.Reload();
         }
     }
 }
