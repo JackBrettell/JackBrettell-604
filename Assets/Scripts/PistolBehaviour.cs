@@ -29,6 +29,10 @@ public class PistolBehaviour : GunBehaviour
     {
         base.Start();
 
+        // Set default damage
+
+        damage = weaponStats.damage;
+
         // Set gun part positions 
         gunOriginalPosition = gunTransform.localPosition;
         slideOriginalPosition = slide.localPosition;
@@ -119,7 +123,7 @@ public class PistolBehaviour : GunBehaviour
 
             // Set the bullet's damage
             GunBullet bulletScript = bullet.GetComponent<GunBullet>();
-            bulletScript.damage = weaponStats.damage;
+            bulletScript.damage = damage;
 
             hud.crosshairScale();
 

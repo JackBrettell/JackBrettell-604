@@ -144,4 +144,10 @@ public class GunBehaviour : MonoBehaviour
     public virtual void StopFire() {
     
     }
+
+    // Applying upgrade
+   public void IncreaseDamage(int amount)
+    {
+        damage += amount;
+    }
 }

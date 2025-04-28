@@ -37,6 +37,7 @@ public class EnemyNormal : EnemyBase, IDamageable
             }
             else if (distanceToPlayer >= 2)
             {
+                animator.SetTrigger("Walk");
                 agent.isStopped = false;
                 agent.SetDestination(player.transform.position);
             }
@@ -47,15 +48,18 @@ public class EnemyNormal : EnemyBase, IDamageable
 
     private IEnumerator Attack()
     {
-        int attackNum = 0;
 
-        yield return new WaitForSeconds(1);
+        animator.SetTrigger("Attack");
+        agent.isStopped = true;
 
+        yield return new WaitForSeconds(0);
+
+    }
+
+    public void ApplyDamage()
+    {
         player.GetComponent<PlayerHealth>().TakeDamage(damage);
 
-        attackNum++;
-
-        Debug.Log("Attacking player: " + attackNum);
     }
 
     public virtual void ToggleKinematics()
