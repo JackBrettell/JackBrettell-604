@@ -16,10 +16,12 @@ MonoBehaviour:
   fireRate: 10
   ammoCapacity: 100
   fireSound: {fileID: 8300000, guid: 00c73b35725767b4aa6fa00cf31fa24d, type: 3}
-  weaponName: Assalt Rifle
+  weaponName: Assault Rifle
   weaponDescription: "The assault rifle\u2014the perfect solution when a pistol just
     isn\u2019t loud or excessive enough. Why settle for a few measly shots when you
     can spray an entire room with bullets and still somehow miss half your targets?
     Ideal for those who enjoy relentless recoil, constant ammo refills, and the illusion
     of tactical superiority."
   weaponIcon: {fileID: 21300000, guid: 4277383ee73c01b43ab727db85543a84, type: 3}
+  isUnlocked: 0
+  cost: 200

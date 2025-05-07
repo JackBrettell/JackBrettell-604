@@ -5,6 +5,9 @@ public class WeaponUpgrades : MonoBehaviour
 {
     private WeaponStats currentWeapon;
     private GunBehaviour currentGun;
+    [Header("Unlock gun")]
+    [SerializeField] private bool isUnlocked = false;
+
     [Header("Damage upgrade")]
     [SerializeField] private int damageUpgradeCost = 10;
     [SerializeField] private int damageUpgradeAmount = 10;

@@ -22,3 +22,5 @@ MonoBehaviour:
     weapon that barely holds a handful of rounds? Perfect for when you want to make
     your enemy mildly annoyed before they take you out with something actually effective."
   weaponIcon: {fileID: 21300000, guid: 079a750a3d4a1e843a84b8cbc820057e, type: 3}
+  isUnlocked: 1
+  cost: 0

@@ -7,6 +7,7 @@ public class WeaponButton : MonoBehaviour
 {
     public TextMeshProUGUI weaponNameText;
     public TextMeshProUGUI weaponDescText;
+    public TextMeshProUGUI weaponCostText;
     public Image weaponIconImage;
 
     private WeaponStats weaponStats;
@@ -24,6 +25,7 @@ public class WeaponButton : MonoBehaviour
         weaponNameText.text = weapon.weaponName;
         weaponDescText.text = weapon.weaponDescription;
         weaponIconImage.sprite = weapon.weaponIcon;
+        weaponCostText.text = weapon.isUnlocked ? "Unlocked" : $"Cost: " + "£" + weapon.cost;
 
         GetComponent<Button>().onClick.AddListener(OpenUpgradePage);
     }

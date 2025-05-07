@@ -16,6 +16,8 @@ public class WeaponStats : ScriptableObject
         public string weaponName;
         public string weaponDescription;
         public Sprite weaponIcon;
+        public bool isUnlocked;
+        public int cost;
 
 
 
