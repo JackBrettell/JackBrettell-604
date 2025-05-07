@@ -16,8 +16,8 @@ TagManager:
   - Enemy
   - Weapon Layer
   - Ignore Nav Mesh
-  - 
-  - 
+  - Enemy ragdoll Collision
+  - Player
   - 
   - 
   - 

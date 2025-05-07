@@ -115,7 +115,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     public virtual void EnemyDeath()
     {
         //Lock ragdoll position and disable all colliders
-        StartCoroutine(WaitForRagdollToggle());
+        //StartCoroutine(WaitForRagdollToggle());
 
 
         Debug.Log("Enemy killed");

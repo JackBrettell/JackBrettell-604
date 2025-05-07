@@ -13,7 +13,7 @@ public class GunBullet : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         hitMarker = FindObjectOfType<HitMarker>();
         if (hitMarker == null)
@@ -22,17 +22,17 @@ public class GunBullet : MonoBehaviour
             return;
         }
 
+       
 
 
-
-        IDamageable damageable = collision.gameObject.GetComponentInParent<IDamageable>();
+        IDamageable damageable = other.gameObject.GetComponentInParent<IDamageable>();
         if (damageable != null)
         {
-            EnemyBase enemy = collision.gameObject.GetComponentInParent<EnemyBase>();
-            damageable.TakeDamage(damage, collision.gameObject);
+            EnemyBase enemy = other.gameObject.GetComponentInParent<EnemyBase>();
+            damageable.TakeDamage(damage, other.gameObject);
 
             hitMarker.ShowHitMarker();
-            Debug.Log(collision.gameObject.name);
+            Debug.Log(other.gameObject.name);
         }
         
         StartCoroutine(DespawnCountdown());
@@ -43,6 +43,7 @@ public class GunBullet : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         Destroy(gameObject);
     }
+
 
 
 
