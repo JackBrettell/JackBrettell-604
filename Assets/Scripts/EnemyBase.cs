@@ -26,7 +26,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     private EnemyFactory factory;
     public EnemyType enemyType;
     private float timeTilDespawn = 3f;
-
+    [SerializeField] protected float colliderDisableTime = 1f; // Time to disable colliders after death 
 
     protected Rigidbody[] ragdollBodies;
     [SerializeField] protected Collider[] ragdollColliders;
@@ -114,6 +114,10 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     public virtual void EnemyDeath()
     {
+        //Lock ragdoll position and disable all colliders
+        StartCoroutine(WaitForRagdollToggle());
+
+
         Debug.Log("Enemy killed");
         // on death give reward to player
         MoneyManager.Instance.AddMoney(reward);
@@ -130,7 +134,27 @@ public class EnemyBase : MonoBehaviour, IDamageable
             mainCollider.enabled = false;
         }
 
-        StartCoroutine(Despawn());
+       StartCoroutine(Despawn());
+    }
+
+    private IEnumerator WaitForRagdollToggle()
+    {
+        yield return new WaitForSeconds(colliderDisableTime);
+
+        ToggleRagdoll(true);
+
+        //Prevent dead zombies from colliding with player
+        foreach (var Colldier in ragdollColliders)
+        {
+      
+            Colldier.enabled = false;
+            Debug.Log("Disabled collider" + ragdollColliders  );
+        }
+        foreach (var rb in ragdollBodies)
+        {
+            //freeze all rigidbodies
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+        }
     }
 
     private IEnumerator Despawn()

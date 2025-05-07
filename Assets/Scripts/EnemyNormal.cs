@@ -52,7 +52,7 @@ public class EnemyNormal : EnemyBase, IDamageable
         animator.SetTrigger("Attack");
         agent.isStopped = true;
 
-        yield return new WaitForSeconds(0);
+        yield return new WaitForSeconds(1);
 
     }
 
