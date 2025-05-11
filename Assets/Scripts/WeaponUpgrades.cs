@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using DG.Tweening;
 
 public class WeaponUpgrades : MonoBehaviour
 {
@@ -34,31 +35,53 @@ public class WeaponUpgrades : MonoBehaviour
     {
         currentWeapon = weapon;
         currentGun = gun;
-        weaponNameText.text = $"Upgrading: {weapon.weaponName}";
+        currentMoneyText.text = $"Money: £{MoneyManager.Instance.CurrentMoney}";
 
         // Assign the cost texts
-        damageUpgradeCostText.text = damageUpgradeCost.ToString();
-        fireRateUpgradeCostText.text = fireRateUpgradeCost.ToString();
-        increaseAmmoCapacityCostText.text = increaseAmmoCapacityCost.ToString();
+        damageUpgradeCostText.text = $"£{damageUpgradeCost.ToString()}"; 
+        fireRateUpgradeCostText.text = $"£{fireRateUpgradeCost.ToString()}";
+        increaseAmmoCapacityCostText.text = $"£{increaseAmmoCapacityCost.ToString()}";
 
     }
 
-    public void UpdateCurrentMoney()
-    { 
-        
+    // Subscribe/unsubscribe to the money change event
+    private void OnEnable()
+    {
+        MoneyManager.Instance.OnMoneyChanged += UpdateCurrentMoneyText;
     }
 
+    private void OnDisable()
+    {
 
+        MoneyManager.Instance.OnMoneyChanged -= UpdateCurrentMoneyText;
+    }
+
+    private void UpdateCurrentMoneyText(int newMoney)
+    {
+        currentMoneyText.text = $"Money: £{newMoney}";
+    }
 
     public void UpgradeDamage()
     {
         if (moneyManager.RemoveMoney(damageUpgradeCost))
         {
             currentGun.IncreaseDamage(damageUpgradeAmount);
+
+            // Fade to green
+            damageUpgradeCostText.DOColor(Color.green, 0.25f).OnComplete(() =>
+            {
+                damageUpgradeCostText.DOColor(Color.white, 0.25f);
+            });
         }
         else
         {
-            // Brokie logic
+            // Fade to red
+            damageUpgradeCostText.DOColor(Color.red, 0.25f).OnComplete(() =>
+            {
+                damageUpgradeCostText.DOColor(Color.white, 0.25f);
+            });
+
+
         }
     }
 
@@ -68,10 +91,19 @@ public class WeaponUpgrades : MonoBehaviour
         if (moneyManager.RemoveMoney(fireRateUpgradeCost))
         {
             currentGun.IncreaseFireRate(fireRateUpgradeAmount);
+            // Fade to green
+            fireRateUpgradeCostText.DOColor(Color.green, 0.25f).OnComplete(() =>
+            {
+                fireRateUpgradeCostText.DOColor(Color.white, 0.25f);
+            });
         }
         else
         {
-            // Brokie logic
+            // Fade to red
+            fireRateUpgradeCostText.DOColor(Color.red, 0.25f).OnComplete(() =>
+            {
+                fireRateUpgradeCostText.DOColor(Color.white, 0.25f);
+            });
         }
     }
 
@@ -80,10 +112,21 @@ public class WeaponUpgrades : MonoBehaviour
         if (moneyManager.RemoveMoney(increaseAmmoCapacityCost))
         {
             currentGun.IncreaseAmmoCapacity(increaseAmmoCapacityAmmount);
+
+            // Fade to green
+            increaseAmmoCapacityCostText.DOColor(Color.green, 0.25f).OnComplete(() =>
+            {
+                increaseAmmoCapacityCostText.DOColor(Color.white, 0.25f);
+            });
         }
         else
         {
-            // Brokie logic
+
+            // Fade to red
+            increaseAmmoCapacityCostText.DOColor(Color.red, 0.25f).OnComplete(() =>
+            {
+                increaseAmmoCapacityCostText.DOColor(Color.white, 0.25f);
+            });
         }
     }
 }

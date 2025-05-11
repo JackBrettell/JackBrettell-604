@@ -7,6 +7,10 @@ public class GunBehaviour : MonoBehaviour
     public AmmoManager ammoManager;
     public HUD hud;
 
+
+   public bool isWeaponUnlocked = false;
+
+
     [Header("Weapon Stats")]
     public WeaponStats weaponStats;
 

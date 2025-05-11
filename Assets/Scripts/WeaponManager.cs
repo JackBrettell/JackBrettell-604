@@ -24,13 +24,15 @@ public class WeaponManager : MonoBehaviour
 
     private void SwitchToWeapon(int weaponIndex)
     {
-        if (currentGun.weaponStats.isUnlocked == false)
-        {
-            Debug.Log("Weapon is not unlocked");
-            return;
-        }
-
         if (weaponIndex < 0 || weaponIndex >= gunBehaviour.Length) return;
+
+        // Check if the weapon is unlocked
+        GunBehaviour selectedGun = gunBehaviour[weaponIndex];
+        if (!selectedGun.isWeaponUnlocked)
+        {
+            Debug.Log($"Weapon {selectedGun.weaponStats.weaponName} is not unlocked!");
+            return; 
+        }
 
         // Save current weapon's ammo before switching
         if (currentGun != null)

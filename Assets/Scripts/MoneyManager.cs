@@ -2,38 +2,29 @@ using UnityEngine;
 
 public class MoneyManager : MonoBehaviour
 {
-    public static MoneyManager Instance { get; private set; }
+    public static MoneyManager Instance { get; set; }
     public int CurrentMoney { get; private set; } = 0;
 
-    public delegate void MoneyChanged(int newAmount);
-    public event MoneyChanged OnMoneyChanged;
+    public event System.Action<int> OnMoneyChanged; // Event to notify money changes
 
-    public int giveMoneyAmount = 10;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
-            AddMoney(giveMoneyAmount);
+            AddMoney(100);
         }
     }
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+    
 
     public void AddMoney(int amount)
     {
         CurrentMoney += amount;
-        OnMoneyChanged?.Invoke(CurrentMoney);
+        OnMoneyChanged?.Invoke(CurrentMoney); // Trigger the event
     }
 
     public bool RemoveMoney(int amount)
@@ -41,10 +32,9 @@ public class MoneyManager : MonoBehaviour
         if (CurrentMoney >= amount)
         {
             CurrentMoney -= amount;
-            OnMoneyChanged?.Invoke(CurrentMoney);
+            OnMoneyChanged?.Invoke(CurrentMoney); // Trigger the event
             return true;
         }
         return false;
     }
 }
-

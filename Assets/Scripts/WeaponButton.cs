@@ -2,6 +2,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class WeaponButton : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class WeaponButton : MonoBehaviour
     private WeaponUpgrades weaponUpgrades;
     private StoreMenus storeMenus;
 
+    private Image buttonImage;
+
 
     public void Setup(WeaponStats weapon, GunBehaviour gun, WeaponUpgrades upgradeScript)
     {
@@ -22,6 +25,7 @@ public class WeaponButton : MonoBehaviour
         gunBehaviour = gun;
         weaponUpgrades = upgradeScript;
         storeMenus = FindObjectOfType<StoreMenus>();
+        buttonImage = GetComponent<Image>();
 
         weaponNameText.text = weapon.weaponName;
         weaponDescText.text = weapon.weaponDescription;
@@ -33,12 +37,46 @@ public class WeaponButton : MonoBehaviour
 
     public void OpenUpgradePage()
     {
-        // Get the current money to update the UI
-        int currentMoney = MoneyManager.Instance.CurrentMoney;
+        // Check if the weapon is unlocked before opening the upgrade page
+        if (gunBehaviour.isWeaponUnlocked)
+        {
+            // Get the current money to update the UI
+            int currentMoney = MoneyManager.Instance.CurrentMoney;
 
-        weaponUpgrades.currentMoneyText.text = $"Money: £{currentMoney}";
-        storeMenus.OnWeaponsUpgrades();
-        weaponUpgrades.Initialize(weaponStats, gunBehaviour);
+            weaponUpgrades.currentMoneyText.text = $"Money: £{currentMoney}";
+            storeMenus.OnWeaponsUpgrades();
+            weaponUpgrades.Initialize(weaponStats, gunBehaviour);
+        }
+        else // if the weapon is not unlocked the player will buy it 
+        {
+            // Check if the player has enough money to unlock the weapon
+            if (MoneyManager.Instance.CurrentMoney >= weaponStats.cost)
+            {
+
+                // Fade to green if can afford
+                buttonImage.DOColor(Color.green, 0.25f).OnComplete(() =>
+                {
+                    buttonImage.DOColor(Color.white, 0.25f);
+
+                    // Deduct the cost, and Unlock
+                    MoneyManager.Instance.RemoveMoney(weaponStats.cost);
+                    gunBehaviour.isWeaponUnlocked = true;
+                    weaponCostText.text = "Unlocked";
+
+                });
+            }
+            else
+            {
+                // Fade to red if cant afford
+                buttonImage.DOColor(Color.red, 0.25f).OnComplete(() =>
+                {
+                    buttonImage.DOColor(Color.white, 0.25f);
+                });
+            }
+        }
+
+
+
 
 
     }
