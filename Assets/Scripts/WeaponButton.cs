@@ -12,14 +12,15 @@ public class WeaponButton : MonoBehaviour
 
     private WeaponStats weaponStats;
     private GunBehaviour gunBehaviour;
-    private WeaponUpgrades upgradePage;
+    private WeaponUpgrades weaponUpgrades;
     private StoreMenus storeMenus;
+
 
     public void Setup(WeaponStats weapon, GunBehaviour gun, WeaponUpgrades upgradeScript)
     {
         weaponStats = Instantiate(weapon); // Clone the weapon for independent upgrades
         gunBehaviour = gun;
-        upgradePage = upgradeScript;
+        weaponUpgrades = upgradeScript;
         storeMenus = FindObjectOfType<StoreMenus>();
 
         weaponNameText.text = weapon.weaponName;
@@ -32,7 +33,14 @@ public class WeaponButton : MonoBehaviour
 
     public void OpenUpgradePage()
     {
+        // Get the current money to update the UI
+        int currentMoney = MoneyManager.Instance.CurrentMoney;
+
+        weaponUpgrades.currentMoneyText.text = $"Money: £{currentMoney}";
         storeMenus.OnWeaponsUpgrades();
-        upgradePage.Initialize(weaponStats, gunBehaviour);
+        weaponUpgrades.Initialize(weaponStats, gunBehaviour);
+
+
     }
+
 }

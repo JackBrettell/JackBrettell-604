@@ -6,7 +6,8 @@ public class PlayerHealth : MonoBehaviour
 {
     [Header("Player Health Settings")]
     public float maxHealth = 100f;
-    public float currentHealth;
+    public float CurrentHealth => currentHealth;
+    private float currentHealth;
 
     [SerializeField] private float regenAmount = 5f; // Amount healed per second
     [SerializeField] private float regenDelay = 5f;  // Time before regen 
@@ -22,7 +23,7 @@ public class PlayerHealth : MonoBehaviour
     private void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.M))
         {
             TakeDamage(10);
         }
@@ -72,20 +73,27 @@ public class PlayerHealth : MonoBehaviour
 
     private IEnumerator HealthRegen()
     {
-        //Debug.Log("Starting health regen...");
-
         yield return new WaitForSeconds(regenDelay);
 
         isRegenerating = true;
 
         while (currentHealth < maxHealth && isRegenerating)
         {
-            Heal(regenAmount);
-            yield return new WaitForSeconds(regenInterval);
+            // Smoothly regenerate health over time
+            float targetHealth = Mathf.Min(currentHealth + regenAmount, maxHealth);
+            float regenSpeed = regenAmount / regenInterval; // Speed of regeneration per second
+
+            while (currentHealth < targetHealth && isRegenerating)
+            {
+                currentHealth = Mathf.MoveTowards(currentHealth, targetHealth, regenSpeed * Time.deltaTime);
+                hud.UpdateHealthBar(); // Update the health bar in real-time
+                yield return null; // Wait for the next frame
+            }
         }
 
         isRegenerating = false;
     }
+
 
     public void Heal(float amount)
     {

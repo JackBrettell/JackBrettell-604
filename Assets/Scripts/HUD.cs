@@ -53,7 +53,7 @@ public class HUD : MonoBehaviour
 
         // Initialize health bar
         healthBar.maxValue = playerHealth.maxHealth;
-        healthBar.value = playerHealth.currentHealth;
+        healthBar.value = playerHealth.CurrentHealth;
 
         // 🎉 Subscribe to money update event
         if (moneyManager != null)
@@ -164,7 +164,7 @@ public class HUD : MonoBehaviour
 
     public void UpdateHealthBar()
     {
-        healthBar.value = playerHealth.currentHealth;
+        healthBar.value = playerHealth.CurrentHealth;
     }
     public void UpdateMoney(int newAmount)
     {
