@@ -4,7 +4,7 @@ using UnityEngine;
 public class WeaponSelectionMenu : MonoBehaviour
 {
     public List<WeaponStats> weaponStatsList;
-    public List<GunBehaviour> gunBehaviourList; // New field for matching guns
+    public List<GunBehaviour> gunBehaviourList; 
     public GameObject weaponButtonPrefab;
     public Transform contentPanel;
 

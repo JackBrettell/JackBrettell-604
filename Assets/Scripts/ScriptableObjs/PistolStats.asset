@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a495132417712b409a95070b9b183e2, type: 3}
   m_Name: PistolStats
   m_EditorClassIdentifier: 
-  damage: 20
-  fireRate: 5
-  ammoCapacity: 100
+  damage: 30
+  fireRate: 6
+  ammoCapacity: 12
   fireSound: {fileID: 8300000, guid: 9af9d1fe968a3c544a13da5533202b56, type: 3}
   weaponName: Pistol
   weaponDescription: "The pistol\u2014what an absolute marvel of firepower. Who needs

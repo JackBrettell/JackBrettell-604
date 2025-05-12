@@ -14,12 +14,15 @@ public class MoneyManager : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.M))
         {
             AddMoney(100);
         }
+#endif
     }
-    
+
+
 
     public void AddMoney(int amount)
     {

@@ -3,11 +3,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class EnemyNormal : EnemyBase, IDamageable
 {
     private float lastAttackTime;
     private float attackCooldown = 1f; // Time in seconds between attacks
+    private float attackRange = 2f; // Distance at which the enemy can attack
 
 
     protected override void Awake()
@@ -29,17 +31,20 @@ public class EnemyNormal : EnemyBase, IDamageable
         if (player != null)
         {
             float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-            if (distanceToPlayer < 2 && Time.time >= lastAttackTime + attackCooldown)
+            if (distanceToPlayer < attackRange && Time.time >= lastAttackTime + attackCooldown)
             {
                 agent.isStopped = true; 
                 StartCoroutine(Attack());
                 lastAttackTime = Time.time;
             }
-            else if (distanceToPlayer >= 2)
+            else if (distanceToPlayer >= attackRange)
             {
-                animator.SetTrigger("Walk");
-                agent.isStopped = false;
-                agent.SetDestination(player.transform.position);
+                // Prevent errors
+                if (agent != null && agent.enabled && agent.isOnNavMesh)
+                {
+                    agent.isStopped = false;
+                    agent.SetDestination(player.transform.position);
+                }
             }
         }
     }

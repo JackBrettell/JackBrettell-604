@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 20
   fireRate: 10
-  ammoCapacity: 100
+  ammoCapacity: 25
   fireSound: {fileID: 8300000, guid: 00c73b35725767b4aa6fa00cf31fa24d, type: 3}
   weaponName: Assault Rifle
   weaponDescription: "The assault rifle\u2014the perfect solution when a pistol just

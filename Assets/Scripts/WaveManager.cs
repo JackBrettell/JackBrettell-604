@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using static EnemyBase;
 using Unity.VisualScripting;
+using DG.Tweening;
 
 public class WaveManager : MonoBehaviour
 {
@@ -54,8 +55,16 @@ public class WaveManager : MonoBehaviour
         // Disable specified objects
         foreach (GameObject obj in currentWave.objectsToDisable)
         {
-            if (obj != null)
-                obj.SetActive(false);
+
+            // Play unlock animation
+            obj.transform.DOLocalMoveY(obj.transform.localPosition.y + unlockAnimationOffset, unlockAnimationDuration)
+                .SetEase(Ease.OutBack)
+                .OnComplete(() =>
+                {
+                    if (obj != null)
+                        obj.SetActive(false);
+
+                });
         }
 
         yield return StartCoroutine(SpawnEnemies(currentWave));

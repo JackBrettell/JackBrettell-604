@@ -10,21 +10,12 @@ public class GunBullet : MonoBehaviour
     private void Start()
     {
         Destroy(gameObject, lifetime);
+        hitMarker = FindObjectOfType<HitMarker>();
 
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        hitMarker = FindObjectOfType<HitMarker>();
-        if (hitMarker == null)
-        {
-            Debug.LogError("HitMarker not found in the scene.");
-            return;
-        }
-
-       
-
-
         IDamageable damageable = other.gameObject.GetComponentInParent<IDamageable>();
         if (damageable != null)
         {
@@ -43,8 +34,4 @@ public class GunBullet : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         Destroy(gameObject);
     }
-
-
-
-
 }

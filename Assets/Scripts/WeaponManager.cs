@@ -22,15 +22,18 @@ public class WeaponManager : MonoBehaviour
         }
     }
 
+
+
     private void SwitchToWeapon(int weaponIndex)
     {
         if (weaponIndex < 0 || weaponIndex >= gunBehaviour.Length) return;
+
+        Debug.Log($"Switching to weapon {weaponIndex}");
 
         // Check if the weapon is unlocked
         GunBehaviour selectedGun = gunBehaviour[weaponIndex];
         if (!selectedGun.isWeaponUnlocked)
         {
-            Debug.Log($"Weapon {selectedGun.weaponStats.weaponName} is not unlocked!");
             return; 
         }
 
@@ -59,7 +62,6 @@ public class WeaponManager : MonoBehaviour
         }
         else
         {
-            
             currentGun.ammoManager.Reload();
         }
     }

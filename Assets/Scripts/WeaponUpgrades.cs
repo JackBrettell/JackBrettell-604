@@ -7,6 +7,7 @@ public class WeaponUpgrades : MonoBehaviour
     private WeaponStats currentWeapon;
     private GunBehaviour currentGun;
     [SerializeField] private MoneyManager moneyManager;
+    [SerializeField] private AmmoManager ammoManager;
 
     [Header("Unlock gun")]
     [SerializeField] private bool isUnlocked = false;
@@ -112,6 +113,8 @@ public class WeaponUpgrades : MonoBehaviour
         if (moneyManager.RemoveMoney(increaseAmmoCapacityCost))
         {
             currentGun.IncreaseAmmoCapacity(increaseAmmoCapacityAmmount);
+
+            ammoManager.Initialize(currentGun);
 
             // Fade to green
             increaseAmmoCapacityCostText.DOColor(Color.green, 0.25f).OnComplete(() =>

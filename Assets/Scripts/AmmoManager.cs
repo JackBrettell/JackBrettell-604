@@ -21,7 +21,6 @@ public class AmmoManager : MonoBehaviour
 
     public void Reload()
     {
-
         currentAmmo = ammoCapacity;
     }
     public void SetCurrentAmmo(int ammo)

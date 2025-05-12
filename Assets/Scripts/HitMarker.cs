@@ -21,6 +21,5 @@ public class HitMarker : MonoBehaviour
                 .Join(hitMarker.transform.DOScale(0, fadeDuration))
                 .OnComplete(() => hitMarker.SetActive(false));
 
-
     }
 }

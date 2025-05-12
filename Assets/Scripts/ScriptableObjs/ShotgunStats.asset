@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a495132417712b409a95070b9b183e2, type: 3}
   m_Name: ShotgunStats
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 50
   fireRate: 2
   ammoCapacity: 5
+  fireSound: {fileID: 8300000, guid: 9af9d1fe968a3c544a13da5533202b56, type: 3}
   weaponName: Combat Shotgun
   weaponDescription: Bang!
   weaponIcon: {fileID: 0}
+  isUnlocked: 1
+  cost: 0

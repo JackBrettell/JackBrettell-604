@@ -184,8 +184,6 @@ public class EnemyBase : MonoBehaviour, IDamageable
     protected void UpdateHealthbarValue()
     {
         healthSlider.value = health;
-        Debug.Log(health);
-        Debug.Log(healthSlider.value);
     }
 
     protected void ToggleRagdoll(bool isRagdoll)

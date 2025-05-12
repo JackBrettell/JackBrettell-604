@@ -82,19 +82,30 @@ public class GunBehaviour : MonoBehaviour
         //  ammoManager = GetComponent<AmmoManager>();
 
         if (ammoManager == null)
+        {
             ammoManager = GetComponent<AmmoManager>();
+        }
 
         // Pass the ammo stats to AmmoManager
         if (ammoManager == null)
+        {
             ammoManager = GetComponent<AmmoManager>();
+        }
+
 
         if (weaponStats != null)
+        {
+            // Pass the ammo capacity from WeaponStats to AmmoManager
+            ammoCapacity = weaponStats.ammoCapacity;
             ammoManager.Initialize(this); // Pass GunBehaviour
-        else
-            Debug.LogError($"{gameObject.name}: Missing WeaponStats! Assign it in the Inspector.");
+
+            // Set isWeaponUnlocked 
+            isWeaponUnlocked = weaponStats.isUnlocked;
+        }
+     
 
 
-      //  InitializeAmmo();
+        //  InitializeAmmo();
 
         // Set gun part positions 
         gunOriginalPosition = gunTransform.localPosition;
