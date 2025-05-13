@@ -13,17 +13,15 @@ public class WeaponButton : MonoBehaviour
 
     private WeaponStats weaponStats;
     private GunBehaviour gunBehaviour;
-    private WeaponUpgrades weaponUpgrades;
     private StoreMenus storeMenus;
 
     private Image buttonImage;
 
 
-    public void Setup(WeaponStats weapon, GunBehaviour gun, WeaponUpgrades upgradeScript)
+    public void Setup(GunBehaviour gun, WeaponStats weapon)
     {
         weaponStats = Instantiate(weapon); // Clone the weapon for independent upgrades
         gunBehaviour = gun;
-        weaponUpgrades = upgradeScript;
         storeMenus = FindObjectOfType<StoreMenus>();
         buttonImage = GetComponent<Image>();
 
@@ -43,9 +41,7 @@ public class WeaponButton : MonoBehaviour
             // Get the current money to update the UI
             int currentMoney = MoneyManager.Instance.CurrentMoney;
 
-            weaponUpgrades.currentMoneyText.text = $"Money: £{currentMoney}";
             storeMenus.OnWeaponsUpgrades();
-            weaponUpgrades.Initialize(weaponStats, gunBehaviour);
         }
         else // if the weapon is not unlocked the player will buy it 
         {

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class WeaponManager : MonoBehaviour
 {
@@ -8,7 +9,14 @@ public class WeaponManager : MonoBehaviour
     public GunBehaviour[] gunBehaviour;
     public HUD hud;
 
+    public event Action<GunBehaviour> OnWeaponSwitched;
+
     private Dictionary<GunBehaviour, int> weaponAmmoMap = new Dictionary<GunBehaviour, int>();
+
+    private void Start()
+    {
+        SwitchToWeapon(0); // Start with the first weapon (Pistol)
+    }
 
     public void OnWeaponSwitch(InputAction.CallbackContext context)
     {
@@ -29,6 +37,7 @@ public class WeaponManager : MonoBehaviour
         if (weaponIndex < 0 || weaponIndex >= gunBehaviour.Length) return;
 
         Debug.Log($"Switching to weapon {weaponIndex}");
+
 
         // Check if the weapon is unlocked
         GunBehaviour selectedGun = gunBehaviour[weaponIndex];
@@ -64,5 +73,8 @@ public class WeaponManager : MonoBehaviour
         {
             currentGun.ammoManager.Reload();
         }
+
+        OnWeaponSwitched?.Invoke(currentGun);
+
     }
 }

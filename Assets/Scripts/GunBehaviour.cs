@@ -14,6 +14,9 @@ public class GunBehaviour : MonoBehaviour
     [Header("Weapon Stats")]
     public WeaponStats weaponStats;
 
+    [SerializeField] private Camera playerCamera;
+
+
     [Header("Weapon Settings")]
     [SerializeField] protected GameObject bulletPrefab;
     [SerializeField] protected float bulletSpeed = 20f;
@@ -120,7 +123,24 @@ public class GunBehaviour : MonoBehaviour
     private void Update()
     {
         ApplySway();
+
+        // Cast a ray from the camera's position forward
+        Ray cameraRay = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+
+        if (Physics.Raycast(cameraRay, out RaycastHit hit))
+        {
+            Vector3 targetPosition = hit.point;
+            Vector3 direction = targetPosition - firePoint.position;
+            Quaternion rotation = Quaternion.LookRotation(direction);
+
+            // Smoothly rotate the weapon to look at the hit point
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 10f);
+
+            //show raycast hit point in the scene view
+            Debug.DrawLine(cameraRay.origin, hit.point, Color.red);
+        }
     }
+
 
     private void ApplySway()
     {

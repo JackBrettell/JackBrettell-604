@@ -14,6 +14,12 @@ public class GunBullet : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        //debug line to show bullet direction
+        Debug.DrawLine(transform.position, transform.position + transform.forward * 10, Color.red);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         IDamageable damageable = other.gameObject.GetComponentInParent<IDamageable>();

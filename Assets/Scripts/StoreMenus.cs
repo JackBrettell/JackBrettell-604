@@ -31,8 +31,8 @@ public class StoreMenus : MonoBehaviour
         IsShopOpen = (state != shopState.None);
 
         hud.ShopToggled(IsShopOpen);
-        Debug.Log(IsShopOpen);
-        Debug.Log(state);
+        //Debug.Log(IsShopOpen);
+        //Debug.Log(state);
 
     }
 

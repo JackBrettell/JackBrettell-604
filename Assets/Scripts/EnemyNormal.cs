@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
+using DG.Tweening;
 
 public class EnemyNormal : EnemyBase, IDamageable
 {
     private float lastAttackTime;
-    private float attackCooldown = 1f; // Time in seconds between attacks
-    private float attackRange = 2f; // Distance at which the enemy can attack
+    [SerializeField] private float attackCooldown = 1f; // Time in seconds between attacks
+    [SerializeField] private float attackRange = 2f; // Distance at which the enemy can attack
 
 
     protected override void Awake()
@@ -22,46 +23,55 @@ public class EnemyNormal : EnemyBase, IDamageable
 
         mainCollider = GetComponent<Collider>(); // Store main collider
         mainCollider.enabled = true;
+
+        agent.isStopped = true;
     }
- 
+
+    private bool isAttacking = false;
+
     protected override void Update()
     {
         base.Update();
-
         if (player != null)
         {
             float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-            if (distanceToPlayer < attackRange && Time.time >= lastAttackTime + attackCooldown)
+
+            if (distanceToPlayer < attackRange && !isAttacking && Time.time - lastAttackTime > attackCooldown)
             {
-                agent.isStopped = true; 
                 StartCoroutine(Attack());
-                lastAttackTime = Time.time;
             }
             else if (distanceToPlayer >= attackRange)
             {
-                // Prevent errors
-                if (agent != null && agent.enabled && agent.isOnNavMesh)
-                {
-                    agent.isStopped = false;
-                    agent.SetDestination(player.transform.position);
-                }
+                animator.SetBool("IsAttacking", false);
+                isAttacking = false;
             }
         }
     }
 
-
-
     private IEnumerator Attack()
     {
+        isAttacking = true;
+        animator.SetBool("IsAttacking", true);
+        lastAttackTime = Time.time;
 
-        animator.SetTrigger("Attack");
-        agent.isStopped = true;
+        // Wait for the animation tro finish
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
 
-        yield return new WaitForSeconds(1);
-
+        animator.SetBool("IsAttacking", false);
+        isAttacking = false;
     }
 
-    public void ApplyDamage()
+
+
+  
+
+
+
+
+
+
+
+public void ApplyDamage()
     {
         player.GetComponent<PlayerHealth>().TakeDamage(damage);
 
