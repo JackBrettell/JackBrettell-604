@@ -21,7 +21,6 @@ public class WeaponUpgradeView : MonoBehaviour
     public Transform contentPanel;
 
 
-
     public void Initialize(UpgradeCostsAndAmounts upgradeCostsAndAmounts)
     {
         //weaponNameText.text = .name;
@@ -54,19 +53,32 @@ public class WeaponUpgradeView : MonoBehaviour
     public void AnimateDamageSuccess() => AnimateFeedback(damageUpgradeCostText, Color.green);
     public void AnimateFireRateSuccess() => AnimateFeedback(fireRateUpgradeCostText, Color.green);
     public void AnimateAmmoSuccess() => AnimateFeedback(ammoUpgradeCostText, Color.green);
-    public void AnimateUpgradeFailure() => AnimateFeedbackAll(Color.red);
+ 
+
+    public void AnimateUpgradeFailure(WeaponUpgradeManager.UpgradeType type)
+    {
+        switch (type)
+        {
+            case WeaponUpgradeManager.UpgradeType.Damage:
+                AnimateFeedback(damageUpgradeCostText, Color.red);
+                Debug.Log("Damage upgrade failed");
+                break;
+            case WeaponUpgradeManager.UpgradeType.FireRate:
+                AnimateFeedback(fireRateUpgradeCostText, Color.red);
+                Debug.Log("Fire rate upgrade failed");
+                break;
+            case WeaponUpgradeManager.UpgradeType.Ammo:
+                AnimateFeedback(ammoUpgradeCostText, Color.red);
+                Debug.Log("Ammo upgrade failed");
+                break;
+        }
+    }
 
     private void AnimateFeedback(TextMeshProUGUI text, Color color)
     {
         text.DOColor(color, 0.25f).OnComplete(() => text.DOColor(Color.white, 0.25f));
     }
 
-    private void AnimateFeedbackAll(Color color)
-    {
-        AnimateFeedback(damageUpgradeCostText, color);
-        AnimateFeedback(fireRateUpgradeCostText, color);
-        AnimateFeedback(ammoUpgradeCostText, color);
-    }
 }
 
 

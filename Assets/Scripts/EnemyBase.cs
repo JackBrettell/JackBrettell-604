@@ -92,7 +92,6 @@ public class EnemyBase : MonoBehaviour, IDamageable
         UpdateHealthbarValue();
 
 
-        Debug.Log($"{damage} damage received. Health: {health}");
 
         if (health <= 0)
         {
@@ -114,11 +113,9 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     public virtual void EnemyDeath()
     {
-        //Lock ragdoll position and disable all colliders
-        //StartCoroutine(WaitForRagdollToggle());
+        // Disable health bar
+        healthSlider.gameObject.SetActive(false);
 
-
-        Debug.Log("Enemy killed");
         // on death give reward to player
         MoneyManager.Instance.AddMoney(reward);
         OnAnyEnemyKilled?.Invoke();

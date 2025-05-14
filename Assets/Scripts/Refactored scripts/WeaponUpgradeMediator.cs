@@ -18,6 +18,21 @@ public class WeaponUpgradeMediator : MonoBehaviour
 
 
         // Forward manager events to view
+        upgradeManager.OnUpgradeFailed += (upgradeType) =>
+        {
+            switch (upgradeType)
+            {
+                case WeaponUpgradeManager.UpgradeType.Damage:
+                    upgradeView.AnimateUpgradeFailure(upgradeType);
+                    break;
+                case WeaponUpgradeManager.UpgradeType.FireRate:
+                    upgradeView.AnimateUpgradeFailure(upgradeType);
+                    break;
+                case WeaponUpgradeManager.UpgradeType.Ammo:
+                    upgradeView.AnimateUpgradeFailure(upgradeType);
+                    break;
+            }
+        };
         upgradeManager.OnDamageUpgradeSuccess += upgradeView.AnimateDamageSuccess;
         upgradeManager.OnFireRateUpgradeSuccess += upgradeView.AnimateFireRateSuccess;
         upgradeManager.OnAmmoUpgradeSuccess += () =>
@@ -25,7 +40,7 @@ public class WeaponUpgradeMediator : MonoBehaviour
             //ammoManager.Initialize(gun);
             //upgradeView.AnimateAmmoSuccess();
         };
-        upgradeManager.OnUpgradeFailed += upgradeView.AnimateUpgradeFailure;
+
         upgradeManager.OnPopulateWeaponButtons += upgradeView.PopulateWeaponButtons;
 
         upgradeManager.OnUpgradeCostsAndAmountsChanged += upgradeView.Initialize;
@@ -49,6 +64,7 @@ public class WeaponUpgradeMediator : MonoBehaviour
         upgradeView.OnDamageUpgradeClicked -= upgradeManager.TryUpgradeDamage;
         upgradeView.OnFireRateUpgradeClicked -= upgradeManager.TryUpgradeFireRate;
         upgradeView.OnAmmoUpgradeClicked -= upgradeManager.TryUpgradeAmmo;
+
         upgradeManager.OnDamageUpgradeSuccess -= upgradeView.AnimateDamageSuccess;
         upgradeManager.OnFireRateUpgradeSuccess -= upgradeView.AnimateFireRateSuccess;
         upgradeManager.OnAmmoUpgradeSuccess -= () =>
@@ -56,7 +72,7 @@ public class WeaponUpgradeMediator : MonoBehaviour
             //ammoManager.Initialize(gun);
             //upgradeView.AnimateAmmoSuccess();
         };
-        upgradeManager.OnUpgradeFailed -= upgradeView.AnimateUpgradeFailure;
+
         upgradeManager.OnPopulateWeaponButtons -= upgradeView.PopulateWeaponButtons;
 
         upgradeManager.OnUpgradeCostsAndAmountsChanged -= upgradeView.Initialize;
