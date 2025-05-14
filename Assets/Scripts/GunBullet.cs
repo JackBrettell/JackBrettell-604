@@ -7,12 +7,16 @@ public class GunBullet : MonoBehaviour
     public int damage;
     private float lifetime = 5f;
     public Action OnEnemyHit;
-
+    public static event Action OnAnyBulletHit;
     private Coroutine lifetimeCoroutine;
 
     private void OnEnable()
     {
         lifetimeCoroutine = StartCoroutine(AutoDespawn());
+
+        // Reset to avoid duplicate invocs
+        OnEnemyHit = null;
+
     }
 
     private void OnDisable()
@@ -30,10 +34,6 @@ public class GunBullet : MonoBehaviour
         Despawn();
     }
 
-    private void Update()
-    {
-        Debug.DrawLine(transform.position, transform.position + transform.forward * 10, Color.red);
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -41,7 +41,9 @@ public class GunBullet : MonoBehaviour
         if (damageable != null)
         {
             damageable.TakeDamage(damage, other.gameObject);
+
             OnEnemyHit?.Invoke();
+            OnAnyBulletHit?.Invoke();
         }
 
         StartCoroutine(HitDespawn());
@@ -57,4 +59,6 @@ public class GunBullet : MonoBehaviour
     {
         BulletPool.Instance.ReturnBullet(this);
     }
+
+
 }

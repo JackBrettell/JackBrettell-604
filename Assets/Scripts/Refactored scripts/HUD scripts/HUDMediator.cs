@@ -16,6 +16,7 @@ public class HUDMediator : MonoBehaviour
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private WaveManager waveManager;
     [SerializeField] private GunBehaviour gunBehaviour;
+    [SerializeField] private GunBullet[] bullets;
 
     private void Start()
     {
@@ -23,7 +24,16 @@ public class HUDMediator : MonoBehaviour
         // moneyUI.Initialize(moneyManager);
         // healthBarUI.Initialize(playerHealth);
         // waveUI.Initialize(waveManager);
+    }
 
+    private void OnEnable()
+    {
+        GunBullet.OnAnyBulletHit += crosshairUI.ShowHitMarker;
         gunBehaviour.OnWeaponFired += crosshairUI.crosshairScale;
+    }
+    private void OnDisable()
+    {
+        GunBullet.OnAnyBulletHit -= crosshairUI.ShowHitMarker;
+        gunBehaviour.OnWeaponFired -= crosshairUI.crosshairScale;
     }
 }

@@ -119,8 +119,12 @@ public class PistolBehaviour : GunBehaviour
             AudioClip fireSound = weaponStats.fireSound;
             audioSource.PlayOneShot(fireSound);
 
-            // Instantiate bullet
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            // Retrieve the bullet from the pool
+            GunBullet bullet = BulletPool.Instance.GetBullet();
+
+            // Set the bullet's position and rotation before firing
+            bullet.transform.position = firePoint.position;
+            bullet.transform.rotation = firePoint.rotation;
 
             // Set the bullet's damage
             GunBullet bulletScript = bullet.GetComponent<GunBullet>();

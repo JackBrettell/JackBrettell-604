@@ -7368,6 +7368,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000013149834228, guid: 6857ff1d3761e21479727f3b27cc8f68, type: 3}
   m_PrefabInstance: {fileID: 129452047}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &134135167
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 134135168}
+  - component: {fileID: 134135169}
+  m_Layer: 0
+  m_Name: Bullets
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &134135168
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134135167}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1588180725}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &134135169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134135167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dd97745e893aa945b3b5fc9c2817e0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 4497480737951755386, guid: 3e16fe1e040fb1d46906820603db60b3, type: 3}
+  poolSize: 30
 --- !u!1001 &136142571
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16692,7 +16738,7 @@ GameObject:
   - component: {fileID: 246386379}
   - component: {fileID: 246386380}
   m_Layer: 0
-  m_Name: ===== AI Nav =====
+  m_Name: ====== AI Nav =======
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49794,12 +49840,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitMarker: {fileID: 1964558237}
-  fadeDuration: 1
-  scaleToSize: 1
+  fadeDuration: 0.5
+  scaleToSize: 0.3
   hitMarkerCanvasGroup: {fileID: 1964558241}
   crosshair: {fileID: 303298356}
   crosshairScaleSpeed: 0.1
-  crosshairRecoilSize: 0.5
+  crosshairStartSize: 0.5
   crosshairEndSize: 1
 --- !u!1001 &1129869495
 PrefabInstance:
@@ -69556,6 +69602,38 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000010230679374, guid: fee6e1da33beae9409089ab8a832464f, type: 3}
   m_PrefabInstance: {fileID: 905489790}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1588180723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1588180725}
+  m_Layer: 0
+  m_Name: ====== Pools ========
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1588180725
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588180723}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -193.78885, y: -1.4568913, z: -30.68298}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 134135168}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1593602977 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000013931566300, guid: 67b4ca73507352a40a4ba54118669807, type: 3}
@@ -72122,6 +72200,7 @@ MonoBehaviour:
   playerHealth: {fileID: 1422311409}
   waveManager: {fileID: 2016242195}
   gunBehaviour: {fileID: 553669754}
+  bullets: []
 --- !u!1001 &1660839771
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94224,10 +94303,11 @@ SceneRoots:
   - {fileID: 1088098521}
   - {fileID: 362651135}
   - {fileID: 1880779391}
-  - {fileID: 246386375}
   - {fileID: 2744884720380570213}
   - {fileID: 11341789}
   - {fileID: 577784212}
+  - {fileID: 246386375}
+  - {fileID: 1588180725}
   - {fileID: 2005395005}
   - {fileID: 256672530}
   - {fileID: 1696683175}

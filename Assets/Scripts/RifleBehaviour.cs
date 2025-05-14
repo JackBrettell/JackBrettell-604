@@ -58,10 +58,8 @@ public class RifleBehaviour : GunBehaviour
         Sequence firingSequence = DOTween.Sequence();
         Vector3 recoilOffset = Vector3.back * recoilAmount + Vector3.up * recoilUpAmount;
 
-        // Instantiate bullet
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-
-
+        // Retrieve the bullet from the pool
+        GunBullet bullet = BulletPool.Instance.GetBullet();
 
         // Set the bullet's damage
         GunBullet bulletScript = bullet.GetComponent<GunBullet>();

@@ -183,6 +183,8 @@ public class GunBehaviour : MonoBehaviour
     public virtual void Fire()
     {
         OnWeaponFired?.Invoke();
+
+
     }
 
 
