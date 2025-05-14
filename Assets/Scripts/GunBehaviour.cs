@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using System;
 
 public class GunBehaviour : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GunBehaviour : MonoBehaviour
 
    public bool isWeaponUnlocked = false;
 
+    public Action OnWeaponFired;
 
     [Header("Weapon Stats")]
     public WeaponStats weaponStats;
@@ -180,8 +182,9 @@ public class GunBehaviour : MonoBehaviour
 
     public virtual void Fire()
     {
-
+        OnWeaponFired?.Invoke();
     }
+
 
     public virtual void StopFire() {
     

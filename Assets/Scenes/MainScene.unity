@@ -638,6 +638,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 660973029}
+  - {fileID: 1659877502}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &12465927
@@ -49793,9 +49794,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitMarker: {fileID: 1964558237}
-  fadeDuration: 0.1
-  scaleToSize: 0.5
+  fadeDuration: 1
+  scaleToSize: 1
   hitMarkerCanvasGroup: {fileID: 1964558241}
+  crosshair: {fileID: 303298356}
+  crosshairScaleSpeed: 0.1
+  crosshairRecoilSize: 0.5
+  crosshairEndSize: 1
 --- !u!1001 &1129869495
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72066,6 +72071,57 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000013041734426, guid: d803e729730d97a4e89edf13b602b3f4, type: 3}
   m_PrefabInstance: {fileID: 1656827663}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1659877501
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1659877502}
+  - component: {fileID: 1659877503}
+  m_Layer: 0
+  m_Name: Heads up display mediator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1659877502
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659877501}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11341789}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1659877503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659877501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79307fe3ecb4d6f4c84513f5164fcff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crosshairUI: {fileID: 1129827415}
+  intermissionUI: {fileID: 1887854455}
+  ammoManager: {fileID: 1129827414}
+  moneyManager: {fileID: 100856326}
+  playerHealth: {fileID: 1422311409}
+  waveManager: {fileID: 2016242195}
+  gunBehaviour: {fileID: 553669754}
 --- !u!1001 &1660839771
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76566,8 +76622,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "TODO:\n - Personal upgrade page \n - More sounds\n - Zombie animation
-    blend trees \n   (Attacking whilst moving) \n- Fix ammo upgrades not applying\n "
+  m_text: "TODO:\n - Personal upgrade page \n - More sounds\n - Pool bullets\n "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -87747,6 +87802,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2016242194}
   - component: {fileID: 2016242195}
+  - component: {fileID: 2016242197}
+  - component: {fileID: 2016242196}
   m_Layer: 0
   m_Name: Wave manager
   m_TagString: Untagged
@@ -87781,12 +87838,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd19d5ecf075e7c4099c2d67835a4882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intermissionArrow: {fileID: 1887854455}
   waves:
-  - zombieCount: 30
+  - zombieCount: 1
     flyingCount: 0
     strongCount: 0
-    intermissionLength: 1000
+    intermissionLength: 10
     objectsToDisable: []
     spawnPointsForThisWave:
     - {fileID: 901870527}
@@ -87818,20 +87874,38 @@ MonoBehaviour:
     spawnPointsForThisWave:
     - {fileID: 225999281}
     - {fileID: 1675682503}
-  spawnPoints:
-  - {fileID: 901870528}
-  - {fileID: 1746925444}
-  - {fileID: 1879361327}
-  - {fileID: 1181719206}
-  minSpawnDelay: 1
-  maxSpawnDelay: 3
-  player: {fileID: 1422311399}
+  waveSpawner: {fileID: 2016242197}
+  uiHandler: {fileID: 2016242196}
   levelProgression: {fileID: 648676881}
-  enemyFactory: {fileID: 123018606}
+--- !u!114 &2016242196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016242193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef2ec8fbfed2e542b2f9a74ad9d6f8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   hud: {fileID: 1129827413}
-  currentWaveIndex: 0
-  unlockAnimationDuration: 5
-  unlockAnimationOffset: -2
+  intermissionArrow: {fileID: 1887854455}
+--- !u!114 &2016242197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016242193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49cfea2c41ada244e8fb57511489b568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  factory: {fileID: 123018606}
+  minSpawnDelay: 1
+  maxSpawnDelay: 10
 --- !u!1001 &2018303552
 PrefabInstance:
   m_ObjectHideFlags: 0

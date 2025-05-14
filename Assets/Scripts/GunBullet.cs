@@ -1,22 +1,37 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class GunBullet : MonoBehaviour
 {
-    public int damage; 
+    public int damage;
     private float lifetime = 5f;
-    [SerializeField] private HitMarker hitMarker;
+    public Action OnEnemyHit;
 
-    private void Start()
+    private Coroutine lifetimeCoroutine;
+
+    private void OnEnable()
     {
-        Destroy(gameObject, lifetime);
-        hitMarker = FindObjectOfType<HitMarker>();
+        lifetimeCoroutine = StartCoroutine(AutoDespawn());
+    }
 
+    private void OnDisable()
+    {
+        if (lifetimeCoroutine != null)
+        {
+            StopCoroutine(lifetimeCoroutine);
+            lifetimeCoroutine = null;
+        }
+    }
+
+    private IEnumerator AutoDespawn()
+    {
+        yield return new WaitForSeconds(lifetime);
+        Despawn();
     }
 
     private void Update()
     {
-        //debug line to show bullet direction
         Debug.DrawLine(transform.position, transform.position + transform.forward * 10, Color.red);
     }
 
@@ -25,19 +40,21 @@ public class GunBullet : MonoBehaviour
         IDamageable damageable = other.gameObject.GetComponentInParent<IDamageable>();
         if (damageable != null)
         {
-            EnemyBase enemy = other.gameObject.GetComponentInParent<EnemyBase>();
             damageable.TakeDamage(damage, other.gameObject);
-
-            hitMarker.ShowHitMarker();
-            Debug.Log(other.gameObject.name);
+            OnEnemyHit?.Invoke();
         }
-        
-        StartCoroutine(DespawnCountdown());
+
+        StartCoroutine(HitDespawn());
     }
 
-    private IEnumerator DespawnCountdown()
+    private IEnumerator HitDespawn()
     {
         yield return new WaitForSeconds(0.25f);
-        Destroy(gameObject);
+        Despawn();
+    }
+
+    private void Despawn()
+    {
+        BulletPool.Instance.ReturnBullet(this);
     }
 }

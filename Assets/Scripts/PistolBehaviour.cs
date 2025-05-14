@@ -105,6 +105,7 @@ public class PistolBehaviour : GunBehaviour
 
     public override void Fire()
     {
+        base.Fire();
 
         // Offsets and Durations
         Vector3 recoilOffset = Vector3.back * recoilAmount;
@@ -125,7 +126,6 @@ public class PistolBehaviour : GunBehaviour
             GunBullet bulletScript = bullet.GetComponent<GunBullet>();
             bulletScript.damage = damage;
 
-            hud.crosshairScale();
 
             // Add velocity to the bullet
             Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();

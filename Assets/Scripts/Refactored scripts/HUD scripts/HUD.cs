@@ -45,7 +45,7 @@ public class HUD : MonoBehaviour
 
         if (waveManager != null)
         {
-            waveManager.OnRoundFinished += UpdateWaveNumber; // Subscribe to round finished event
+          //  waveManager.OnRoundFinished += UpdateWaveNumber; // Subscribe to round finished event
         }
 
         WaveNumText.text = "Wave: 1"; // Set initial wave number
@@ -69,18 +69,18 @@ public class HUD : MonoBehaviour
 
     }
 
-    public void crosshairScale()
+  /*  public void crosshairScale()
     {
         Sequence crosshairSequence = DOTween.Sequence();
         crosshairSequence
             .Append(crosshair.transform.DOScale(crosshairReccoilSize, crosshairScaleSpeed))
             .Append(crosshair.transform.DOScale(crosshairSize, crosshairScaleSpeed));
-    }
+    }*/
 
     private void UpdateWaveNumber()
     {
-        int currentWave = waveManager.currentWaveIndex + 2;
-        WaveNumText.text = "Wave: " + currentWave;
+       // int currentWave = waveManager.currentWaveIndex + 2;
+       // WaveNumText.text = "Wave: " + currentWave;
     }
 
 

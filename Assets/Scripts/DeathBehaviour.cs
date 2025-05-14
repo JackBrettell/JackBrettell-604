@@ -80,7 +80,7 @@ public class Deathbehaviour : MonoBehaviour
 
         // Set the round number
         int roundNum = 0;
-        roundNum = waveManager.currentWaveIndex + 1; // +1 so round 1 != 0
+       // roundNum = waveManager.currentWaveIndex + 1; // +1 so round 1 != 0
         roundNumber.text = roundNum.ToString();
     }
     private IEnumerator PauseOnMenuAppear()

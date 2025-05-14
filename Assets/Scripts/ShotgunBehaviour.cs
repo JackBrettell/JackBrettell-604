@@ -125,7 +125,6 @@ public class ShotgunBehaviour : GunBehaviour
                 bulletRigidbody.linearVelocity = bullet.transform.forward * bulletSpeed;
             }
 
-            hud.crosshairScale();
 
             Sequence firingSequence = DOTween.Sequence();
             firingSequence
