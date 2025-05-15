@@ -20,10 +20,6 @@ public class HUD : MonoBehaviour
     [SerializeField] private TMP_Text moneyText;
     [SerializeField] private MoneyManager moneyManager;
 
-
-    [Header("Intermission")]
-    [SerializeField] private GameObject intermissionUI;
-    [SerializeField] private TMP_Text intermissionCountdown;
     
 
     [SerializeField] private float crosshairSize = 0;
@@ -85,9 +81,7 @@ public class HUD : MonoBehaviour
 
 
 
-    // Intermission
-    public void hideIntermission() { intermissionUI.SetActive(false); }
-    public void showIntermission() { intermissionUI.SetActive(true); }
+
 
     public void ShopToggled(bool isShopOpened)
     {
@@ -141,25 +135,6 @@ public class HUD : MonoBehaviour
 
 
 
-    }
-
-    public void StartIntermissionTimer(int duration)
-    {
-        StartCoroutine(IntermissionCountdown(duration));
-    }
-
-    private IEnumerator IntermissionCountdown(int duration)
-    {
-        for (int timeLeft = duration; timeLeft >= 0; timeLeft--)
-        {
-            int minutes = timeLeft / 60;
-            int seconds = timeLeft % 60;
-
-            intermissionCountdown.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-            yield return new WaitForSeconds(1f);
-        }
-
-        intermissionCountdown.text = "00:00"; 
     }
 
     public void UpdateHealthBar()

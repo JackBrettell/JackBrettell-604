@@ -2,7 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 
 public class LevelProgression : MonoBehaviour
-{
+{/*
     [System.Serializable]
     public class WaveUnlock
     {
@@ -24,5 +24,5 @@ public class LevelProgression : MonoBehaviour
                 i.objectToDisable.transform.DOLocalMoveY(-unlockAnimationOffset, unlockAnimationDuration); // Lower barriers into ground
             }
         }
-    }
+    }*/
 }

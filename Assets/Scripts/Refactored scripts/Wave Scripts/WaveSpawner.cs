@@ -11,7 +11,6 @@ public class WaveSpawner : MonoBehaviour
 
     public IEnumerator SpawnWave(WaveDefinition wave)
     {
-        DisableObjectsWithAnimation(wave.objectsToDisable);
 
         yield return SpawnEnemies(EnemyType.Zombie, wave.zombieCount, wave.spawnPointsForThisWave);
         yield return SpawnEnemies(EnemyType.Flying, wave.flyingCount, wave.spawnPointsForThisWave);
@@ -35,14 +34,5 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
-    private void DisableObjectsWithAnimation(GameObject[] objs)
-    {
-        foreach (var obj in objs)
-        {
-            obj.transform
-                .DOLocalMoveY(obj.transform.localPosition.y + 10f, 1f)
-                .SetEase(Ease.OutBack)
-                .OnComplete(() => obj?.SetActive(false));
-        }
-    }
+
 }
