@@ -17,19 +17,24 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private LevelProgression levelProgression;
     private WaveDefinition waveDefinition;
 
+    public Action<WaveDefinition> OnWaveStarted;
     public Action<WaveDefinition> OnWaveCompleted;
 
     private int currentWaveIndex = 0;
+    public int CurrentWaveIndex => currentWaveIndex;
 
     private void Start() => StartCoroutine(StartWave());
 
     public IEnumerator StartWave()
     {
+ 
         if (currentWaveIndex >= waves.Length)
             yield break;
 
+       Debug.Log($"(Manager) Starting wave {currentWaveIndex} of {waves.Length}");
         WaveDefinition currentWave = waves[currentWaveIndex];
 
+        OnWaveStarted?.Invoke(currentWave);
 
         yield return waveSpawner.SpawnWave(currentWave);
 
@@ -41,9 +46,11 @@ public class WaveManager : MonoBehaviour
 
 
         currentWaveIndex++;
-        StartCoroutine(StartWave());
-    }
 
+    }
+    private void Update()
+    {
+    }
     private void RemoveWaveBarriers(GameObject[] objs)
     {
         foreach (var obj in objs)

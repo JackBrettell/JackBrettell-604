@@ -10,6 +10,8 @@ public class WaveMediator : MonoBehaviour
     // Wave
     public event Action<WaveDefinition> OnWaveStarted;
     public event Action<WaveDefinition> OnWaveEnded;
+    public event Action<int> OnUpdateWaveNum;
+    public int CurrentWaveNumber = 0;
     // Intermission
     public event Action<WaveDefinition> OnIntermissionStarted;
     public event Action<WaveDefinition> OnIntermissionEnded;
@@ -29,12 +31,18 @@ public class WaveMediator : MonoBehaviour
     // ===== Wave =====
     public void HandleWaveStart(WaveDefinition waveDefinition)
     {
+        waveManager.StartCoroutine(waveManager.StartWave());
+        CurrentWaveNumber = waveManager.CurrentWaveIndex; 
+        OnUpdateWaveNum?.Invoke(CurrentWaveNumber);
         OnWaveStarted?.Invoke(waveDefinition);
     }
+
     private void HandleWaveCompleted(WaveDefinition completedWave)
     {
         OnWaveEnded?.Invoke(completedWave);
         HandleIntermissionStart(completedWave);
+
+
     }
 
 
@@ -44,8 +52,8 @@ public class WaveMediator : MonoBehaviour
         OnIntermissionStarted?.Invoke(completedWave);
     }
 
-    private void HandleIntermissionComplete()
+    public void HandleIntermissionComplete()
     {
-        waveManager.StartWave();
+        HandleWaveStart(waveManager.Waves[waveManager.CurrentWaveIndex]);
     }
 }

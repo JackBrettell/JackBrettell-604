@@ -12,6 +12,9 @@ public class IntermissionUI : MonoBehaviour
     [SerializeField] private Transform store;
     [SerializeField] GameObject arrowObj;
 
+    public WaveMediator waveMediator; //temp
+
+
     public Action OnIntermissionComplete;
 
     private void Update()
@@ -31,7 +34,7 @@ public class IntermissionUI : MonoBehaviour
         arrowObj.SetActive(true);
 
         intermissionUI.SetActive(true);
-    
+
 
         for (int timeLeft = duration; timeLeft >= 0; timeLeft--)
         {
@@ -47,7 +50,8 @@ public class IntermissionUI : MonoBehaviour
         intermissionUI.SetActive(false);
         arrowObj.SetActive(false);
 
-        OnIntermissionComplete?.Invoke();
+        //OnIntermissionComplete?.Invoke();
+        waveMediator.HandleIntermissionComplete(); //temp
     }
 
     public void UpdateArrow()

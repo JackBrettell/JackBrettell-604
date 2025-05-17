@@ -27,14 +27,12 @@ public class WeaponUpgradeManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Start");
         OnPopulateWeaponButtons?.Invoke(gunBehaviourList, weaponStatsList);
         OnUpgradeCostsAndAmountsChanged?.Invoke(upgradeCostsAndAmounts);
     }
     public void GunChanged(GunBehaviour gun)
     {
         currentGun = gun;
-        Debug.Log("GunChanged");
     }
 
     public void TryUpgradeDamage()

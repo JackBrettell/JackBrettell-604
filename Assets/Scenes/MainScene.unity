@@ -639,6 +639,7 @@ Transform:
   m_Children:
   - {fileID: 660973029}
   - {fileID: 1659877502}
+  - {fileID: 461084911}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &12465927
@@ -25285,6 +25286,53 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ec728fea85097b43ad9358333759bfa, type: 3}
+--- !u!1 &461084910
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 461084911}
+  - component: {fileID: 461084912}
+  m_Layer: 0
+  m_Name: Waves mediator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &461084911
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461084910}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11341789}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &461084912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461084910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b25d4fcac7f3b478f32442337e3214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveManager: {fileID: 2016242195}
+  hudMediator: {fileID: 1659877503}
+  CurrentWaveNumber: 0
 --- !u!1001 &462383387
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32196,11 +32244,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 906470bc959181b41b0e38666281309c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveUnlocks:
-  - waveNumber: 1
-    objectToDisable: {fileID: 1685296348}
-  unlockAnimationDuration: 4
-  unlockAnimationOffset: 4
 --- !u!1 &649529782
 GameObject:
   m_ObjectHideFlags: 0
@@ -49764,6 +49807,8 @@ GameObject:
   - component: {fileID: 1129827414}
   - component: {fileID: 1129827413}
   - component: {fileID: 1129827415}
+  - component: {fileID: 1129827416}
+  - component: {fileID: 1129827417}
   m_Layer: 0
   m_Name: HUD manager
   m_TagString: Untagged
@@ -49799,14 +49844,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AmmoText: {fileID: 784480030}
-  WaveNumText: {fileID: 2130622150}
   waveManager: {fileID: 2016242195}
   playerHealth: {fileID: 1422311409}
   healthBar: {fileID: 312713239}
   moneyText: {fileID: 1388380100}
   moneyManager: {fileID: 100856326}
-  intermissionUI: {fileID: 43664177}
-  intermissionCountdown: {fileID: 1404366619}
   crosshairSize: 0.5
   crosshairReccoilSize: 1
   crosshairScaleSpeed: 0.1
@@ -49847,6 +49889,36 @@ MonoBehaviour:
   crosshairScaleSpeed: 0.1
   crosshairStartSize: 0.5
   crosshairEndSize: 1
+--- !u!114 &1129827416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129827411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c32d83c19f665749bcbf4a3e57f88f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  intermissionUI: {fileID: 43664177}
+  intermissionCountdown: {fileID: 1404366619}
+  store: {fileID: 1183247945}
+  arrowObj: {fileID: 1887854453}
+  waveMediator: {fileID: 461084912}
+--- !u!114 &1129827417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129827411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02f2bd3c0123fad4e94c5cb08a36367e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveCounterText: {fileID: 2130622150}
 --- !u!1001 &1129869495
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72194,13 +72266,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   crosshairUI: {fileID: 1129827415}
-  intermissionUI: {fileID: 1887854455}
+  intermissionUI: {fileID: 1129827416}
+  waveCounterUI: {fileID: 1129827417}
   ammoManager: {fileID: 1129827414}
   moneyManager: {fileID: 100856326}
   playerHealth: {fileID: 1422311409}
   waveManager: {fileID: 2016242195}
   gunBehaviour: {fileID: 553669754}
-  bullets: []
+  waveMediator: {fileID: 461084912}
 --- !u!1001 &1660839771
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82580,9 +82653,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1887854454}
-  - component: {fileID: 1887854455}
   m_Layer: 11
-  m_Name: Intermission arow
+  m_Name: Intermission arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82604,19 +82676,6 @@ Transform:
   - {fileID: 46229898}
   m_Father: {fileID: 1881260359}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1887854455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1887854453}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c32d83c19f665749bcbf4a3e57f88f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  store: {fileID: 1183247945}
 --- !u!1001 &1888570729
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87883,6 +87942,7 @@ GameObject:
   - component: {fileID: 2016242195}
   - component: {fileID: 2016242197}
   - component: {fileID: 2016242196}
+  - component: {fileID: 2016242198}
   m_Layer: 0
   m_Name: Wave manager
   m_TagString: Untagged
@@ -87917,19 +87977,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd19d5ecf075e7c4099c2d67835a4882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  barrierAnimationDuration: 10
+  barrierAnimationOffset: -4
   waves:
   - zombieCount: 1
     flyingCount: 0
     strongCount: 0
-    intermissionLength: 10
-    objectsToDisable: []
+    intermissionDuration: 10
+    objectsToDisable:
+    - {fileID: 1685296348}
     spawnPointsForThisWave:
     - {fileID: 901870527}
     - {fileID: 1746925443}
   - zombieCount: 2
     flyingCount: 0
     strongCount: 0
-    intermissionLength: 5
+    intermissionDuration: 10
     objectsToDisable:
     - {fileID: 1685296348}
     spawnPointsForThisWave:
@@ -87938,7 +88001,7 @@ MonoBehaviour:
   - zombieCount: 0
     flyingCount: 0
     strongCount: 0
-    intermissionLength: 1000
+    intermissionDuration: 0
     objectsToDisable:
     - {fileID: 1791598282}
     spawnPointsForThisWave:
@@ -87947,7 +88010,7 @@ MonoBehaviour:
   - zombieCount: 4
     flyingCount: 0
     strongCount: 0
-    intermissionLength: 5
+    intermissionDuration: 0
     objectsToDisable:
     - {fileID: 858074083}
     spawnPointsForThisWave:
@@ -87969,7 +88032,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hud: {fileID: 1129827413}
-  intermissionArrow: {fileID: 1887854455}
 --- !u!114 &2016242197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87985,6 +88047,18 @@ MonoBehaviour:
   factory: {fileID: 123018606}
   minSpawnDelay: 1
   maxSpawnDelay: 10
+--- !u!114 &2016242198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016242193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 906470bc959181b41b0e38666281309c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2018303552
 PrefabInstance:
   m_ObjectHideFlags: 0

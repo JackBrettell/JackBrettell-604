@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,7 +8,10 @@ public class HUDMediator : MonoBehaviour
     [SerializeField] private CrosshairUI crosshairUI;
     // [SerializeField] private WaveUI waveUI;
     [SerializeField] private IntermissionUI intermissionUI;
+
     public IntermissionUI IntermissionUI => intermissionUI;
+    [SerializeField] private WaveCounterUI waveCounterUI;
+
     // [SerializeField] private HealthBarUI healthBarUI;
     //[SerializeField] private MoneyUI moneyUI;
     //[SerializeField] private HUDSway sway;
@@ -18,8 +22,12 @@ public class HUDMediator : MonoBehaviour
     [SerializeField] private WaveManager waveManager;
     [SerializeField] private GunBehaviour gunBehaviour;
     [SerializeField] private WaveMediator waveMediator;
-
     private GunBullet[] bullets;
+
+
+    // ==== Events ====
+    public Action OnIntermissionCompleted;
+
 
     private void Start()
     {
@@ -34,7 +42,8 @@ public class HUDMediator : MonoBehaviour
         GunBullet.OnAnyBulletHit += crosshairUI.ShowHitMarker;
         gunBehaviour.OnWeaponFired += crosshairUI.crosshairScale;
 
-        waveMediator.OnIntermissionStarted += intermissionUI.StartIntermissionTimer;
+        waveMediator.OnIntermissionStarted += intermissionUI.StartIntermissionTimer; // Begin intermission countdown
+        waveMediator.OnUpdateWaveNum += waveCounterUI.UpdateWaveCounter;             // Update UI counter
     }
 
     private void OnDisable()
@@ -42,7 +51,8 @@ public class HUDMediator : MonoBehaviour
         GunBullet.OnAnyBulletHit -= crosshairUI.ShowHitMarker;
         gunBehaviour.OnWeaponFired -= crosshairUI.crosshairScale;
 
-       // waveManager.OnWaveCompleted -= HandleWaveCompleted;
+        waveMediator.OnIntermissionStarted -= intermissionUI.StartIntermissionTimer; // Begin intermission countdown
+        waveMediator.OnUpdateWaveNum -= waveCounterUI.UpdateWaveCounter;             // Update UI counter
     }
 
 

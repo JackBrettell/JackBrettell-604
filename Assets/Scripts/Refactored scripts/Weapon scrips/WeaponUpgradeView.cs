@@ -31,7 +31,6 @@ public class WeaponUpgradeView : MonoBehaviour
 
     public void PopulateWeaponButtons(GunBehaviour[] gunBehaviour, WeaponStats[] weaponStats)
     {
-        Debug.Log("Populating weapon buttons...");
         for (int i = 0; i < gunBehaviour.Length; i++)
         {
             GameObject buttonInstance = Instantiate(weaponButtonPrefab, contentPanel);

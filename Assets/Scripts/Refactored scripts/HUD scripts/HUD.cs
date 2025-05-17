@@ -8,7 +8,6 @@ public class HUD : MonoBehaviour
 {
     private GameObject crosshair;
     public TMP_Text AmmoText;
-    public TMP_Text WaveNumText;
     private AmmoManager ammoManager;
     [SerializeField] private WaveManager waveManager;
 
@@ -44,7 +43,6 @@ public class HUD : MonoBehaviour
           //  waveManager.OnRoundFinished += UpdateWaveNumber; // Subscribe to round finished event
         }
 
-        WaveNumText.text = "Wave: 1"; // Set initial wave number
         hudOriginalPosition = hud.anchoredPosition; // Store initial HUD position
 
         // Initialize health bar

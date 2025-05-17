@@ -36,9 +36,6 @@ public class WeaponManager : MonoBehaviour
     {
         if (weaponIndex < 0 || weaponIndex >= gunBehaviour.Length) return;
 
-        Debug.Log($"Switching to weapon {weaponIndex}");
-
-
         // Check if the weapon is unlocked
         GunBehaviour selectedGun = gunBehaviour[weaponIndex];
         if (!selectedGun.isWeaponUnlocked)
