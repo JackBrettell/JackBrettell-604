@@ -8,23 +8,12 @@ public class ShotgunBehaviour : GunBehaviour
 {
 
 
-    [Header("Slide")]
-    [SerializeField] private float slideRecoveryDuration = 0f;
-    [SerializeField] private float slideRecoilDuration = 0f;
-    [SerializeField] private float slideRecoil = 0f;
+ 
     [SerializeField] private int pelletCount = 8;
     [SerializeField] private float spreadAngle = 5f;
-    private Vector3 slideOriginalPosition;
-    public Transform slide;
 
 
-    [Header("Reload")]
-    private Transform pistolMagTransform;
-    private Vector3 pistolMagOriginalPosition;
-
-    public float pistolMagMovemement = 0;
-    public float pistolMagEjectDuration = 0;
-    public float pistolMagReturnDuration = 0;
+ 
 
     [SerializeField] private float triggerRecoilDuration = 0f;
     public override void Start()
@@ -33,9 +22,6 @@ public class ShotgunBehaviour : GunBehaviour
 
         // Set gun part positions 
         gunOriginalPosition = gunTransform.localPosition;
-        slideOriginalPosition = slide.localPosition;
-        gunTriggerOriginalPosition = trigger.localPosition;
-        gunMagOriginalPosition = gunMagTransform.localPosition;
 
 
     }
@@ -47,8 +33,7 @@ public class ShotgunBehaviour : GunBehaviour
         // Offsets and Durations
         Vector3 reloadOffset = Vector3.right * reloadMovement + Vector3.up * reloadMovementUp;
         Vector3 reloadRotation = new Vector3(0, 0, -25);
-        Vector3 gunMagOffset = gunMagOriginalPosition + Vector3.down * gunMagMovemement;
-        Vector3 slideOffset = Vector3.back * slideRecoil;
+      
 
 
         // Stop any ongoing animations
@@ -65,9 +50,9 @@ public class ShotgunBehaviour : GunBehaviour
             // Sync rotation
             .Join(gunTransform.DOLocalRotate(reloadRotation, reloadDuration, RotateMode.Fast).SetEase(EaseReload))
             // Move slide back 
-            .Join(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
+          //  .Join(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
             // Lower magazine
-            .Append(gunMagTransform.DOLocalMove(gunMagOffset, gunMagEjectDuration).SetEase(Ease.Linear))
+           // .Append(gunMagTransform.DOLocalMove(gunMagOffset, gunMagEjectDuration).SetEase(Ease.Linear))
             // Return magazine
             .Append(gunMagTransform.DOLocalMove(gunMagOriginalPosition, gunMagReturnDuration).SetEase(Ease.Linear))
             // Return weapon position
@@ -77,7 +62,7 @@ public class ShotgunBehaviour : GunBehaviour
             // Delay 
             .AppendInterval(0.5f)
             // Move slide foward  
-            .Append(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false))
+          //  .Append(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false))
             .OnComplete(() =>
             {
                 ammoManager.Reload();
@@ -102,7 +87,6 @@ public class ShotgunBehaviour : GunBehaviour
     public override void Fire()
     {
         Vector3 recoilOffset = Vector3.back * recoilAmount;
-        Vector3 slideOffset = Vector3.back * slideRecoil;
 
         if (canFire && ammoManager.CurrentAmmo > 0)
         {
@@ -129,10 +113,10 @@ public class ShotgunBehaviour : GunBehaviour
             Sequence firingSequence = DOTween.Sequence();
             firingSequence
                 .Append(trigger.DOLocalRotate(triggerDownRotation, triggerRecoilDuration, RotateMode.Fast))
-                .Join(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
+               // .Join(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
                 .Join(gunTransform.DOLocalMove(gunOriginalPosition + recoilOffset, recoilDuration, false).SetEase(Ease1))
                 .Append(trigger.DOLocalRotate(gunTriggerOriginalPosition, triggerRecoveryDuration, RotateMode.Fast))
-                .Join(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false))
+              //  .Join(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false))
                 .Join(gunTransform.DOLocalMove(gunOriginalPosition, recoilRecoverySpeed, false));
 
             ammoManager.ReduceAmmo();
@@ -143,11 +127,11 @@ public class ShotgunBehaviour : GunBehaviour
         else if (canFire && ammoManager.CurrentAmmo == 0)
         {
             Sequence firingEmptySequence = DOTween.Sequence();
-            firingEmptySequence
-                .Append(trigger.DOLocalRotate(triggerDownRotation, triggerRecoilDuration, RotateMode.Fast))
-                .Join(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
-                .Append(trigger.DOLocalRotate(gunTriggerOriginalPosition, triggerRecoveryDuration, RotateMode.Fast))
-                .Join(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false));
+           // firingEmptySequence
+               // .Append(trigger.DOLocalRotate(triggerDownRotation, triggerRecoilDuration, RotateMode.Fast))
+              //  .Join(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration, false).SetEase(Ease1))
+                //.Append(trigger.DOLocalRotate(gunTriggerOriginalPosition, triggerRecoveryDuration, RotateMode.Fast))
+            //    .Join(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration, false));
         }
     }
 

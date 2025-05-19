@@ -47,6 +47,8 @@ public class PistolBehaviour : GunBehaviour
 
         canFire = false;
         isRealoading = true;
+        isSwayEnabled = false;
+        isCamRayLookAtEnabled = false;
 
         Vector3 reloadOffset = Vector3.right * reloadMovement + Vector3.up * reloadMovementUp;
         Vector3 reloadRotation = new Vector3(0, 0, -25);
@@ -59,37 +61,38 @@ public class PistolBehaviour : GunBehaviour
 
         Sequence reloadSequence = DOTween.Sequence();
 
-        // Step 1: Move and rotate the gun into reload pose
-        reloadSequence.Append(gunTransform.DOLocalMove(gunOriginalPosition + reloadOffset, reloadDuration).SetEase(EaseReload));
-        reloadSequence.Join(gunTransform.DOLocalRotate(reloadRotation, reloadDuration, RotateMode.Fast).SetEase(EaseReload));
-        reloadSequence.AppendInterval(2f); // Small delay to allow the gun to settle in the reload pose
-
-        /*
-        // Step 2: Slide goes back (gun stays in reload pose)
+        // Step 1: Slide recoil
         reloadSequence.Append(slide.DOLocalMove(slideOriginalPosition + slideOffset, slideRecoilDuration).SetEase(Ease1));
 
-        // Step 3: Magazine out
-        reloadSequence.Append(gunMagTransform.DOLocalMove(gunMagOffset, gunMagEjectDuration).SetEase(Ease.Linear));
+        // Step 2: Gun moves to reload pose
+        reloadSequence.Append(gunTransform.DOLocalMove(gunOriginalPosition + reloadOffset, reloadDuration).SetEase(EaseReload));
+        reloadSequence.Join(gunTransform.DOLocalRotate(reloadRotation, reloadDuration, RotateMode.Fast).SetEase(EaseReload));
 
-        // Step 4: Magazine back in
+        // Step 3: Pause in reload pose
+
+        // Step 4: Magazine out/in
+        reloadSequence.Append(gunMagTransform.DOLocalMove(gunMagOffset, gunMagEjectDuration).SetEase(Ease.Linear));
         reloadSequence.Append(gunMagTransform.DOLocalMove(gunMagOriginalPosition, gunMagReturnDuration).SetEase(Ease.Linear));
-        */
-        // Step 5: Now return the gun to its original position and rotation
+        reloadSequence.AppendInterval(0.5f);
+
+        //  Step 5: Gun returns to original position and rotation
         reloadSequence.Append(gunTransform.DOLocalMove(gunOriginalPosition, reloadReturnDuration).SetEase(EaseReload));
         reloadSequence.Join(gunTransform.DOLocalRotate(Vector3.zero, reloadReturnDuration, RotateMode.Fast).SetEase(EaseReload));
 
-        
-
-        // Step 6: Slide returns forward
+        // Step 6: Slide returns to forward position
         reloadSequence.Append(slide.DOLocalMove(slideOriginalPosition, slideRecoveryDuration));
-        
+
+        // Complete
         reloadSequence.OnComplete(() =>
         {
             ammoManager.Reload();
             hud.updateAmmoCount();
             canFire = true;
             isRealoading = false;
+            isCamRayLookAtEnabled = false;
+            isSwayEnabled = true;
         });
+
     }
 
 

@@ -57,7 +57,7 @@ public class GunBehaviour : MonoBehaviour
 
     [SerializeField] protected Transform gunMagTransform;
     protected Vector3 gunMagOriginalPosition;
-    private Quaternion gunInitialRotation;
+    protected Quaternion gunInitialRotation;
     protected bool isRealoading = false;
 
     public float gunMagMovemement = 0;
@@ -68,6 +68,8 @@ public class GunBehaviour : MonoBehaviour
     protected bool isFiring = false;
 
     [Header("Sway Settings")]
+    protected bool isSwayEnabled = true; // Enable or disable weapon sway
+    protected bool isCamRayLookAtEnabled = true; // Enable or disable gun targeting camera ray
     [SerializeField] private float swayAmount = 0.02f;      // How much the gun moves
     [SerializeField] private float maxSwayAmount = 0.06f;   // Max movement limit
     [SerializeField] private float swaySmoothness = 5f;     // Damping effect
@@ -118,28 +120,26 @@ public class GunBehaviour : MonoBehaviour
         gunMagOriginalPosition = gunMagTransform.localPosition;
         gunInitialRotation = transform.localRotation;
 
+        //null check and assign gun part positions
+
+        if (gunTransform == null){ }
+        if (trigger == null) { }
+        if (gunMagTransform == null) { }
+
+
 
 
 
     }
     private void Update()
     {
-        ApplySway();
-
-        // Cast a ray from the camera's position forward
-        Ray cameraRay = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
-
-        if (Physics.Raycast(cameraRay, out RaycastHit hit))
+        if (isSwayEnabled)
         {
-            Vector3 targetPosition = hit.point;
-            Vector3 direction = targetPosition - firePoint.position;
-            Quaternion rotation = Quaternion.LookRotation(direction);
-
-            // Smoothly rotate the weapon to look at the hit point
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 10f);
-
-            //show raycast hit point in the scene view
-            Debug.DrawLine(cameraRay.origin, hit.point, Color.red);
+            ApplySway();
+        }
+        if (isCamRayLookAtEnabled)
+        {
+            ApplyGunLookat();
         }
     }
 
@@ -162,10 +162,22 @@ public class GunBehaviour : MonoBehaviour
         transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * swaySmoothness);
     }
 
-    /*public void InitializeAmmo()
+    private void ApplyGunLookat()
     {
-            ammoManager.Initialize(WeaponStats);
-    }*/
+        // Cast a ray from the camera's position forward
+        Ray cameraRay = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+
+        if (Physics.Raycast(cameraRay, out RaycastHit hit))
+        {
+            Vector3 targetPosition = hit.point;
+            Vector3 direction = targetPosition - firePoint.position;
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 10f);
+            Debug.DrawLine(cameraRay.origin, hit.point, Color.red);
+        }
+    }
+
+
 
     protected virtual void FiringSequence()
     {

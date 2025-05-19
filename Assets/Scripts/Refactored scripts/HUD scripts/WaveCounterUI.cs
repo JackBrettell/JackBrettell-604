@@ -10,7 +10,6 @@ public class WaveCounterUI : MonoBehaviour
     }
     public void UpdateWaveCounter(int waveNumber)
     {
-        Debug.Log("AAAAAAA: {waveNumber}");
         waveCounterText.text = $"Wave {waveNumber + 1}"; // Add 1 so first wave is displayed as Wave 1
     }
 }

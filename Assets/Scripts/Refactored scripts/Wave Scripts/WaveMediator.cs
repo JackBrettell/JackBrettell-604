@@ -5,43 +5,29 @@ public class WaveMediator : MonoBehaviour
 {
     [SerializeField] private WaveManager waveManager;
     [SerializeField] private HUDMediator hudMediator;
-
-    // ==== Events ====
-    // Wave
-    public event Action<WaveDefinition> OnWaveStarted;
-    public event Action<WaveDefinition> OnWaveEnded;
-    public event Action<int> OnUpdateWaveNum;
-    public int CurrentWaveNumber = 0;
-    // Intermission
-    public event Action<WaveDefinition> OnIntermissionStarted;
-    public event Action<WaveDefinition> OnIntermissionEnded;
+    [SerializeField] private IntermissionLogic intermissionLogic;
 
 
     private void OnEnable()
     {
         waveManager.OnWaveCompleted += HandleWaveCompleted;
+        intermissionLogic.OnIntermissionComplete += HandleIntermissionComplete;
 
     }
 
     private void OnDisable()
     {
         waveManager.OnWaveCompleted -= HandleWaveCompleted;
+        intermissionLogic.OnIntermissionComplete -= HandleIntermissionComplete;
+
     }
 
     // ===== Wave =====
-    public void HandleWaveStart(WaveDefinition waveDefinition)
-    {
-        waveManager.StartCoroutine(waveManager.StartWave());
-        CurrentWaveNumber = waveManager.CurrentWaveIndex; 
-        OnUpdateWaveNum?.Invoke(CurrentWaveNumber);
-        OnWaveStarted?.Invoke(waveDefinition);
-    }
 
-    private void HandleWaveCompleted(WaveDefinition completedWave)
+    private void HandleWaveCompleted(WaveDefinition completedWave, int currentWaveIndex)
     {
-        OnWaveEnded?.Invoke(completedWave);
-        HandleIntermissionStart(completedWave);
 
+        intermissionLogic.StartIntermissionTimer(completedWave);
 
     }
 
@@ -49,11 +35,10 @@ public class WaveMediator : MonoBehaviour
     // ===== Intermission =====
     public void HandleIntermissionStart(WaveDefinition completedWave)
     {
-        OnIntermissionStarted?.Invoke(completedWave);
     }
 
     public void HandleIntermissionComplete()
     {
-        HandleWaveStart(waveManager.Waves[waveManager.CurrentWaveIndex]);
+        waveManager.StartNextWave();
     }
 }

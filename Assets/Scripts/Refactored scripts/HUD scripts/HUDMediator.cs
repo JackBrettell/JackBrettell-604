@@ -21,7 +21,9 @@ public class HUDMediator : MonoBehaviour
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private WaveManager waveManager;
     [SerializeField] private GunBehaviour gunBehaviour;
-    [SerializeField] private WaveMediator waveMediator;
+    [SerializeField] private IntermissionLogic intermissionLogic;
+    [SerializeField] private HealthBarUI healthBarUI;
+    [SerializeField] private DamageOverlay damageOverlay;
     private GunBullet[] bullets;
 
 
@@ -41,22 +43,28 @@ public class HUDMediator : MonoBehaviour
     {
         GunBullet.OnAnyBulletHit += crosshairUI.ShowHitMarker;
         gunBehaviour.OnWeaponFired += crosshairUI.crosshairScale;
+        intermissionLogic.OnUpdateIntermissionTime += IntermissionUI.StartIntermissionTimer;
+        intermissionLogic.OnIntermissionComplete += IntermissionUI.IntermissionCompleted;
 
-        waveMediator.OnIntermissionStarted += intermissionUI.StartIntermissionTimer; // Begin intermission countdown
-        waveMediator.OnUpdateWaveNum += waveCounterUI.UpdateWaveCounter;             // Update UI counter
+        //Health
+        playerHealth.OnHealthChanged += healthBarUI.UpdateHealthBar;
+        playerHealth.OnInitialiseHealthbar += healthBarUI.InitialiseHealthUI;
+
+
+        playerHealth.OnUpdateHealthOverlay += damageOverlay.UpdateDamageOverlay;
+
+
     }
 
     private void OnDisable()
     {
         GunBullet.OnAnyBulletHit -= crosshairUI.ShowHitMarker;
         gunBehaviour.OnWeaponFired -= crosshairUI.crosshairScale;
+        intermissionLogic.OnUpdateIntermissionTime += IntermissionUI.StartIntermissionTimer;
+        intermissionLogic.OnIntermissionComplete += IntermissionUI.IntermissionCompleted;
 
-        waveMediator.OnIntermissionStarted -= intermissionUI.StartIntermissionTimer; // Begin intermission countdown
-        waveMediator.OnUpdateWaveNum -= waveCounterUI.UpdateWaveCounter;             // Update UI counter
+        //Health
+        playerHealth.OnHealthChanged += healthBarUI.UpdateHealthBar;
+        playerHealth.OnInitialiseHealthbar += healthBarUI.InitialiseHealthUI;
     }
-
-
-
-
-
 }

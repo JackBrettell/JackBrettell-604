@@ -66,6 +66,9 @@ public class RifleBehaviour : GunBehaviour
         bulletScript.damage = weaponStats.damage;
 
 
+        bullet.transform.position = firePoint.position;
+        bullet.transform.rotation = firePoint.rotation;
+
 
         // Add velocity to the bullet
         Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
@@ -83,6 +86,9 @@ public class RifleBehaviour : GunBehaviour
         if (!isFiring)
         {
             isReloading = true;
+            isSwayEnabled = false;
+            isCamRayLookAtEnabled = false;
+
             base.ReloadingSequence(); // Call base reload logic
 
             Vector3 reloadOffset = Vector3.right * reloadMovement + Vector3.up * reloadMovementUp;
@@ -118,7 +124,8 @@ public class RifleBehaviour : GunBehaviour
                         hud.updateAmmoCount();
                         isReloading = false;
 
-
+                        isSwayEnabled = true;
+                        isCamRayLookAtEnabled = true;
                     });
         }
 

@@ -15,6 +15,8 @@ MonoBehaviour:
   weaponStatsList:
   - {fileID: 11400000, guid: 7d4672ae5749e254985c18310f3d7f45, type: 2}
   - {fileID: 11400000, guid: 1c72552219b930b4998ef36f7120e7d9, type: 2}
+  - {fileID: 11400000, guid: 80e7c5c8a9f37544e92ba22102e7547c, type: 2}
   gunBehaviourList:
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

@@ -12,46 +12,21 @@ public class IntermissionUI : MonoBehaviour
     [SerializeField] private Transform store;
     [SerializeField] GameObject arrowObj;
 
-    public WaveMediator waveMediator; //temp
-
-
-    public Action OnIntermissionComplete;
-
     private void Update()
     {
        UpdateArrow();
     }
-
-
-    public void StartIntermissionTimer(WaveDefinition waveInfo)
-    {
-        int duration = waveInfo.intermissionDuration;
-        StartCoroutine(IntermissionCountdown(duration));
-    }
-
-    private IEnumerator IntermissionCountdown(int duration)
+    public void StartIntermissionTimer(float duration)
     {
         arrowObj.SetActive(true);
-
         intermissionUI.SetActive(true);
+        intermissionCountdown.text = string.Format("{0:00}:{1:00}", duration / 60, duration % 60);
+    }
 
-
-        for (int timeLeft = duration; timeLeft >= 0; timeLeft--)
-        {
-            int minutes = timeLeft / 60;
-            int seconds = timeLeft % 60;
-
-            intermissionCountdown.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-
-            yield return new WaitForSeconds(1f);
-        }
-
-        intermissionCountdown.text = "00:00";
+    public void IntermissionCompleted()
+    {
         intermissionUI.SetActive(false);
         arrowObj.SetActive(false);
-
-        //OnIntermissionComplete?.Invoke();
-        waveMediator.HandleIntermissionComplete(); //temp
     }
 
     public void UpdateArrow()

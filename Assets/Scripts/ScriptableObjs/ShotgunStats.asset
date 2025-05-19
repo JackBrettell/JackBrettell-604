@@ -15,9 +15,9 @@ MonoBehaviour:
   damage: 50
   fireRate: 2
   ammoCapacity: 5
-  fireSound: {fileID: 8300000, guid: 9af9d1fe968a3c544a13da5533202b56, type: 3}
+  fireSound: {fileID: 8300000, guid: 60a54124d2130f54ca1a528085ac6200, type: 3}
   weaponName: Combat Shotgun
   weaponDescription: Bang!
   weaponIcon: {fileID: 0}
   isUnlocked: 1
-  cost: 0
+  cost: 69

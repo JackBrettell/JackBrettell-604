@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using static UnityEngine.CullingGroup;
@@ -16,6 +17,10 @@ public class PlayerHealth : MonoBehaviour
 
     // OnDeath event
     public event System.Action OnDeath;
+    public Action<float, float > OnInitialiseHealthbar;
+    public Action<float> OnHealthChanged;
+
+    public Action<float, float> OnUpdateHealthOverlay;
 
     private Coroutine regenCoroutine;
     private bool isRegenerating = false;
@@ -32,18 +37,14 @@ public class PlayerHealth : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        hud.UpdateHealthBar();
-
+        OnInitialiseHealthbar?.Invoke(maxHealth, currentHealth);
+        
     }
 
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        //Debug.Log($"Player took {damage} damage! Current health: {currentHealth}");
-
-      
-        hud.UpdateHealthBar();
-
+        HealthChanged();
 
         if (currentHealth <= 0)
         {
@@ -86,12 +87,18 @@ public class PlayerHealth : MonoBehaviour
             while (currentHealth < targetHealth && isRegenerating)
             {
                 currentHealth = Mathf.MoveTowards(currentHealth, targetHealth, regenSpeed * Time.deltaTime);
-                hud.UpdateHealthBar(); // Update the health bar in real-time
+                HealthChanged();
                 yield return null; // Wait for the next frame
             }
         }
 
         isRegenerating = false;
+    }
+
+    private void HealthChanged()
+    {
+        OnHealthChanged?.Invoke(currentHealth);
+        OnUpdateHealthOverlay?.Invoke(currentHealth, maxHealth);
     }
 
 
@@ -104,10 +111,8 @@ public class PlayerHealth : MonoBehaviour
             currentHealth = maxHealth;
         }
 
-        //Debug.Log($"Player healed! Current health: {currentHealth}");
 
      
-        hud.UpdateHealthBar();
     }
 
 

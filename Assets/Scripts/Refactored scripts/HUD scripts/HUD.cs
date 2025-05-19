@@ -11,9 +11,7 @@ public class HUD : MonoBehaviour
     private AmmoManager ammoManager;
     [SerializeField] private WaveManager waveManager;
 
-    [Header("Health Bar")]
-    [SerializeField] private PlayerHealth playerHealth;
-    [SerializeField] private Slider healthBar;
+
 
     [Header("Money")]
     [SerializeField] private TMP_Text moneyText;
@@ -45,9 +43,7 @@ public class HUD : MonoBehaviour
 
         hudOriginalPosition = hud.anchoredPosition; // Store initial HUD position
 
-        // Initialize health bar
-        healthBar.maxValue = playerHealth.maxHealth;
-        healthBar.value = playerHealth.CurrentHealth;
+
 
         // 🎉 Subscribe to money update event
         if (moneyManager != null)
@@ -135,10 +131,7 @@ public class HUD : MonoBehaviour
 
     }
 
-    public void UpdateHealthBar()
-    {
-        healthBar.value = playerHealth.CurrentHealth;
-    }
+
     public void UpdateMoney(int newAmount)
     {
         moneyText.text = $"${newAmount}"; // Format to show money with $
