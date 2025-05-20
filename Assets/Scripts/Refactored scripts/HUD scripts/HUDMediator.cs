@@ -24,6 +24,8 @@ public class HUDMediator : MonoBehaviour
     [SerializeField] private IntermissionLogic intermissionLogic;
     [SerializeField] private HealthBarUI healthBarUI;
     [SerializeField] private DamageOverlay damageOverlay;
+    [SerializeField] private WeaponManager weaponManager;
+    [SerializeField] private GrenadeCooldownUI grenadeCooldownUI;
     private GunBullet[] bullets;
 
 
@@ -49,9 +51,11 @@ public class HUDMediator : MonoBehaviour
         //Health
         playerHealth.OnHealthChanged += healthBarUI.UpdateHealthBar;
         playerHealth.OnInitialiseHealthbar += healthBarUI.InitialiseHealthUI;
-
-
         playerHealth.OnUpdateHealthOverlay += damageOverlay.UpdateDamageOverlay;
+
+        //Grenade
+        weaponManager.OnGrenadeCooldownStarted += grenadeCooldownUI.UpdateCoolDownBar;
+        weaponManager.OnGrenadeFailed += grenadeCooldownUI.AnimateFailIcon;
 
 
     }
@@ -60,11 +64,15 @@ public class HUDMediator : MonoBehaviour
     {
         GunBullet.OnAnyBulletHit -= crosshairUI.ShowHitMarker;
         gunBehaviour.OnWeaponFired -= crosshairUI.crosshairScale;
-        intermissionLogic.OnUpdateIntermissionTime += IntermissionUI.StartIntermissionTimer;
-        intermissionLogic.OnIntermissionComplete += IntermissionUI.IntermissionCompleted;
+        intermissionLogic.OnUpdateIntermissionTime -= IntermissionUI.StartIntermissionTimer;
+        intermissionLogic.OnIntermissionComplete -= IntermissionUI.IntermissionCompleted;
 
         //Health
-        playerHealth.OnHealthChanged += healthBarUI.UpdateHealthBar;
-        playerHealth.OnInitialiseHealthbar += healthBarUI.InitialiseHealthUI;
+        playerHealth.OnHealthChanged -= healthBarUI.UpdateHealthBar;
+        playerHealth.OnInitialiseHealthbar -= healthBarUI.InitialiseHealthUI;
+
+        //Grenade
+        weaponManager.OnGrenadeCooldownStarted -= grenadeCooldownUI.UpdateCoolDownBar;
+        weaponManager.OnGrenadeFailed -= grenadeCooldownUI.AnimateFailIcon;
     }
 }

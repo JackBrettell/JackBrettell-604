@@ -172,7 +172,7 @@ public class GunBehaviour : MonoBehaviour
             Vector3 targetPosition = hit.point;
             Vector3 direction = targetPosition - firePoint.position;
             Quaternion rotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 10f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 10f);
             Debug.DrawLine(cameraRay.origin, hit.point, Color.red);
         }
     }

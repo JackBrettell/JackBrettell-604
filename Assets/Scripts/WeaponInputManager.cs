@@ -2,12 +2,16 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using JetBrains.Annotations;
+using System;
 
 public class WeaponInputManager : MonoBehaviour
 {
    [SerializeField] private HUD HUD;
    [SerializeField] private WeaponManager weaponManager;
    [SerializeField] private PauseMenu pauseMenu;
+
+    public Action OnGrenadePressed;
+
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +42,13 @@ public class WeaponInputManager : MonoBehaviour
             weaponManager.currentGun.StopFire();
         }
 
+    }
+    private void Update()
+    {
+        if (Keyboard.current.gKey.wasPressedThisFrame)
+        {
+            OnGrenadePressed?.Invoke();
+        }
     }
 
 }

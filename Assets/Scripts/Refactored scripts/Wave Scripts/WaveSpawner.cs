@@ -13,8 +13,8 @@ public class WaveSpawner : MonoBehaviour
     {
 
         yield return SpawnEnemies(EnemyType.Zombie, wave.zombieCount, wave.spawnPointsForThisWave);
-        yield return SpawnEnemies(EnemyType.Flying, wave.flyingCount, wave.spawnPointsForThisWave);
-        yield return SpawnEnemies(EnemyType.Strong, wave.strongCount, wave.spawnPointsForThisWave);
+      //  yield return SpawnEnemies(EnemyType.Flying, wave.flyingCount, wave.spawnPointsForThisWave);
+      //  yield return SpawnEnemies(EnemyType.Strong, wave.strongCount, wave.spawnPointsForThisWave);
     }
 
     private IEnumerator SpawnEnemies(EnemyType type, int count, GameObject[] spawnPoints)

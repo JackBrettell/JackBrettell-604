@@ -4,8 +4,8 @@ using System.Collections.Generic;
 public enum EnemyType
 {
     Zombie,
-    Flying,
-    Strong
+    //Flying,
+   // Strong
 }
 
 public class EnemyFactory : MonoBehaviour
@@ -22,7 +22,7 @@ public class EnemyFactory : MonoBehaviour
     private Dictionary<EnemyType, EnemyBase> enemyPrefabDict = new();
 
     [SerializeField] private GameObject player;
-    private int poolSize = 20;
+    private int poolSize = 200;
 
     private void Awake()
     {
