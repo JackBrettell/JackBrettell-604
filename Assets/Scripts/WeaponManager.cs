@@ -47,7 +47,6 @@ public class WeaponManager : MonoBehaviour
             if (int.TryParse(context.control.name, out int weaponChoice))
             {
                 SwitchToWeapon(weaponChoice - 1);
-                hud.updateAmmoCount();
             }
         }
     }
@@ -92,6 +91,14 @@ public class WeaponManager : MonoBehaviour
         }
 
         OnWeaponSwitched?.Invoke(currentGun);
+
+
+        currentGun.ammoManager.SetCurrentAmmo(savedAmmo);
+
+
+
+
+
 
     }
     private void TryThrowGrenade()

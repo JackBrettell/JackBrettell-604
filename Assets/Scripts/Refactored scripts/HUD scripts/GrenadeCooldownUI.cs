@@ -39,6 +39,7 @@ public class GrenadeCooldownUI : MonoBehaviour
     }
 
 
+    // When the grenade cooldown is finished
     private void AnimateIcon()
     {
         cooldownFill.transform.DOScale(iconEndSize, animationDuration)
@@ -56,6 +57,8 @@ public class GrenadeCooldownUI : MonoBehaviour
                 grenadeIcon.color = Color.white;
             });
     }
+
+    // When grenade is used whilt on cooldown
     public void AnimateFailIcon()
     {
         cooldownFill.transform.DOScale(iconFailEndSize, animationFailDuration)

@@ -66,7 +66,6 @@ public class ShotgunBehaviour : GunBehaviour
             .OnComplete(() =>
             {
                 ammoManager.Reload();
-                hud.updateAmmoCount();
                 canFire = true;
 
 
@@ -120,7 +119,6 @@ public class ShotgunBehaviour : GunBehaviour
                 .Join(gunTransform.DOLocalMove(gunOriginalPosition, recoilRecoverySpeed, false));
 
             ammoManager.ReduceAmmo();
-            hud.updateAmmoCount();
 
             DOVirtual.DelayedCall(1f / weaponStats.fireRate, () => { canFire = true; });
         }

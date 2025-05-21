@@ -86,7 +86,10 @@ public class PistolBehaviour : GunBehaviour
         reloadSequence.OnComplete(() =>
         {
             ammoManager.Reload();
-            hud.updateAmmoCount();
+            
+
+
+
             canFire = true;
             isRealoading = false;
             isCamRayLookAtEnabled = false;
@@ -155,7 +158,6 @@ public class PistolBehaviour : GunBehaviour
 
 
             ammoManager.ReduceAmmo();
-            hud.updateAmmoCount();
 
             DOVirtual.DelayedCall(1f / fireRate, () => { canFire = true; });
         }

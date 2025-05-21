@@ -121,7 +121,6 @@ public class RifleBehaviour : GunBehaviour
                     {
                         // finished reloading
                         ammoManager.Reload();
-                        hud.updateAmmoCount();
                         isReloading = false;
 
                         isSwayEnabled = true;
@@ -179,7 +178,6 @@ public class RifleBehaviour : GunBehaviour
         if (ammoManager.CurrentAmmo > 0)
         {
             ammoManager.ReduceAmmo();
-            hud.updateAmmoCount();
             FiringSequence();
         }
         else

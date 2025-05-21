@@ -26,6 +26,7 @@ public class HUDMediator : MonoBehaviour
     [SerializeField] private DamageOverlay damageOverlay;
     [SerializeField] private WeaponManager weaponManager;
     [SerializeField] private GrenadeCooldownUI grenadeCooldownUI;
+    [SerializeField] private AmmoCountUI ammoCountUI;
     private GunBullet[] bullets;
 
 
@@ -43,8 +44,13 @@ public class HUDMediator : MonoBehaviour
 
     private void OnEnable()
     {
+        //Hitmarker
         GunBullet.OnAnyBulletHit += crosshairUI.ShowHitMarker;
+
+        //Crosshair recoil
         gunBehaviour.OnWeaponFired += crosshairUI.crosshairScale;
+
+        //Intermission
         intermissionLogic.OnUpdateIntermissionTime += IntermissionUI.StartIntermissionTimer;
         intermissionLogic.OnIntermissionComplete += IntermissionUI.IntermissionCompleted;
 
@@ -56,6 +62,9 @@ public class HUDMediator : MonoBehaviour
         //Grenade
         weaponManager.OnGrenadeCooldownStarted += grenadeCooldownUI.UpdateCoolDownBar;
         weaponManager.OnGrenadeFailed += grenadeCooldownUI.AnimateFailIcon;
+
+        //Ammo
+        ammoManager.OnAmmoChanged += ammoCountUI.UpdateAmmoBar;   
 
 
     }

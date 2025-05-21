@@ -4,9 +4,9 @@ using System;
 
 public class GunBehaviour : MonoBehaviour
 {
-    public WeaponInputManager weaponBase;
     public AmmoManager ammoManager;
     public HUD hud;
+    public Action OnUpdateAmmoCount;
 
 
    public bool isWeaponUnlocked = false;
@@ -84,20 +84,6 @@ public class GunBehaviour : MonoBehaviour
     {
         // ===== Auto-assigns =====
 
-        // Weapon base scrip
-        //  weaponBase = GetComponent<WeaponBase>();
-        //  ammoManager = GetComponent<AmmoManager>();
-
-        if (ammoManager == null)
-        {
-            ammoManager = GetComponent<AmmoManager>();
-        }
-
-        // Pass the ammo stats to AmmoManager
-        if (ammoManager == null)
-        {
-            ammoManager = GetComponent<AmmoManager>();
-        }
 
 
         if (weaponStats != null)
@@ -218,4 +204,5 @@ public class GunBehaviour : MonoBehaviour
     {
         ammoCapacity += amount;
     }
+
 }

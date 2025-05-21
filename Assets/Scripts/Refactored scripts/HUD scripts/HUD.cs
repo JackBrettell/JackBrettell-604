@@ -93,18 +93,6 @@ public class HUD : MonoBehaviour
 
     }
 
-    public void updateAmmoCount()
-    {
-        if (ammoManager != null)
-        {
-            AmmoText.text = ammoManager.CurrentAmmo.ToString();
-        }
-        else
-        {
-            Debug.Log("Current ammo is null");
-        }
-    }
-
     private void ApplySway()
     {
         // Get mouse movement
