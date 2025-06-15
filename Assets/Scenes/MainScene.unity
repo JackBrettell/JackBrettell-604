@@ -13505,10 +13505,10 @@ MonoBehaviour:
   - {fileID: 3157565929509105674}
   - {fileID: 1195359509}
   hud: {fileID: 1129827413}
-  grenadeCooldown: 10
+  grenadeCooldown: 60
   grenadePrefab: {fileID: 4092888252507105798, guid: 62c0353a4113efc4d876825d46a69cde, type: 3}
   grenadeSpawnPoint: {fileID: 406807221}
-  grenadeThrowForce: 10
+  grenadeThrowForce: 30
 --- !u!114 &169339613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76200,7 +76200,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ammoValueFill: {fileID: 1204697493}
-  ammoeIcon: {fileID: 505540130}
+  ammoIcon: {fileID: 0}
+  lowAmmoColour: {r: 0.9607844, g: 0.35686275, b: 0.35686275, a: 1}
+  highAmmoColour: {r: 1, g: 1, b: 1, a: 1}
+  startColourChange: 0.5
+  animationDuration: 0.25
+  animationEase: 32
+  iconEndSize: 1.5
 --- !u!4 &1726274320
 Transform:
   m_ObjectHideFlags: 0
@@ -77772,8 +77778,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "TODO:\n - Personal upgrade page \n - More sounds\n - Remove IntermissionUI's
-    direct\n   dependency on waveMediator\n "
+  m_text: "TODO:\n - Personal upgrade page \n - More sounds\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -83295,7 +83300,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96

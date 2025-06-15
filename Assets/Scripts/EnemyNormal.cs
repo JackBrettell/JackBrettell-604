@@ -9,8 +9,9 @@ using DG.Tweening;
 public class EnemyNormal : EnemyBase, IDamageable
 {
     private float lastAttackTime;
-    [SerializeField] private float attackCooldown = 1f; // Time in seconds between attacks
-    [SerializeField] private float attackRange = 2f; // Distance at which the enemy can attack
+    [SerializeField] private float attackCooldown = 1f; 
+    [SerializeField] private float attackRange = 2f;
+    [SerializeField] private float maxHealth = 100f;
 
 
     protected override void Awake()
@@ -60,16 +61,6 @@ public class EnemyNormal : EnemyBase, IDamageable
         animator.SetBool("IsAttacking", false);
         isAttacking = false;
     }
-
-
-
-  
-
-
-
-
-
-
 
 public void ApplyDamage()
     {
