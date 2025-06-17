@@ -2429,6 +2429,9 @@ MonoBehaviour:
   - {fileID: 4857398013169214110}
   attackCooldown: 1
   attackRange: 2
+  maxHealth: 100
+  maxDamage: 20
+  killReward: 10
 --- !u!136 &5733144891617903437
 CapsuleCollider:
   m_ObjectHideFlags: 0

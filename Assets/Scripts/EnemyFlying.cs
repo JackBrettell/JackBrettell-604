@@ -7,7 +7,7 @@ public class EnemyFlying : EnemyBase, IDamageable
 {
 
     public float flyHeight = 5f;
-    private float originalFlyHeight = 0f;
+   // private float originalFlyHeight = 0f;
     public float flySpeed = 1f;
     public float followRange = 10f;
 

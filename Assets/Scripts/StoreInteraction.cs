@@ -39,7 +39,6 @@ public class StoreInteraction : MonoBehaviour
     {
         if (context.performed && isInRange)
         {
-            Debug.LogWarning("Interact pressed");
             if (isStoreOpen)
             {
                 storeMenus.CloseAllMenus();

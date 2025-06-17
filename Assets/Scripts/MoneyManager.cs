@@ -19,15 +19,13 @@ public class MoneyManager : MonoBehaviour
         {
             AddMoney(100);
         }
+
 #endif
     }
-
-
-
     public void AddMoney(int amount)
     {
         CurrentMoney += amount;
-        OnMoneyChanged?.Invoke(CurrentMoney); // Trigger the event
+        OnMoneyChanged?.Invoke(CurrentMoney); 
     }
 
     public bool RemoveMoney(int amount)
@@ -35,7 +33,7 @@ public class MoneyManager : MonoBehaviour
         if (CurrentMoney >= amount)
         {
             CurrentMoney -= amount;
-            OnMoneyChanged?.Invoke(CurrentMoney); // Trigger the event
+            OnMoneyChanged?.Invoke(CurrentMoney); 
             return true;
         }
         return false;

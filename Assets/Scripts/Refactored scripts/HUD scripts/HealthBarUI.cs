@@ -15,12 +15,10 @@ public class HealthBarUI : MonoBehaviour
         healthBar.maxValue = maxHealth;
         healthBar.value = currentHealth;
 
-        Debug.Log($"Health bar initialized! Max health: {maxHealth}, Current health: {currentHealth}");
     }
 
     public void UpdateHealthBar(float currentHealth)
     {
         healthBar.value = currentHealth;
-        Debug.Log($"Health bar updated! Current health: {currentHealth}");
     }
 }

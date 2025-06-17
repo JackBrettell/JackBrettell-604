@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.Splines;
 using DG.Tweening;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
+using System;
 
-public class Endingscene : MonoBehaviour
+public class EndingScene : MonoBehaviour
 {
     [SerializeField] private GameObject player;
     [SerializeField] private Camera playerCamera;
@@ -22,8 +23,15 @@ public class Endingscene : MonoBehaviour
     [SerializeField] private GameObject carInteract;
     [SerializeField] private float playerInteractRange = 0;
 
+    private bool hasInteracted = false;
+    public Action<bool> OnCarInteracted;
+
     private void BeginCinematic()
     {
+
+        // Send event
+        OnCarInteracted?.Invoke(true);
+
         // Disable the player/UI objects
         player.SetActive(false); 
         carInteract.SetActive(false);

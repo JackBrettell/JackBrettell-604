@@ -68,7 +68,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     }
 
-    public void Initilize(EnemyFactory enemyFactory, GameObject player)
+    public void Initialize(EnemyFactory enemyFactory, GameObject player)
     {
         factory = enemyFactory;
         this.player = player;
@@ -131,7 +131,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
             mainCollider.enabled = false;
         }
 
-       StartCoroutine(Despawn());
+        StartCoroutine(Despawn());
     }
 
     private IEnumerator WaitForRagdollToggle()
@@ -143,9 +143,9 @@ public class EnemyBase : MonoBehaviour, IDamageable
         //Prevent dead zombies from colliding with player
         foreach (var Colldier in ragdollColliders)
         {
-      
+
             Colldier.enabled = false;
-            Debug.Log("Disabled collider" + ragdollColliders  );
+            Debug.Log("Disabled collider" + ragdollColliders);
         }
         foreach (var rb in ragdollBodies)
         {

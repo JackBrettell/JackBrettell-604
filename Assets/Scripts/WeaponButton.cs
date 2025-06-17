@@ -22,7 +22,7 @@ public class WeaponButton : MonoBehaviour
     {
         weaponStats = Instantiate(weapon); // Clone the weapon for independent upgrades
         gunBehaviour = gun;
-        storeMenus = FindObjectOfType<StoreMenus>();
+        storeMenus = FindFirstObjectByType<StoreMenus>();
         buttonImage = GetComponent<Image>();
 
         weaponNameText.text = weapon.weaponName;

@@ -9,16 +9,18 @@ using DG.Tweening;
 public class EnemyNormal : EnemyBase, IDamageable
 {
     private float lastAttackTime;
-    [SerializeField] private float attackCooldown = 1f; 
+    [SerializeField] private float attackCooldown = 1f;
     [SerializeField] private float attackRange = 2f;
-    [SerializeField] private float maxHealth = 100f;
+    [SerializeField] private int maxHealth = 100;
+    [SerializeField] private int maxDamage = 10;
+    [SerializeField] private int killReward = 10;
 
 
     protected override void Awake()
     {
-        health = 100;
-        damage = 10;
-        reward = 10;
+        health = maxHealth;
+        damage = maxDamage;
+        reward = killReward;
 
         base.Awake();
 
@@ -62,7 +64,7 @@ public class EnemyNormal : EnemyBase, IDamageable
         isAttacking = false;
     }
 
-public void ApplyDamage()
+    public void ApplyDamage()
     {
         player.GetComponent<PlayerHealth>().TakeDamage(damage);
 
@@ -78,4 +80,3 @@ public void ApplyDamage()
         }
     }
 }
-

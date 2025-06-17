@@ -4,14 +4,19 @@ using DG.Tweening;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class Deathbehaviour : MonoBehaviour
+public class EndingBehaviour : MonoBehaviour
 {
     [SerializeField] private GameObject deathScreen;
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private float fadeDuration = 1f;
     [SerializeField] private float fadeAmount = 0.8f;
+    [SerializeField] private EndingScene endingScene;
 
-    [Header("Stats")]
+    [Header("===== Stats =====")]
+    [Header("Title")]
+    [SerializeField] private TMPro.TextMeshProUGUI endingType;
+    [SerializeField] private float endingScreenDelay = 2f;
+
 
     [Header("Kills")]
     private int killCount = 0;
@@ -24,48 +29,63 @@ public class Deathbehaviour : MonoBehaviour
 
 
     [Header("Time survived")]
-
     [SerializeField] private TMPro.TextMeshProUGUI timeSurvivedText;
     [SerializeField] private float timeSurvivedDuration = 1f;
     private bool hasDied = false;
-
-
-
     private CanvasGroup canvasGroup;
+
+    private bool hasEscaped = false;
 
     // If in Unity Editor K will kill the player
 #if UNITY_EDITOR
     private void Update() 
-    { 
-        if (Input.GetKeyDown(KeyCode.K) && !hasDied) 
-        { 
-            HandlePlayerDeath(); 
+    {
+        if (Input.GetKeyDown(KeyCode.K) && !hasDied)
+        {
+            HandlePlayerDeath(false);
             Debug.Log(killCount);
-        } 
+        }
+        if (Input.GetKeyDown(KeyCode.L) && !hasDied)
+        {
+            HandlePlayerDeath(true);
+        }
     }
 #endif
 
-
-    private void Start()
+    private void OnEnable()
     {
         playerHealth.OnDeath += HandlePlayerDeath;
-
         EnemyBase.OnAnyEnemyKilled += UpdateKillCount;
+        endingScene.OnCarInteracted += HandlePlayerDeath; 
 
-
-
+    }
+    private void Start()
+    {
         canvasGroup = deathScreen.GetComponent<CanvasGroup>();
         deathScreen.SetActive(false);
 
-        StartCoroutine(TimeSurvived()); // Begin timer
+        StartCoroutine(TimeSurvived());
     }
 
-    private void HandlePlayerDeath()
+    private void HandlePlayerDeath(bool hasEscaped)
     {
-        // Make sur ethe canvas's alpha is 0 and enablt the death screen
+        if (hasEscaped)
+        {
+            endingType.text = "You escaped!";
+            StartCoroutine(WaitForEndingScreen());
+            return; 
+        }
+        else
+        {
+            endingType.text = "You died!";
+            ShowDeathScreen();
+        }
+    }
+    private void ShowDeathScreen()
+    {
         hasDied = true;
         deathScreen.SetActive(true);
-        canvasGroup.alpha = 0f; 
+        canvasGroup.alpha = 0f;
 
         // Unlock and make cursor visible
         Cursor.lockState = CursorLockMode.None;
@@ -73,16 +93,16 @@ public class Deathbehaviour : MonoBehaviour
 
         // Fade in death screen
         canvasGroup.DOFade(fadeAmount, fadeDuration).SetEase(Ease.OutQuad);
-        
+
         // Pause game once the menu has faded in
         StartCoroutine(PauseOnMenuAppear());
 
-
         // Set the round number
         int roundNum = 0;
-       // roundNum = waveManager.currentWaveIndex + 1; // +1 so round 1 != 0
         roundNumber.text = roundNum.ToString();
     }
+
+
     private IEnumerator PauseOnMenuAppear()
     {
         yield return new WaitForSeconds(fadeDuration);
@@ -107,7 +127,6 @@ public class Deathbehaviour : MonoBehaviour
         KillNumber.text = killCount.ToString();
     }
 
-
     public void OnRestart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -117,8 +136,6 @@ public class Deathbehaviour : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
-
-    // Prevent memory leaks from enemy kill tracking
     private void OnDestroy()
     {
         playerHealth.OnDeath -= HandlePlayerDeath;
@@ -126,5 +143,10 @@ public class Deathbehaviour : MonoBehaviour
         EnemyBase.OnAnyEnemyKilled -= UpdateKillCount;
     }
 
+    private IEnumerator WaitForEndingScreen()
+    {
+        yield return new WaitForSeconds(endingScreenDelay); // Wait for the delay
+        ShowDeathScreen(); // Now show the death screen
+    }
 
 }

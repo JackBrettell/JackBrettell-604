@@ -72,7 +72,7 @@ public class EnemyFactory : MonoBehaviour
         {
             enemyScript.enemyType = type; 
         }
-        enemy.Initilize(this, player);
+        enemy.Initialize(this, player);
 
 
         return enemy;

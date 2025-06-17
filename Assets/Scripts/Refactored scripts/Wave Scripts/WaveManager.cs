@@ -3,6 +3,7 @@ using System.Collections;
 using DG.Tweening;
 using System;
 using Unity.VisualScripting;
+using UnityEditor.Overlays;
 public class WaveManager : MonoBehaviour
 {
     [Header("Barrier Settings")]
@@ -22,7 +23,19 @@ public class WaveManager : MonoBehaviour
     private int currentWaveIndex = 0;
     public int CurrentWaveIndex => currentWaveIndex;
 
-    private void Start() => StartCoroutine(StartWave());
+    private void Start()
+    {
+        GameSaveData savedData = SaveSystem.LoadData();
+        if (savedData != null)
+        {
+            currentWaveIndex = savedData.currentWave;
+            Debug.Log($"(Manager) Loaded saved data: Current Wave Index = {currentWaveIndex}");
+        }
+        
+        StartCoroutine(StartWave());
+
+    }
+
 
     public void StartNextWave()
     {
@@ -32,11 +45,13 @@ public class WaveManager : MonoBehaviour
 
     public IEnumerator StartWave()
     {
- 
+
         if (currentWaveIndex >= waves.Length)
             yield break;
 
-       Debug.Log($"(Manager) Starting wave {currentWaveIndex} of {waves.Length}");
+        Debug.Log($"(Manager) Starting wave {currentWaveIndex} of {waves.Length}");
+
+
         WaveDefinition currentWave = waves[currentWaveIndex];
 
         OnWaveStarted?.Invoke(currentWave,currentWaveIndex);
@@ -45,9 +60,12 @@ public class WaveManager : MonoBehaviour
 
         yield return new WaitUntil(() => waveSpawner.ActiveEnemies == 0);
 
-        OnWaveCompleted?.Invoke(currentWave,currentWaveIndex);
-
+        OnWaveCompleted?.Invoke(currentWave, currentWaveIndex);
         RemoveWaveBarriers(currentWave.objectsToDisable);
+
+        // Save game progress
+        SaveSystem.SaveGame(new GameSaveData(currentWaveIndex));
+        Debug.Log($"(Manager) Wave {currentWaveIndex} completed. Saving progress.");
 
 
 
@@ -64,6 +82,7 @@ public class WaveManager : MonoBehaviour
         }
     }
 }
+
 
 [System.Serializable]
 public class WaveDefinition

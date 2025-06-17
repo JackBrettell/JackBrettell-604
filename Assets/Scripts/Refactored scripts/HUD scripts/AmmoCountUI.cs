@@ -17,7 +17,7 @@ public class AmmoCountUI : MonoBehaviour
     private float iconStartSize = 1f;
     [SerializeField] private float iconEndSize = 1.5f;
     private Tween currentTween;
-    private bool hasReloaded = false;
+   // private bool hasReloaded = false;
 
     private void Start()
     {
@@ -27,7 +27,6 @@ public class AmmoCountUI : MonoBehaviour
     {
         float progress = (float)currentAmmo / maxAmmo;
         ammoValueFill.fillAmount = progress;
-        Debug.Log($"Progress: {progress}");
 
         if (progress >= startColourChange)
         {
@@ -49,7 +48,7 @@ public class AmmoCountUI : MonoBehaviour
         // Play reloaded animation
         if (currentAmmo == maxAmmo)
         {
-            hasReloaded = true;
+          //  hasReloaded = true;
             ReloadedAnimation();
         }
     }

@@ -16,7 +16,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private HUD hud;
 
     // OnDeath event
-    public event System.Action OnDeath;
+    public event System.Action<bool> OnDeath;
     public Action<float, float > OnInitialiseHealthbar;
     public Action<float> OnHealthChanged;
 
@@ -66,10 +66,9 @@ public class PlayerHealth : MonoBehaviour
 
     public void Death()
     {
+        bool died = true;
         Debug.Log("Player has died");
-        OnDeath?.Invoke();
-
-
+        OnDeath?.Invoke(died);
     }
 
     private IEnumerator HealthRegen()

@@ -29,7 +29,6 @@ public class Pistol : MonoBehaviour
     private Vector3 pistolOriginalPosition;
     private Transform pistolTransform;
     private Ease Ease1 = Ease.Linear;
-    private Ease Ease2 = Ease.Linear;
 
     [Header("Slide")]
     [SerializeField] private float slideRecoveryDuration = 0f;

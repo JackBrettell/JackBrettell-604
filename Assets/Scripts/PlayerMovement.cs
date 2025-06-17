@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;                                // Rigidbody reference
     private bool isGrounded = false;                     // Grounded check
     private bool isSliding = false;                      // Sliding state
-    private bool isSprinting = false;
+  //  private bool isSprinting = false;
 
     private void Awake()
     {

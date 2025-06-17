@@ -11,10 +11,12 @@ public class WaveSpawner : MonoBehaviour
 
     public IEnumerator SpawnWave(WaveDefinition wave)
     {
-
+        Debug.LogWarning($"Spawning {wave.zombieCount} zombies, " +
+                  $"{wave.flyingCount} flying, and {wave.strongCount} strong enemies.");
         yield return SpawnEnemies(EnemyType.Zombie, wave.zombieCount, wave.spawnPointsForThisWave);
-      //  yield return SpawnEnemies(EnemyType.Flying, wave.flyingCount, wave.spawnPointsForThisWave);
-      //  yield return SpawnEnemies(EnemyType.Strong, wave.strongCount, wave.spawnPointsForThisWave);
+        Debug.Log($"Spawning zombies at {wave.spawnPointsForThisWave.Length} spawn points." + wave.spawnPointsForThisWave);
+        //  yield return SpawnEnemies(EnemyType.Flying, wave.flyingCount, wave.spawnPointsForThisWave);
+        //  yield return SpawnEnemies(EnemyType.Strong, wave.strongCount, wave.spawnPointsForThisWave);
     }
 
     private IEnumerator SpawnEnemies(EnemyType type, int count, GameObject[] spawnPoints)

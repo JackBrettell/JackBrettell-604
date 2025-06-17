@@ -9,8 +9,8 @@ public class WeaponUpgrades : MonoBehaviour
     [SerializeField] private MoneyManager moneyManager;
     [SerializeField] private AmmoManager ammoManager;
 
-    [Header("Unlock gun")]
-    [SerializeField] private bool isUnlocked = false;
+    //[Header("Unlock gun")]
+   // [SerializeField] private bool isUnlocked = false;
 
     [Header("Damage upgrade")]
     [SerializeField] private int damageUpgradeCost = 10;

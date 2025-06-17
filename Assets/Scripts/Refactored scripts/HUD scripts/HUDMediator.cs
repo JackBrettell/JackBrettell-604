@@ -40,30 +40,36 @@ public class HUDMediator : MonoBehaviour
         // moneyUI.Initialize(moneyManager);
         // healthBarUI.Initialize(playerHealth);
         // waveUI.Initialize(waveManager);
+
+        waveCounterUI.UpdateWaveCounter(waveManager.CurrentWaveIndex);
     }
 
     private void OnEnable()
     {
-        //Hitmarker
+        // Hitmarker
         GunBullet.OnAnyBulletHit += crosshairUI.ShowHitMarker;
 
-        //Crosshair recoil
+        // Crosshair recoil
         gunBehaviour.OnWeaponFired += crosshairUI.crosshairScale;
+
+        // Wave Counter
+        waveManager.OnWaveCompleted += OnWaveCompleted;
+
 
         //Intermission
         intermissionLogic.OnUpdateIntermissionTime += IntermissionUI.StartIntermissionTimer;
         intermissionLogic.OnIntermissionComplete += IntermissionUI.IntermissionCompleted;
 
-        //Health
+        // Health
         playerHealth.OnHealthChanged += healthBarUI.UpdateHealthBar;
         playerHealth.OnInitialiseHealthbar += healthBarUI.InitialiseHealthUI;
         playerHealth.OnUpdateHealthOverlay += damageOverlay.UpdateDamageOverlay;
 
-        //Grenade
+        // Grenade
         weaponManager.OnGrenadeCooldownStarted += grenadeCooldownUI.UpdateCoolDownBar;
         weaponManager.OnGrenadeFailed += grenadeCooldownUI.AnimateFailIcon;
 
-        //Ammo
+        // Ammo
         ammoManager.OnAmmoChanged += ammoCountUI.UpdateAmmoBar;   
 
 
@@ -76,6 +82,9 @@ public class HUDMediator : MonoBehaviour
         intermissionLogic.OnUpdateIntermissionTime -= IntermissionUI.StartIntermissionTimer;
         intermissionLogic.OnIntermissionComplete -= IntermissionUI.IntermissionCompleted;
 
+        // Wave Counter
+        waveManager.OnWaveCompleted += OnWaveCompleted;
+
         //Health
         playerHealth.OnHealthChanged -= healthBarUI.UpdateHealthBar;
         playerHealth.OnInitialiseHealthbar -= healthBarUI.InitialiseHealthUI;
@@ -84,4 +93,11 @@ public class HUDMediator : MonoBehaviour
         weaponManager.OnGrenadeCooldownStarted -= grenadeCooldownUI.UpdateCoolDownBar;
         weaponManager.OnGrenadeFailed -= grenadeCooldownUI.AnimateFailIcon;
     }
+
+    private void OnWaveCompleted(WaveDefinition waveDef, int waveIndex)
+    {
+        waveCounterUI.UpdateWaveCounter(waveIndex);
+        Debug.LogWarning("Updated wave counter UI");
+    }
+
 }

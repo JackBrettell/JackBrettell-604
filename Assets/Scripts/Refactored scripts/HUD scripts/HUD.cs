@@ -7,8 +7,6 @@ using UnityEngine.UI;
 public class HUD : MonoBehaviour
 {
     private GameObject crosshair;
-    public TMP_Text AmmoText;
-    private AmmoManager ammoManager;
     [SerializeField] private WaveManager waveManager;
 
 
@@ -17,11 +15,6 @@ public class HUD : MonoBehaviour
     [SerializeField] private TMP_Text moneyText;
     [SerializeField] private MoneyManager moneyManager;
 
-    
-
-    [SerializeField] private float crosshairSize = 0;
-    [SerializeField] private float crosshairReccoilSize = 0;
-    [SerializeField] private float crosshairScaleSpeed = 0;
 
     [Header("Sway Settings")]
     [SerializeField] private RectTransform hud;                // Use RectTransform for UI
@@ -34,7 +27,6 @@ public class HUD : MonoBehaviour
     void Start()
     {
         crosshair = GameObject.Find("Crosshair");
-        ammoManager = GetComponent<AmmoManager>();
 
         if (waveManager != null)
         {
@@ -59,20 +51,6 @@ public class HUD : MonoBehaviour
 
     }
 
-  /*  public void crosshairScale()
-    {
-        Sequence crosshairSequence = DOTween.Sequence();
-        crosshairSequence
-            .Append(crosshair.transform.DOScale(crosshairReccoilSize, crosshairScaleSpeed))
-            .Append(crosshair.transform.DOScale(crosshairSize, crosshairScaleSpeed));
-    }*/
-
-    private void UpdateWaveNumber()
-    {
-       // int currentWave = waveManager.currentWaveIndex + 2;
-       // WaveNumText.text = "Wave: " + currentWave;
-    }
-
 
 
 
@@ -82,12 +60,10 @@ public class HUD : MonoBehaviour
         if (isShopOpened)
         {
             crosshair.SetActive(false);
-            AmmoText.gameObject.SetActive(false);
         }
         else
         {
             crosshair.SetActive(true);
-            AmmoText.gameObject.SetActive(true);
         }
         
 
