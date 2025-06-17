@@ -14439,7 +14439,7 @@ GameObject:
   - component: {fileID: 185546686}
   - component: {fileID: 185546687}
   m_Layer: 0
-  m_Name: SaveManager
+  m_Name: Save manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14472,6 +14472,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ef5f33ca65ed3e40ba2d8443566989e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waveManager: {fileID: 2016242195}
+  moneyManager: {fileID: 100856326}
 --- !u!1001 &186872765
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25573,6 +25575,7 @@ MonoBehaviour:
   waveManager: {fileID: 2016242195}
   hudMediator: {fileID: 1659877503}
   intermissionLogic: {fileID: 2016242198}
+  saveManager: {fileID: 185546687}
 --- !u!1001 &462383387
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89042,7 +89045,7 @@ MonoBehaviour:
     spawnPointsForThisWave:
     - {fileID: 901870527}
     - {fileID: 1746925443}
-  - zombieCount: 10
+  - zombieCount: 3
     flyingCount: 0
     strongCount: 0
     intermissionDuration: 5
@@ -89051,7 +89054,7 @@ MonoBehaviour:
     spawnPointsForThisWave:
     - {fileID: 901870527}
     - {fileID: 1746925443}
-  - zombieCount: 12
+  - zombieCount: 4
     flyingCount: 0
     strongCount: 0
     intermissionDuration: 5

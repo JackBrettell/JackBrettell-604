@@ -79,19 +79,11 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
         if (part.name.ToLower().Contains("weak"))
         {
-            Debug.Log("Headshot!");
             damage *= 2;
-
         }
-        else
-        {
-            Debug.Log("Hit!");
-        }
-
+ 
         health -= damage;
         UpdateHealthbarValue();
-
-
 
         if (health <= 0)
         {
@@ -157,7 +149,6 @@ public class EnemyBase : MonoBehaviour, IDamageable
     private IEnumerator Despawn()
     {
 
-        Debug.Log("Despawning enemy");
 
         yield return new WaitForSeconds(timeTilDespawn);
 

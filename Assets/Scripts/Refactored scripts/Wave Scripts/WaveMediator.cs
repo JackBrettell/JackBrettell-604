@@ -6,6 +6,7 @@ public class WaveMediator : MonoBehaviour
     [SerializeField] private WaveManager waveManager;
     [SerializeField] private HUDMediator hudMediator;
     [SerializeField] private IntermissionLogic intermissionLogic;
+    [SerializeField] private SaveManager saveManager;
 
 
     private void OnEnable()
@@ -28,6 +29,7 @@ public class WaveMediator : MonoBehaviour
     {
 
         intermissionLogic.StartIntermissionTimer(completedWave);
+        saveManager.SaveProgress(); 
 
     }
 

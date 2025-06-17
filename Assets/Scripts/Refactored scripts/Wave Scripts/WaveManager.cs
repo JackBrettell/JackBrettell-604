@@ -23,53 +23,40 @@ public class WaveManager : MonoBehaviour
     private int currentWaveIndex = 0;
     public int CurrentWaveIndex => currentWaveIndex;
 
-    private void Start()
-    {
-        GameSaveData savedData = SaveSystem.LoadData();
-        if (savedData != null)
-        {
-            currentWaveIndex = savedData.currentWave;
-            Debug.Log($"(Manager) Loaded saved data: Current Wave Index = {currentWaveIndex}");
-        }
-        
-        StartCoroutine(StartWave());
 
+    public void SetWaveIndex(int index)
+    {
+        currentWaveIndex = index;
     }
 
 
     public void StartNextWave()
     {
-        currentWaveIndex++;
         StartCoroutine(StartWave());
     }
 
     public IEnumerator StartWave()
     {
-
         if (currentWaveIndex >= waves.Length)
             yield break;
 
-        Debug.Log($"(Manager) Starting wave {currentWaveIndex} of {waves.Length}");
-
+        Debug.Log($"(Wave Manager) Starting wave {currentWaveIndex} of {waves.Length}");
 
         WaveDefinition currentWave = waves[currentWaveIndex];
 
-        OnWaveStarted?.Invoke(currentWave,currentWaveIndex);
+        OnWaveStarted?.Invoke(currentWave, currentWaveIndex);
 
         yield return waveSpawner.SpawnWave(currentWave);
 
         yield return new WaitUntil(() => waveSpawner.ActiveEnemies == 0);
 
+        currentWaveIndex++; // Increment after the wave is done
+
         OnWaveCompleted?.Invoke(currentWave, currentWaveIndex);
         RemoveWaveBarriers(currentWave.objectsToDisable);
 
-        // Save game progress
-        SaveSystem.SaveGame(new GameSaveData(currentWaveIndex));
-        Debug.Log($"(Manager) Wave {currentWaveIndex} completed. Saving progress.");
-
-
-
     }
+
 
     private void RemoveWaveBarriers(GameObject[] objs)
     {
