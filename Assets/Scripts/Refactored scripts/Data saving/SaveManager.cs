@@ -10,21 +10,19 @@ public class SaveManager : MonoBehaviour
         GameSaveData data = SaveSystem.LoadData();
         if (data != null)
         {
-            // Set the wave index from the saved data
             waveManager.SetWaveIndex(data.currentWave);
-            waveManager.StartNextWave(); 
-                                         // moneyManager.SetMoney(data.money); // if needed
+            moneyManager.SetMoney(data.currentMoney);
+            waveManager.StartNextWave();
+
         }
         else
         {
-            // Start from first wave if no saved data is found
             waveManager.SetWaveIndex(0);
             waveManager.StartNextWave();
             Debug.LogWarning("(Save Manager) No saved data found, starting from the beginning.");
-
         }
-
     }
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -33,7 +31,7 @@ public class SaveManager : MonoBehaviour
     public void SaveProgress()
     {
         int currentWave = waveManager.CurrentWaveIndex;
-        int currentMoney = moneyManager.CurrentMoney;  // assume this exists
+        int currentMoney = moneyManager.CurrentMoney;  
         SaveSystem.SaveGame(new GameSaveData(currentWave, currentMoney));
         Debug.Log($"[GameMediator] Saved wave {currentWave} and money {currentMoney}");
     }
@@ -47,8 +45,9 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    public void DeleteSavedData()
+    public static void DeleteSavedData()
     {
         SaveSystem.DeleteSaveData();
+        Debug.Log("[SaveManager] Save data deleted.");
     }
 }

@@ -25,7 +25,8 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();                  // Get the Rigidbody component
-        
+        //Lock cursor to the center of the screen
+        Cursor.lockState = CursorLockMode.Locked;       
     }
 
     public void OnMove(InputAction.CallbackContext context)

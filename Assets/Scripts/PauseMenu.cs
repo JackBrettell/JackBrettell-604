@@ -16,7 +16,10 @@ public class PauseMenu : MonoBehaviour
     private bool isDebugOpen = false;
     private bool isSettingsOpen = false;
 
-
+    private void Start()
+    {
+        Time.timeScale = 1f; 
+    }
     // Handles the pause input action.
     public void OnPause(InputAction.CallbackContext context)
     {
@@ -66,11 +69,6 @@ public class PauseMenu : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene("Main Menu");
     }
 
-    public void OnPlay()
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
-
-    }
 
     public void OnDebugMenu()
     {

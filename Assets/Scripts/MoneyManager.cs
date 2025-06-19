@@ -10,6 +10,7 @@ public class MoneyManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
     }
 
     private void Update()
@@ -38,4 +39,10 @@ public class MoneyManager : MonoBehaviour
         }
         return false;
     }
+
+    public void SetMoney(int amount)
+    {
+        CurrentMoney = amount;
+    }
+
 }

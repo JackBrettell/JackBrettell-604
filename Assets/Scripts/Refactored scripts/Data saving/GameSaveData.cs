@@ -7,13 +7,13 @@ using UnityEngine;
 public class GameSaveData
 {
     public int currentWave;
-    public int money;
+    public int currentMoney;
    // public List<string> unlockedWeapons;
 
     public GameSaveData(int waveIndex, int money)
     {
         currentWave = waveIndex;
-
+        currentMoney = money;
     }
 
 }
