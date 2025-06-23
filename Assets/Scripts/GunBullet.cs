@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GunBullet : MonoBehaviour
 {
-    public int damage;
+    public float damage;
     private float lifetime = 5f;
     public Action OnEnemyHit;
     public static event Action OnAnyBulletHit;

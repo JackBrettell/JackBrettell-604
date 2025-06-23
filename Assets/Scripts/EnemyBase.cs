@@ -6,12 +6,12 @@ using UnityEngine.AI;
 
 public interface IDamageable
 {
-    void TakeDamage(int damage, GameObject part);
+    void TakeDamage(float damage, GameObject part);
 }
 
 public class EnemyBase : MonoBehaviour, IDamageable
 {
-    protected int health = 100;
+    protected float health = 100;
     protected int damage = 10;
     protected int reward = 10;
     protected float attackSpeed = 1.5f;
@@ -74,7 +74,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
         this.player = player;
     }
 
-    public virtual void TakeDamage(int damage, GameObject part)
+    public virtual void TakeDamage(float damage, GameObject part)
     {
 
         if (part.name.ToLower().Contains("weak"))

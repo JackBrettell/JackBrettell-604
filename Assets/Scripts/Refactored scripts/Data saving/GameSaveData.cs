@@ -1,19 +1,34 @@
 using System.Collections.Generic;
-using System.Collections;
-using UnityEngine;
 
+[System.Serializable]
+public class WeaponUpgradeData
+{
+    public string weaponName;
+    public float damage;
+    public float fireRate;
+    public int ammoCapacity;
+
+    public WeaponUpgradeData(string name, float damage, float fireRate, int ammo)
+    {
+        weaponName = name;
+        this.damage = damage;
+        this.fireRate = fireRate;
+        this.ammoCapacity = ammo;
+    }
+}
 
 [System.Serializable]
 public class GameSaveData
 {
-    public int currentWave;
-    public int currentMoney;
-   // public List<string> unlockedWeapons;
+    public int CurrentWave;
+    public int CurrentMoney;
+    public string[] UnlockedWeapons;
+    public WeaponUpgradeData[] OnUpgrades;
 
-    public GameSaveData(int waveIndex, int money)
+    public GameSaveData(int waveIndex, int money, string[] unlockedWeapons)
     {
-        currentWave = waveIndex;
-        currentMoney = money;
+        CurrentWave = waveIndex;
+        CurrentMoney = money;
+        UnlockedWeapons = unlockedWeapons;
     }
-
 }

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 
 [CreateAssetMenu(fileName = "NewWeaponStats", menuName = "Weapon/Stats")]
+
+[System.Serializable]
 public class WeaponStats : ScriptableObject
 {
-
-        public int damage;
+        public float damage;
         public float fireRate;
         public int ammoCapacity;
         public AudioClip fireSound;

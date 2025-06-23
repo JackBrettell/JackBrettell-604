@@ -37,7 +37,7 @@ public static class SaveSystem
         if (File.Exists(SavePath))
         {
             File.Delete(SavePath);
-            Debug.Log("Save file deleted.");
+            Debug.LogWarning("Save file deleted.");
         }
         else
         {

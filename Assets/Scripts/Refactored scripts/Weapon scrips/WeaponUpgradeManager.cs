@@ -24,6 +24,7 @@ public class WeaponUpgradeManager : MonoBehaviour
 
     [SerializeField] private GunBehaviour[] gunBehaviourList;
     [SerializeField] private WeaponStats[] weaponStatsList;
+    public WeaponStats[] WeaponStatsList => weaponStatsList;
 
     void Start()
     {
