@@ -78,6 +78,15 @@ public class GunBehaviour : MonoBehaviour
     [Header("Sound")]
     [SerializeField] protected AudioSource audioSource;
 
+    // Upgrade tracking
+    private int damageUpgradeCount = 0;
+    private float fireRateUpgradeCount = 0f;
+    private int ammoUpgradeCount = 0;
+
+    public int DamageUpgradeAmount => damageUpgradeCount;
+    public float FireRateUpgradeAmount => fireRateUpgradeCount;
+    public int AmmoUpgradeAmount => ammoUpgradeCount;
+
 
 
     public virtual void Start()
@@ -194,15 +203,18 @@ public class GunBehaviour : MonoBehaviour
    public void IncreaseDamage(int amount)
     {
         damage += amount;
+        damageUpgradeCount ++;
     }
 
     public void IncreaseFireRate(float amount)
     {
         fireRate += amount;
+        fireRateUpgradeCount += amount;
     }
     public void IncreaseAmmoCapacity(int amount)
     {
         ammoCapacity += amount;
+        ammoUpgradeCount ++;
     }
 
 }
