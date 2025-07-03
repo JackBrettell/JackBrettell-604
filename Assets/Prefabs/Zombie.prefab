@@ -2430,7 +2430,7 @@ MonoBehaviour:
   attackCooldown: 1
   attackRange: 2
   maxHealth: 100
-  maxDamage: 20
+  maxDamage: 32
   killReward: 10
 --- !u!136 &5733144891617903437
 CapsuleCollider:
