@@ -38,8 +38,11 @@ public class EnemyBase : MonoBehaviour, IDamageable
     public event System.Action OnDeath; // Event for wave manager to subscribe to
     public static event System.Action OnAnyEnemyKilled; // Separate event for tracking number of enemies killed
 
+
+
     protected virtual void Awake()
     {
+
         animator = GetComponentInChildren<Animator>(true);
         ragdollBodies = GetComponentsInChildren<Rigidbody>(true);
         ToggleRagdoll(false);
@@ -68,10 +71,10 @@ public class EnemyBase : MonoBehaviour, IDamageable
         }
     }
 
-    public void Initialize(EnemyFactory enemyFactory, GameObject player)
+    public void Initialize(EnemyFactory enemyFactory, GameObject playerRef)
     {
         factory = enemyFactory;
-        this.player = player;
+        player = playerRef;
     }
 
     public virtual void TakeDamage(float damage, GameObject part)

@@ -33,6 +33,7 @@ public class WaveManager : MonoBehaviour
     public void StartNextWave()
     {
         StartCoroutine(StartWave());
+        Debug.Log($"(Wave Manager) Starting next wave: {currentWaveIndex} of {waves.Length}");
     }
 
     public IEnumerator StartWave()

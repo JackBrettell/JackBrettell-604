@@ -1,10 +1,5 @@
-using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.UI;
-using UnityEngine.Rendering;
-using DG.Tweening;
+using System.Collections;
 
 public class EnemyNormal : EnemyBase, IDamageable
 {
@@ -15,39 +10,39 @@ public class EnemyNormal : EnemyBase, IDamageable
     [SerializeField] private int maxDamage = 10;
     [SerializeField] private int killReward = 10;
 
+    private bool isAttacking = false;
 
     protected override void Awake()
     {
+        base.Awake();
+
         health = maxHealth;
         damage = maxDamage;
         reward = killReward;
 
-        base.Awake();
+        if (mainCollider != null)
+            mainCollider.enabled = true;
 
-        mainCollider = GetComponent<Collider>(); // Store main collider
-        mainCollider.enabled = true;
-
-        agent.isStopped = true;
+        if (agent != null)
+            agent.isStopped = true;
     }
-
-    private bool isAttacking = false;
 
     protected override void Update()
     {
         base.Update();
-        if (player != null)
-        {
-            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
-            if (distanceToPlayer < attackRange && !isAttacking && Time.time - lastAttackTime > attackCooldown)
-            {
-                StartCoroutine(Attack());
-            }
-            else if (distanceToPlayer >= attackRange)
-            {
-                animator.SetBool("IsAttacking", false);
-                isAttacking = false;
-            }
+        if (player == null) return;
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
+        if (distanceToPlayer < attackRange && !isAttacking && Time.time - lastAttackTime > attackCooldown)
+        {
+            StartCoroutine(Attack());
+        }
+        else if (distanceToPlayer >= attackRange)
+        {
+            animator.SetBool("IsAttacking", false);
+            isAttacking = false;
         }
     }
 
@@ -57,7 +52,6 @@ public class EnemyNormal : EnemyBase, IDamageable
         animator.SetBool("IsAttacking", true);
         lastAttackTime = Time.time;
 
-        // Wait for the animation tro finish
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
 
         animator.SetBool("IsAttacking", false);
@@ -66,8 +60,14 @@ public class EnemyNormal : EnemyBase, IDamageable
 
     public void ApplyDamage()
     {
-        player.GetComponent<PlayerHealth>().TakeDamage(damage);
-
+        if (player != null)
+        {
+            PlayerHealth ph = player.GetComponent<PlayerHealth>();
+            if (ph != null)
+            {
+                ph.TakeDamage(damage);
+            }
+        }
     }
 
     public virtual void ToggleKinematics()
