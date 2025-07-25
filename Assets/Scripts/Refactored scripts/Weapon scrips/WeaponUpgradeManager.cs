@@ -7,7 +7,7 @@ public class WeaponUpgradeManager : MonoBehaviour
     public event Action OnFireRateUpgradeSuccess;
     public event Action OnAmmoUpgradeSuccess;
     public event Action<UpgradeType> OnUpgradeFailed;
-    public event Action<GunBehaviour[], WeaponStats[] > OnPopulateWeaponButtons;
+    public event Action<GunBehaviourBase[], WeaponStats[] > OnPopulateWeaponButtons;
     public event Action<UpgradeCostsAndAmounts> OnUpgradeCostsAndAmountsChanged;
 
     public enum UpgradeType
@@ -18,11 +18,13 @@ public class WeaponUpgradeManager : MonoBehaviour
     }
 
     [SerializeField] private UpgradeCostsAndAmounts upgradeCostsAndAmounts;
+    public UpgradeCostsAndAmounts UpgradeCosts => upgradeCostsAndAmounts;
 
-    private GunBehaviour currentGun;
+
+    private GunBehaviourBase currentGun;
     [SerializeField] private MoneyManager moneyManager;
 
-    [SerializeField] private GunBehaviour[] gunBehaviourList;
+    [SerializeField] private GunBehaviourBase[] gunBehaviourList;
     [SerializeField] private WeaponStats[] weaponStatsList;
     public WeaponStats[] WeaponStatsList => weaponStatsList;
 
@@ -31,7 +33,7 @@ public class WeaponUpgradeManager : MonoBehaviour
         OnPopulateWeaponButtons?.Invoke(gunBehaviourList, weaponStatsList);
         OnUpgradeCostsAndAmountsChanged?.Invoke(upgradeCostsAndAmounts);
     }
-    public void GunChanged(GunBehaviour gun)
+    public void GunChanged(GunBehaviourBase gun)
     {
         currentGun = gun;
     }

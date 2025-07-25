@@ -37,8 +37,7 @@ public class EnemyFactory : MonoBehaviour
             {
                 EnemyBase obj = Instantiate(enemy.prefab);
                 
-
-
+                
 
                 obj.gameObject.SetActive(false);
                 enemyPools[enemy.type].Enqueue(obj);

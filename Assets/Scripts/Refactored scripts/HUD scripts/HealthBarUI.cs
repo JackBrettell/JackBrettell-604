@@ -6,12 +6,9 @@ public class HealthBarUI : MonoBehaviour
     [Header("Health Bar")]
     [SerializeField] private Slider healthBar;
 
-    [SerializeField] private HUDMediator hudMediator;
-
-
     public void InitialiseHealthUI(float maxHealth, float currentHealth)
     {
-        // Initialize health bar
+        // Initialise health bar
         healthBar.maxValue = maxHealth;
         healthBar.value = currentHealth;
 

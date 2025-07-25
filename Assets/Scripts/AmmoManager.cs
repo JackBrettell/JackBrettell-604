@@ -7,7 +7,7 @@ public class AmmoManager : MonoBehaviour
     private int currentAmmo;
     public Action<int, int> OnAmmoChanged;
 
-    public void Initialize(GunBehaviour gun)
+    public void Initialize(GunBehaviourBase gun)
     {
         ammoCapacity = gun.AmmoCapacity;
         currentAmmo = ammoCapacity;

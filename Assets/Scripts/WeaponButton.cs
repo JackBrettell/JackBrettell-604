@@ -12,14 +12,14 @@ public class WeaponButton : MonoBehaviour
     public Image weaponIconImage;
 
     private WeaponStats weaponStats;
-    private GunBehaviour gunBehaviour;
+    private GunBehaviourBase gunBehaviour;
     private StoreMenus storeMenus;
 
 
     private Image buttonImage;
 
 
-    public void Setup(GunBehaviour gun, WeaponStats weapon)
+    public void Setup(GunBehaviourBase gun, WeaponStats weapon)
     {
         weaponStats = Instantiate(weapon); // Clone the weapon for independent upgrades
         gunBehaviour = gun;

@@ -11,7 +11,7 @@ public class MainMenuBehaviour : MonoBehaviour
     private void Start()
     {
         // If a save exists give option to continue
-        GameSaveData data = SaveSystem.LoadData();
+        GameSaveData data = SaveSystem.LoadGame();
         if (data != null)
         {
             continueButton.SetActive(true);

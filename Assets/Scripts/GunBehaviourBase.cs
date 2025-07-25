@@ -2,7 +2,7 @@ using DG.Tweening;
 using UnityEngine;
 using System;
 
-public class GunBehaviour : MonoBehaviour
+public class GunBehaviourBase : MonoBehaviour
 {
     public AmmoManager ammoManager;
     public HUD hud;
@@ -209,7 +209,7 @@ public class GunBehaviour : MonoBehaviour
     public void IncreaseFireRate(float amount)
     {
         fireRate += amount;
-        fireRateUpgradeCount += amount;
+        fireRateUpgradeCount ++;
     }
     public void IncreaseAmmoCapacity(int amount)
     {

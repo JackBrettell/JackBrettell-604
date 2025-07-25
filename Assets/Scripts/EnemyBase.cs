@@ -16,21 +16,22 @@ public class EnemyBase : MonoBehaviour, IDamageable
     protected int reward = 10;
     protected float attackSpeed = 1.5f;
     protected float movementSpeed = 3f;
+    protected float criticalDamage = 2f;
     [SerializeField] protected GameObject player;
     protected Animator animator;
     protected NavMeshAgent agent;
-
+    private Vector3 lastPlayerPosition;
+    private float updateThreshold = 1f; 
 
     private Slider healthSlider;
 
     private EnemyFactory factory;
     public EnemyType enemyType;
     private float timeTilDespawn = 3f;
-    [SerializeField] protected float colliderDisableTime = 1f; // Time to disable colliders after death 
 
     protected Rigidbody[] ragdollBodies;
     [SerializeField] protected Collider[] ragdollColliders;
-    protected Collider mainCollider; // NEW: Main collider for preventing player collision
+    protected Collider mainCollider;
 
     public delegate void DeathHandler();
 
@@ -41,19 +42,15 @@ public class EnemyBase : MonoBehaviour, IDamageable
     {
         animator = GetComponentInChildren<Animator>(true);
         ragdollBodies = GetComponentsInChildren<Rigidbody>(true);
-
-
         ToggleRagdoll(false);
-
         healthSlider = GetComponentInChildren<Slider>(true);
 
         // Initialize values
         healthSlider.maxValue = health;
         healthSlider.value = health;
 
-
-
         agent = GetComponent<NavMeshAgent>();
+        lastPlayerPosition = player.transform.position;
     }
 
     protected virtual void Update()
@@ -62,10 +59,13 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
         if (agent.enabled)
         {
-            agent.destination = player.transform.position;
-
+            float distance = Vector3.Distance(player.transform.position, lastPlayerPosition);
+            if (distance > updateThreshold)
+            {
+                agent.destination = player.transform.position;
+                lastPlayerPosition = player.transform.position;
+            }
         }
-
     }
 
     public void Initialize(EnemyFactory enemyFactory, GameObject player)
@@ -79,7 +79,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
         if (part.name.ToLower().Contains("weak"))
         {
-            damage *= 2;
+            damage *= criticalDamage;
         }
  
         health -= damage;
@@ -88,7 +88,6 @@ public class EnemyBase : MonoBehaviour, IDamageable
         if (health <= 0)
         {
 
-            //  Destroy(gameObject);
             NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.enabled = false;
 
@@ -100,7 +99,6 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     public virtual void DoDamage()
     {
-        Debug.Log($"Enemy dealt {damage} damage!");
     }
 
     public virtual void EnemyDeath()
@@ -124,26 +122,6 @@ public class EnemyBase : MonoBehaviour, IDamageable
         }
 
         StartCoroutine(Despawn());
-    }
-
-    private IEnumerator WaitForRagdollToggle()
-    {
-        yield return new WaitForSeconds(colliderDisableTime);
-
-        ToggleRagdoll(true);
-
-        //Prevent dead zombies from colliding with player
-        foreach (var Colldier in ragdollColliders)
-        {
-
-            Colldier.enabled = false;
-            Debug.Log("Disabled collider" + ragdollColliders);
-        }
-        foreach (var rb in ragdollBodies)
-        {
-            //freeze all rigidbodies
-            rb.constraints = RigidbodyConstraints.FreezeAll;
-        }
     }
 
     private IEnumerator Despawn()

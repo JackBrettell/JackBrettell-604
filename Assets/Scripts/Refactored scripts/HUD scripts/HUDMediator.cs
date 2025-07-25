@@ -4,29 +4,25 @@ using UnityEngine.EventSystems;
 
 public class HUDMediator : MonoBehaviour
 {
-    //[SerializeField] private AmmoUI ammoUI;
-    [SerializeField] private CrosshairUI crosshairUI;
-    // [SerializeField] private WaveUI waveUI;
-    [SerializeField] private IntermissionUI intermissionUI;
 
-    public IntermissionUI IntermissionUI => intermissionUI;
-    [SerializeField] private WaveCounterUI waveCounterUI;
-
-    // [SerializeField] private HealthBarUI healthBarUI;
-    //[SerializeField] private MoneyUI moneyUI;
-    //[SerializeField] private HUDSway sway;
-
+    // ==== UI Logic Classes ====
     [SerializeField] private AmmoManager ammoManager;
     [SerializeField] private MoneyManager moneyManager;
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private WaveManager waveManager;
-    [SerializeField] private GunBehaviour gunBehaviour;
+    [SerializeField] private GunBehaviourBase gunBehaviour;
     [SerializeField] private IntermissionLogic intermissionLogic;
     [SerializeField] private HealthBarUI healthBarUI;
     [SerializeField] private DamageOverlay damageOverlay;
     [SerializeField] private WeaponManager weaponManager;
+
+    // ==== UI View Classes ====
     [SerializeField] private GrenadeCooldownUI grenadeCooldownUI;
     [SerializeField] private AmmoCountUI ammoCountUI;
+    [SerializeField] private CrosshairUI crosshairUI;
+    [SerializeField] private IntermissionUI intermissionUI;
+    public IntermissionUI IntermissionUI => intermissionUI;
+    [SerializeField] private WaveCounterUI waveCounterUI;
     private GunBullet[] bullets;
 
 
@@ -36,11 +32,6 @@ public class HUDMediator : MonoBehaviour
 
     private void Start()
     {
-        // ammoUI.Initialize(ammoManager);
-        // moneyUI.Initialize(moneyManager);
-        // healthBarUI.Initialize(playerHealth);
-        // waveUI.Initialize(waveManager);
-
         waveCounterUI.UpdateWaveCounter(waveManager.CurrentWaveIndex);
     }
 

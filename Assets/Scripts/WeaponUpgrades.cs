@@ -5,7 +5,7 @@ using DG.Tweening;
 public class WeaponUpgrades : MonoBehaviour
 {
     private WeaponStats currentWeapon;
-    private GunBehaviour currentGun;
+    private GunBehaviourBase currentGun;
     [SerializeField] private MoneyManager moneyManager;
     [SerializeField] private AmmoManager ammoManager;
 
@@ -32,7 +32,7 @@ public class WeaponUpgrades : MonoBehaviour
     public TextMeshProUGUI currentMoneyText;
     [HideInInspector] public int currentMoney;
 
-    public void Initialize(WeaponStats weapon, GunBehaviour gun)
+    public void Initialize(WeaponStats weapon, GunBehaviourBase gun)
     {
         currentWeapon = weapon;
         currentGun = gun;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Overlays;
@@ -10,37 +11,53 @@ public class SaveManager : MonoBehaviour
     [SerializeField] private MoneyManager moneyManager;
     [SerializeField] private WeaponUpgradeManager weaponUpgradeManager;
     // [SerializeField] private WeaponList weaponList;
-    private GunBehaviour[] gunBehaviours;
+    private GunBehaviourBase[] gunBehaviours;
 
 private void Start()
 {
-    gunBehaviours = FindObjectsOfType<GunBehaviour>(true);
 
-    GameSaveData data = SaveSystem.LoadData();
-    if (data != null)
-    {
-        waveManager.SetWaveIndex(data.CurrentWave);
-        moneyManager.SetMoney(data.CurrentMoney);
+        gunBehaviours = FindObjectsOfType<GunBehaviourBase>();
 
-        // Sync unlocked state to both stats and gun behaviour
-        foreach (var gun in gunBehaviours)
+        GameSaveData data = SaveSystem.LoadGame();
+        if (data != null)
         {
-            if (gun.weaponStats == null) continue;
+            waveManager.SetWaveIndex(data.CurrentWave);
+            moneyManager.SetMoney(data.CurrentMoney);
 
-            bool isUnlocked = data.UnlockedWeapons.Contains(gun.weaponStats.weaponName);
-            gun.weaponStats.isUnlocked = isUnlocked;
-            gun.isWeaponUnlocked = isUnlocked;
+            foreach (var gun in gunBehaviours)
+            {
+                if (gun.weaponStats == null) continue;
+
+                bool isUnlocked = data.UnlockedWeapons.Contains(gun.weaponStats.weaponName);
+                gun.weaponStats.isUnlocked = isUnlocked;
+                gun.isWeaponUnlocked = isUnlocked;
+
+                // Find upgrade data for this weapon
+                if (isUnlocked && data.OnUpgrades != null)
+                {
+                    WeaponUpgradeData upgrade = Array.Find(data.OnUpgrades, w => w.WeaponName == gun.weaponStats.weaponName);
+                    if (upgrade != null)
+                    {
+                        var upgradeCosts = weaponUpgradeManager.UpgradeCosts;
+
+                        for (int i = 0; i < upgrade.DamageUpgradeCount; i++)
+                            gun.IncreaseDamage(upgradeCosts.damageUpgradeAmount);
+
+                        for (int i = 0; i < (int)upgrade.FireRateUpgradeCount; i++)
+                            gun.IncreaseFireRate(upgradeCosts.fireRateUpgradeAmount);
+
+                        for (int i = 0; i < upgrade.AmmoUpgradeCount; i++)
+                            gun.IncreaseAmmoCapacity(upgradeCosts.ammoUpgradeAmount);
+
+                    }
+                }
+            }
+
         }
 
         waveManager.StartNextWave();
+
     }
-    else
-    {
-        waveManager.SetWaveIndex(0);
-        waveManager.StartNextWave();
-        Debug.LogWarning("(SaveManager) No saved data found, starting from the beginning.");
-    }
-}
 
     public void SaveProgress()
     {
@@ -48,28 +65,49 @@ private void Start()
         int currentMoney = moneyManager.CurrentMoney;
 
         List<string> unlockedWeapons = new List<string>();
+        List<WeaponUpgradeData> upgradeDataList = new List<WeaponUpgradeData>();
 
         foreach (var weapon in gunBehaviours)
         {
             if (weapon.isWeaponUnlocked)
             {
                 unlockedWeapons.Add(weapon.weaponStats.weaponName);
+
+                WeaponUpgradeData upgradeData = new WeaponUpgradeData(
+                    weapon.weaponStats.weaponName,
+                    weapon.Damage,
+                    weapon.weaponStats.fireRate,
+                    weapon.AmmoCapacity,
+                    weapon.DamageUpgradeAmount,
+                    weapon.FireRateUpgradeAmount,
+                    weapon.AmmoUpgradeAmount
+                );
+
+                upgradeDataList.Add(upgradeData);
             }
         }
 
-        GameSaveData saveData = new GameSaveData(currentWave, currentMoney, unlockedWeapons.ToArray());
+        GameSaveData saveData = new GameSaveData(currentWave, currentMoney, unlockedWeapons.ToArray())
+        {
+            OnUpgrades = upgradeDataList.ToArray()
+        };
 
         SaveSystem.SaveGame(saveData);
         Debug.Log("[SaveManager] Progress saved.");
     }
 
 
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F1))
         {
-            DeleteSavedData();
+#if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                DeleteSavedData();
+            }
+#endif
         }
     }
 

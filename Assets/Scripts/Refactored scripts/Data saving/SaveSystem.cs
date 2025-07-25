@@ -15,7 +15,7 @@ public static class SaveSystem
         }
     }
 
-    public static GameSaveData LoadData()
+    public static GameSaveData LoadGame()
     {
         if (File.Exists(SavePath))
         {

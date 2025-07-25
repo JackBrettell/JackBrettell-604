@@ -29,7 +29,7 @@ public class WeaponUpgradeView : MonoBehaviour
         ammoUpgradeCostText.text = upgradeCostsAndAmounts.ammoUpgradeCost.ToString();
     }
 
-    public void PopulateWeaponButtons(GunBehaviour[] gunBehaviour, WeaponStats[] weaponStats)
+    public void PopulateWeaponButtons(GunBehaviourBase[] gunBehaviour, WeaponStats[] weaponStats)
     {
         for (int i = 0; i < gunBehaviour.Length; i++)
         {

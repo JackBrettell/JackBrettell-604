@@ -6,9 +6,9 @@ using System.Collections;
 
 public class WeaponManager : MonoBehaviour
 {
-    public GunBehaviour currentGun;
+    public GunBehaviourBase currentGun;
     [SerializeField] private WeaponInputManager weaponInputManager;
-    public GunBehaviour[] gunBehaviour;
+    public GunBehaviourBase[] gunBehaviour;
     public HUD hud;
 
     [Header("Grenade settings")]
@@ -22,9 +22,9 @@ public class WeaponManager : MonoBehaviour
     public Action OnGrenadeFailed;
     public Action<float, float> OnGrenadeCooldownStarted;
 
-    public event Action<GunBehaviour> OnWeaponSwitched;
+    public event Action<GunBehaviourBase> OnWeaponSwitched;
 
-    private Dictionary<GunBehaviour, int> weaponAmmoMap = new Dictionary<GunBehaviour, int>();
+    private Dictionary<GunBehaviourBase, int> weaponAmmoMap = new Dictionary<GunBehaviourBase, int>();
 
     private void OnEnable()
     {
@@ -56,7 +56,7 @@ public class WeaponManager : MonoBehaviour
         if (weaponIndex < 0 || weaponIndex >= gunBehaviour.Length) return;
 
         // Check if the weapon is unlocked
-        GunBehaviour selectedGun = gunBehaviour[weaponIndex];
+        GunBehaviourBase selectedGun = gunBehaviour[weaponIndex];
         if (!selectedGun.isWeaponUnlocked)
         {
             return; 

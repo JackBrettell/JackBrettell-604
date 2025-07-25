@@ -3,17 +3,26 @@ using System.Collections.Generic;
 [System.Serializable]
 public class WeaponUpgradeData
 {
-    public string weaponName;
-    public float damage;
-    public float fireRate;
-    public int ammoCapacity;
+    public string WeaponName;
+    public float Damage;
+    public float FireRate;
+    public int AmmoCapacity;
 
-    public WeaponUpgradeData(string name, float damage, float fireRate, int ammo)
+    public int DamageUpgradeCount;
+    public float FireRateUpgradeCount;
+    public int AmmoUpgradeCount;
+
+    public WeaponUpgradeData(string name, float damage, float fireRate, int ammo, int damageCount, float fireCount, int ammoCount)
     {
-        weaponName = name;
-        this.damage = damage;
-        this.fireRate = fireRate;
-        this.ammoCapacity = ammo;
+        WeaponName = name;
+        this.Damage = damage;
+        this.FireRate = fireRate;
+        this.AmmoCapacity = ammo;
+
+        this.DamageUpgradeCount = damageCount;
+        this.FireRateUpgradeCount = fireCount;
+        this.AmmoUpgradeCount = ammoCount;
+
     }
 }
 

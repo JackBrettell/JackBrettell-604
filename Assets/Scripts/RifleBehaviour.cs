@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using System.Collections;
 
-public class RifleBehaviour : GunBehaviour
+public class RifleBehaviour : GunBehaviourBase
 {
     public override void Start()
     {

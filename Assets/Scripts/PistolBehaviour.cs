@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 
-public class PistolBehaviour : GunBehaviour
+public class PistolBehaviour : GunBehaviourBase
 {
 
 

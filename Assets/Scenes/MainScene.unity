@@ -19152,7 +19152,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &303298357
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28335,7 +28335,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2007049459}
   - {fileID: 784480029}
   - {fileID: 2130622149}
   - {fileID: 1388380099}
@@ -32005,7 +32004,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1422311399}
   enemyType: 0
-  colliderDisableTime: 1
   ragdollColliders: []
   attackCooldown: 2
   attackRange: 3
@@ -51127,7 +51125,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 312713239}
-  hudMediator: {fileID: 1659877503}
 --- !u!114 &1129827419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62037,7 +62034,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 96}
-  m_SizeDelta: {x: 1037.19, y: 50}
+  m_SizeDelta: {x: 943.68, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1366742196
 MonoBehaviour:
@@ -62086,8 +62083,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -74531,9 +74528,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79307fe3ecb4d6f4c84513f5164fcff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crosshairUI: {fileID: 1129827415}
-  intermissionUI: {fileID: 1129827416}
-  waveCounterUI: {fileID: 1129827417}
   ammoManager: {fileID: 140287665}
   moneyManager: {fileID: 100856326}
   playerHealth: {fileID: 1422311409}
@@ -74545,6 +74539,9 @@ MonoBehaviour:
   weaponManager: {fileID: 169339612}
   grenadeCooldownUI: {fileID: 207789106}
   ammoCountUI: {fileID: 1726274319}
+  crosshairUI: {fileID: 1129827415}
+  intermissionUI: {fileID: 1129827416}
+  waveCounterUI: {fileID: 1129827417}
 --- !u!1001 &1660839771
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84674,6 +84671,7 @@ RectTransform:
   - {fileID: 371591255}
   - {fileID: 1166087149}
   - {fileID: 2083847198}
+  - {fileID: 2007049459}
   - {fileID: 543712789}
   - {fileID: 479252012}
   - {fileID: 1611173659}
@@ -90054,7 +90052,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2007049459
 RectTransform:
   m_ObjectHideFlags: 0
@@ -90062,13 +90060,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2007049458}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 317439934}
-  m_Father: {fileID: 543712789}
+  m_Father: {fileID: 1880779391}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -90442,8 +90440,8 @@ MonoBehaviour:
     objectsToDisable:
     - {fileID: 1791598282}
     spawnPointsForThisWave:
-    - {fileID: 901870527}
-    - {fileID: 1746925443}
+    - {fileID: 1879361326}
+    - {fileID: 1181719205}
   waveSpawner: {fileID: 2016242197}
   uiHandler: {fileID: 2016242196}
 --- !u!114 &2016242196
@@ -91142,6 +91140,13 @@ MonoBehaviour:
     SlideImage: {fileID: 21300000, guid: 88a8256db2e0b644cb4e47e2e021dc98, type: 3}
   closeButton: {fileID: 705233928}
   tutorialPrompt: {fileID: 295601716}
+  uiElements:
+  - {fileID: 784480028}
+  - {fileID: 2130622148}
+  - {fileID: 1388380098}
+  - {fileID: 312713237}
+  - {fileID: 303298356}
+  - {fileID: 2088472724}
 --- !u!4 &2033085783
 Transform:
   m_ObjectHideFlags: 0

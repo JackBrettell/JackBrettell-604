@@ -2,6 +2,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Runtime.CompilerServices;
+using static GameSaveData;
+
 public class TutorialBehaviour : MonoBehaviour
 {
     [SerializeField] private GameObject tutorialObj;
@@ -11,11 +13,28 @@ public class TutorialBehaviour : MonoBehaviour
 
     [SerializeField] private GameObject closeButton;
     [SerializeField] private GameObject tutorialPrompt;
+    [SerializeField] private GameObject[] uiElements;
     private int currentStep = 0;
 
     private void Start()
     {
-        StartTutorial();
+        GameSaveData data = SaveSystem.LoadGame();
+
+        // If no save exists open tutorial popup
+        if (data == null)
+        {
+            StartTutorial();
+            Time.timeScale = 0f;
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            foreach (var element in uiElements)
+            {
+                element.SetActive(false);
+            }
+        }
+
     }
     private void StartTutorial()
     {
@@ -29,8 +48,7 @@ public class TutorialBehaviour : MonoBehaviour
         currentStep++;
         if (currentStep >= tutorialInfos.Length)
         {
-            tutorialObj.SetActive(false);
-            currentStep = 0;
+            EndTutorial();
             return;
         }
         UpdateTutorialSlide();
@@ -38,36 +56,42 @@ public class TutorialBehaviour : MonoBehaviour
 
     private void UpdateTutorialSlide()
     {
-        if (currentStep < tutorialInfos.Length)
-        {
-            if (currentStep != 0)
-            {
-                closeButton.SetActive(false);
-                tutorialPrompt.SetActive(false);
-            }
 
-            var info = tutorialInfos[currentStep];
-            bodyText.text = info.SlideText;
-            if (slideImage != null && info.SlideImage != null)
-            {
-                slideImage.sprite = info.SlideImage;
-                slideImage.gameObject.SetActive(true);
-            }
-            else if (slideImage != null)
-            {
-                slideImage.gameObject.SetActive(false);
-            }
-        }
-        else
+        if (currentStep != 0)
         {
-            EndTutorial();
+            closeButton.SetActive(false);
+            tutorialPrompt.SetActive(false);
         }
+
+        var info = tutorialInfos[currentStep];
+        bodyText.text = info.SlideText;
+        if (slideImage != null && info.SlideImage != null)
+        {
+            slideImage.sprite = info.SlideImage;
+            slideImage.gameObject.SetActive(true);
+        }
+        else if (slideImage != null)
+        {
+            slideImage.gameObject.SetActive(false);
+        }
+
     }
 
     public void EndTutorial()
     {
         tutorialObj.SetActive(false);
         currentStep = 0;
+
+        
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Time.timeScale = 1f;
+
+        // Enable UI
+        foreach (var element in uiElements)
+        {
+            element.SetActive(true);
+        }
     }
 }
 
